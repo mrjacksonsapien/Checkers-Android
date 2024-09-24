@@ -13,10 +13,10 @@ public class TestPion extends TestCase {
      * Test la valeur de la couleur assigné aux pions.
      */
     public void testCreer() {
-        Pion pionNoir = new Pion("Noir");
+        Pion pionNoir = new Pion(Pion.Couleur.NOIR);
         Pion pionBlanc = new Pion();
 
-        assertEquals("Noir", pionNoir.getCouleur());
-        assertEquals("Blanc", pionBlanc.getCouleur());
+        assertEquals(Pion.Couleur.NOIR, pionNoir.getCouleur());
+        assertEquals(Pion.Couleur.BLANC, pionBlanc.getCouleur());
     }
 }

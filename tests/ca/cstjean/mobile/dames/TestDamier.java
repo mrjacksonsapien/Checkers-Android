@@ -20,7 +20,7 @@ public class TestDamier extends TestCase {
         assertEquals(pionBlanc, damier.getPion(38));
         assertEquals(1, damier.getNbPions());
 
-        Pion pionNoir = new Pion("Noir");
+        Pion pionNoir = new Pion(Pion.Couleur.NOIR);
         damier.ajouterPion(50, pionNoir);
         assertEquals(2, damier.getNbPions());
     }

@@ -7,17 +7,21 @@ package ca.cstjean.mobile.dames;
  * @author Tommy Desjardins
  */
 public class Pion {
+    enum Couleur {
+        NOIR,
+        BLANC
+    }
     /**
      * Couleur du pion.
      */
-    private final String couleur;
+    private final Couleur couleur;
 
     /**
      * Retourne la couleur du pion.
      *
      * @return Couleur du pion.
      */
-    public String getCouleur() {
+    public Couleur getCouleur() {
         return couleur;
     }
 
@@ -26,7 +30,7 @@ public class Pion {
      *
      * @param couleur Couleur du pion.
      */
-    public Pion(String couleur) {
+    public Pion(Couleur couleur) {
         this.couleur = couleur;
     }
 
@@ -34,6 +38,6 @@ public class Pion {
      * Constructeur par défaut. Initialise le pion avec la couleur "Blanc".
      */
     public Pion() {
-        couleur = "Blanc";
+        couleur = Couleur.BLANC;
     }
 }
