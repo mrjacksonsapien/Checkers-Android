@@ -23,7 +23,7 @@ public class Damier {
      */
     public void ajouterPion(int position, Pion pion) {
         if (position <= 50) {
-            cases.add(position - 1, pion);
+            cases.set(position - 1, pion);
         }
     }
 

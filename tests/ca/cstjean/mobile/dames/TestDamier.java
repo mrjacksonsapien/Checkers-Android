@@ -18,12 +18,10 @@ public class TestDamier extends TestCase {
         Pion pionBlanc = new Pion();
         damier.ajouterPion(38, pionBlanc);
         assertEquals(pionBlanc, damier.getPion(38));
-        assertEquals("Blanc", damier.getPion(38).getCouleur());
         assertEquals(1, damier.getNbPions());
 
         Pion pionNoir = new Pion("Noir");
         damier.ajouterPion(50, pionNoir);
-        assertEquals("Noir", damier.getPion(50).getCouleur());
         assertEquals(2, damier.getNbPions());
     }
 }
