@@ -1,7 +1,8 @@
 package ca.cstjean.mobile.dames;
 
-import java.util.LinkedList;
-import java.util.List;
+import ca.cstjean.mobile.dames.pions.Pion;
+
+import java.util.Arrays;
 
 /**
  * Représente un damier avec 50 cases libres pour des pions.
@@ -13,7 +14,7 @@ public class Damier {
     /**
      * Les cases du jeu de dames (1-50).
      */
-    private final List<Pion> cases;
+    private final Pion[] cases;
 
     /**
      * Ajoute un pion sur une case spécifique avec une position qui suit la notation de Manoury.
@@ -22,8 +23,8 @@ public class Damier {
      * @param pion Pion
      */
     public void ajouterPion(int position, Pion pion) {
-        if (position <= 50) {
-            cases.set(position - 1, pion);
+        if (position <= 50 && position > 0) {
+            cases[position - 1] = pion;
         }
     }
 
@@ -36,8 +37,12 @@ public class Damier {
     public Pion getPion(int position) {
         Pion pion = null;
 
-        if (position <= 50) {
-            pion = cases.get(position - 1);
+        if (position <= 50 && position > 0) {
+            pion = cases[position - 1];
+
+            if (pion == null) {
+                pion = new Pion(Pion.Couleur.NULL);
+            }
         }
 
         return pion;
@@ -60,13 +65,21 @@ public class Damier {
         return total;
     }
 
+    public void initialiser() {
+        for (int i = 0; i < 20; i++) {
+            ajouterPion(i + 1, new Pion(Pion.Couleur.NOIR));
+        }
+        for (int i = 30; i < 50; i++) {
+            ajouterPion(i + 1, new Pion());
+        }
+    }
+
     /**
      * Constructeur du damier.
      */
     public Damier() {
-        cases = new LinkedList<>();
-        for (int i = 0; i < 50; i++) {
-            cases.add(null);
-        }
+        cases = new Pion[50];
+
+        Arrays.fill(cases, null);
     }
 }

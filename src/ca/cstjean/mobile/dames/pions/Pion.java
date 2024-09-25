@@ -1,4 +1,4 @@
-package ca.cstjean.mobile.dames;
+package ca.cstjean.mobile.dames.pions;
 
 /**
  * Pion de dames.
@@ -7,9 +7,10 @@ package ca.cstjean.mobile.dames;
  * @author Tommy Desjardins
  */
 public class Pion {
-    enum Couleur {
+    public enum Couleur {
         NOIR,
-        BLANC
+        BLANC,
+        NULL
     }
     /**
      * Couleur du pion.
@@ -29,14 +30,9 @@ public class Pion {
         char caractere;
 
         switch (couleur) {
-            case NOIR:
-                caractere = 'P';
-                break;
-            case BLANC:
-                caractere = 'p';
-                break;
-            default:
-                caractere = 'n';
+            case NOIR -> caractere = 'P';
+            case BLANC -> caractere = 'p';
+            default -> caractere = '-';
         }
 
         return caractere;
