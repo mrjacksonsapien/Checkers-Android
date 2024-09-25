@@ -25,6 +25,23 @@ public class Pion {
         return couleur;
     }
 
+    public char getRepresentation() {
+        char caractere;
+
+        switch (couleur) {
+            case NOIR:
+                caractere = 'P';
+                break;
+            case BLANC:
+                caractere = 'p';
+                break;
+            default:
+                caractere = 'n';
+        }
+
+        return caractere;
+    }
+
     /**
      * Constructeur.
      *
