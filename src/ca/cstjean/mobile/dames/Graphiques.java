@@ -1,6 +1,20 @@
 package ca.cstjean.mobile.dames;
 
+/**
+ * Permet la représentation graphique du damier.
+ *
+ * @author Martin Soltan
+ * @author Tommy Desjardins
+ * @author Reaven Riquoir
+ */
 public class Graphiques {
+
+    /**
+     * Fait la représentation graphique du damier.
+     *
+     * @param damier Damier.
+     * @return Une string réprésentant le damier avec les pions.
+     */
     public String getRepresentation(Damier damier) {
         StringBuilder sb = new StringBuilder();
 

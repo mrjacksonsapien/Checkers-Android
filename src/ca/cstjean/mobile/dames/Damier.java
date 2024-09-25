@@ -1,7 +1,6 @@
 package ca.cstjean.mobile.dames;
 
 import ca.cstjean.mobile.dames.pions.Pion;
-
 import java.util.Arrays;
 
 /**
@@ -9,6 +8,7 @@ import java.util.Arrays;
  *
  * @author Martin Soltan
  * @author Tommy Desjardins
+ * @author Reaven Riquoir
  */
 public class Damier {
     /**
@@ -65,6 +65,9 @@ public class Damier {
         return total;
     }
 
+    /**
+     * Initialise le damier.
+     */
     public void initialiser() {
         for (int i = 0; i < 20; i++) {
             ajouterPion(i + 1, new Pion(Pion.Couleur.NOIR));

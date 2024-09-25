@@ -7,6 +7,7 @@ import junit.framework.TestSuite;
  *
  * @author Martin Soltan
  * @author Tommy Desjardins
+ * @author Reaven Riquoir
  */
 public class TestComplet {
     /**

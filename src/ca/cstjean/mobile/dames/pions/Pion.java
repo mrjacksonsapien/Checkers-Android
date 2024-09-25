@@ -5,13 +5,30 @@ package ca.cstjean.mobile.dames.pions;
  *
  * @author Martin Soltan
  * @author Tommy Desjardins
+ * @author Reaven Riquoir
  */
 public class Pion {
+
+    /**
+     * Enumération de couleur d'un pion ou d'une dame.
+     */
     public enum Couleur {
+        /**
+         * Couleur noir du pion ou de la dame.
+         */
         NOIR,
+
+        /**
+         * Couleur blanc du pion ou de la dame.
+         */
         BLANC,
+
+        /**
+         * Case vide.
+         */
         NULL
     }
+
     /**
      * Couleur du pion.
      */
@@ -26,6 +43,11 @@ public class Pion {
         return couleur;
     }
 
+    /**
+     * Retourne le caractère grapgique du pion.
+     *
+     * @return Le caractère graphique du pion.
+     */
     public char getRepresentation() {
         char caractere;
 
