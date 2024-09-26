@@ -1,5 +1,6 @@
 package ca.cstjean.mobile.dames;
 
+import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +12,7 @@ import org.junit.Test;
  * @author Tommy Desjardins
  * @author Reaven Riquoir
  */
-public class TestConsole {
+public class TestConsole extends TestCase {
 
     /**
      * Le damier.
