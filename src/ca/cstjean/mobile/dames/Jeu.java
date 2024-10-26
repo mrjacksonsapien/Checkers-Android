@@ -4,6 +4,7 @@ import ca.cstjean.mobile.dames.pions.Pion;
 
 public class Jeu {
     private Damier damier;
+    private boolean tourJoueur1 = true;
 
     public boolean damierEstValide() {
         return damier.getNbPions() == 40;
@@ -47,5 +48,13 @@ public class Jeu {
 
     public Jeu(Damier damier) {
         this.damier = damier;
+    }
+
+    public void tourDuJoueur() {
+        tourJoueur1 = !tourJoueur1;
+    }
+
+    public boolean getTourJoueur() {
+        return tourJoueur1;
     }
 }

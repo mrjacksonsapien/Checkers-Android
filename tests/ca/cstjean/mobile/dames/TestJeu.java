@@ -20,4 +20,10 @@ public class TestJeu extends TestCase {
     public void testPositionAdequate() {
         assertTrue(jeu.damierEstAdequat());
     }
+
+    public void testTourJoueur() {
+        assertTrue(jeu.getTourJoueur());
+        jeu.tourDuJoueur();
+        assertFalse(jeu.getTourJoueur());
+    }
 }
