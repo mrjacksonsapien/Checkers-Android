@@ -1,6 +1,5 @@
 package ca.cstjean.mobile.dames;
 
-import ca.cstjean.mobile.dames.pions.Dame;
 import ca.cstjean.mobile.dames.pions.Pion;
 import junit.framework.TestCase;
 
@@ -9,7 +8,6 @@ import junit.framework.TestCase;
  *
  * @author Martin Soltan
  * @author Tommy Desjardins
- * @author Reaven Riquoir
  */
 public class TestPion extends TestCase {
     /**
@@ -23,13 +21,5 @@ public class TestPion extends TestCase {
         assertEquals(Pion.Couleur.BLANC, pionBlanc.getCouleur());
         assertEquals('P', pionNoir.getRepresentation());
         assertEquals('p', pionBlanc.getRepresentation());
-
-        Dame dameNoire = new Dame(Pion.Couleur.NOIR);
-        Dame dameBlanche = new Dame();
-        
-        assertEquals(Pion.Couleur.NOIR, dameNoire.getCouleur());
-        assertEquals(Pion.Couleur.BLANC, dameBlanche.getCouleur());
-        assertEquals('D', dameNoire.getRepresentation());
-        assertEquals('d', dameBlanche.getRepresentation());
     }
 }

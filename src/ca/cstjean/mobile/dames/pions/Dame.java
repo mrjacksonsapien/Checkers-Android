@@ -5,17 +5,16 @@ package ca.cstjean.mobile.dames.pions;
  *
  * @author Martin Soltan
  * @author Tommy Desjardins
- * @author Reaven Riquoir
  */
 public class Dame extends Pion {
     @Override
     public char getRepresentation() {
         char caractere;
 
-        switch (getCouleur()) {
-            case NOIR -> caractere = 'D';
-            case BLANC -> caractere = 'd';
-            default -> caractere = '-';
+        if (getCouleur() == Couleur.NOIR) {
+            caractere = 'D';
+        } else {
+            caractere = 'd';
         }
 
         return caractere;

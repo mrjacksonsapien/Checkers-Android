@@ -5,7 +5,6 @@ package ca.cstjean.mobile.dames.pions;
  *
  * @author Martin Soltan
  * @author Tommy Desjardins
- * @author Reaven Riquoir
  */
 public class Pion {
 
@@ -21,12 +20,7 @@ public class Pion {
         /**
          * Couleur blanc du pion ou de la dame.
          */
-        BLANC,
-
-        /**
-         * Case vide.
-         */
-        NULL
+        BLANC
     }
 
     /**
@@ -51,10 +45,10 @@ public class Pion {
     public char getRepresentation() {
         char caractere;
 
-        switch (couleur) {
-            case NOIR -> caractere = 'P';
-            case BLANC -> caractere = 'p';
-            default -> caractere = '-';
+        if (couleur == Couleur.NOIR) {
+            caractere = 'P';
+        } else {
+            caractere = 'p';
         }
 
         return caractere;

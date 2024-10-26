@@ -10,7 +10,6 @@ import org.junit.Test;
  *
  * @author Martin Soltan
  * @author Tommy Desjardins
- * @author Reaven Riquoir
  */
 public class TestConsole extends TestCase {
 

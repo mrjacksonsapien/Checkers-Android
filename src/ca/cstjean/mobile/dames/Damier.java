@@ -8,7 +8,6 @@ import java.util.Arrays;
  *
  * @author Martin Soltan
  * @author Tommy Desjardins
- * @author Reaven Riquoir
  */
 public class Damier {
     /**
@@ -39,10 +38,6 @@ public class Damier {
 
         if (position <= 50 && position > 0) {
             pion = cases[position - 1];
-
-            if (pion == null) {
-                pion = new Pion(Pion.Couleur.NULL);
-            }
         }
 
         return pion;
@@ -82,7 +77,5 @@ public class Damier {
      */
     public Damier() {
         cases = new Pion[50];
-
-        Arrays.fill(cases, null);
     }
 }

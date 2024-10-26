@@ -11,7 +11,6 @@ import org.junit.Test;
  *
  * @author Martin Soltan
  * @author Tommy Desjardins
- * @author Reaven Riquoir
  */
 public class TestDamier extends TestCase {
 
@@ -39,9 +38,6 @@ public class TestDamier extends TestCase {
         Pion pionNoir = new Pion(Pion.Couleur.NOIR);
         damier.ajouterPion(50, pionNoir);
         Assert.assertEquals(2, damier.getNbPions());
-
-        Assert.assertEquals(Pion.Couleur.NULL, damier.getPion(1).getCouleur());
-
         Assert.assertNull(damier.getPion(-1));
     }
 

@@ -7,7 +7,6 @@ import junit.framework.TestSuite;
  *
  * @author Martin Soltan
  * @author Tommy Desjardins
- * @author Reaven Riquoir
  */
 public class TestComplet {
     /**
@@ -20,6 +19,8 @@ public class TestComplet {
         suite.addTestSuite(TestPion.class);
         suite.addTestSuite(TestDamier.class);
         suite.addTestSuite(TestConsole.class);
+        suite.addTestSuite(TestDame.class);
+        suite.addTestSuite(TestJeu.class);
         return suite;
     }
 }
