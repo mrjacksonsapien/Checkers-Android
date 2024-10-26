@@ -57,4 +57,12 @@ public class Jeu {
     public boolean getTourJoueur() {
         return tourJoueur1;
     }
+
+    public void deplacerPion(Pion pion) {
+        if (pion.getCouleur() == Pion.Couleur.BLANC) {
+
+        } else {
+
+        }
+    }
 }
