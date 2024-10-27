@@ -75,7 +75,7 @@ public class Damier {
     }
 
     private boolean[] calculerPosition(int position) {
-        boolean lignePair = (position / 5) % 2 == 0 && position % 10 != 0;
+        boolean lignePair = ((position / 5) % 2 == 0 || position % 5 == 0) && position % 10 != 0;
         boolean colleCoteGauche = (position - 6) % 10 == 0;
         boolean colleCoteDroit = position % 5 == 0 && position % 10 != 0;
 
