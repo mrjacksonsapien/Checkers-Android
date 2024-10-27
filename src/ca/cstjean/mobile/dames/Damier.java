@@ -75,25 +75,29 @@ public class Damier {
     }
 
     private boolean[] calculerPosition(int position) {
-        return new boolean[] {
-                (position / 5) % 2 == 0,
-                (position - 6) % 10 == 0,
-                (position - 5) % 10 == 0
-        };
+        boolean lignePair = (position / 5) % 2 == 0;
+        boolean colleCoteGauche = (position - 6) % 10 == 0;
+        boolean colleCoteDroit = position % 5 == 0 && position % 10 != 0;
+
+        return new boolean[] {lignePair, colleCoteGauche, colleCoteDroit};
     }
 
     private int[] calculerDirections(boolean rangeePair) {
-        return new int[] {
-                -(rangeePair ? 5 : 6),
-                -(rangeePair ? 4 : 5),
-                rangeePair ? 5 : 4,
-                rangeePair ? 6 : 5
-        };
+        int nordOuest = -(rangeePair ? 5 : 6);
+        int nordEst = -(rangeePair ? 4 : 5);
+        int sudOuest = rangeePair ? 5 : 4;
+        int sudEst = rangeePair ? 6 : 5;
+
+        return new int[] {nordOuest, nordEst, sudOuest, sudEst};
     }
 
+    /*
+    Problèmes à régler:
+        - Les dizaines (10, 20, 30...) sont sur des lignes impaires, mais la vérification de la parité de la ligne de
+        la position retourne paire pour les dizaines.
+     */
     public List<Integer>[] deplacementsPossibleSansLimite(int position) {
         Pion pion = getPion(position);
-
         if (pion == null) {
             throw new NullPointerException();
         } else if (position < 1 || position > 50) {
@@ -101,27 +105,33 @@ public class Damier {
         }
 
         List<Integer>[] deplacements = new List[4];
-
         for (int i = 0; i < deplacements.length; i++) {
             deplacements[i] = new ArrayList<>();
         }
 
-        int positionImaginaire = position;
-        boolean[] positionsCalcule = calculerPosition(positionImaginaire);
-        int[] directionsCalcule = calculerDirections(positionsCalcule[0]);
-
         for (int direction = 0; direction < 4; direction++) {
-            positionImaginaire = position;
-            boolean estSurLimite = direction % 2 == 0 ? positionsCalcule[1] : positionsCalcule[2];
+            // Reset current position to original and recalculate
+            int positionPossible = position;
+            boolean[] positionsCalcule = calculerPosition(positionPossible);
+            int[] directionsCalcule = calculerDirections(positionsCalcule[0]);
+            boolean nePeutPasBouger = direction % 2 == 0 ? positionsCalcule[1] : positionsCalcule[2]; // Calcule si il est possible de bouger dans la direction actuelle basé sur la position actuelle.
 
-            while (positionImaginaire > 0 && positionImaginaire <= 50 && !estSurLimite) {
-                if (positionImaginaire != position) {
-                    deplacements[direction].add(positionImaginaire);
-                }
-                positionImaginaire += directionsCalcule[direction];
-                positionsCalcule = calculerPosition(positionImaginaire);
+            // Check if there's a possible next move else end loop
+            while (!nePeutPasBouger) {
+                // Move to the next position
+                positionPossible += directionsCalcule[direction];
+
+                // Recalculate with new position
+                positionsCalcule = calculerPosition(positionPossible);
                 directionsCalcule = calculerDirections(positionsCalcule[0]);
-                estSurLimite = direction % 2 == 0 ? positionsCalcule[1] : positionsCalcule[2];
+                nePeutPasBouger = direction % 2 == 0 ? positionsCalcule[1] : positionsCalcule[2];
+
+                // Check if new position is in range else end loop
+                if (positionPossible > 0 && positionPossible <= 50) {
+                    deplacements[direction].add(positionPossible);
+                } else {
+                    break;
+                }
             }
         }
 

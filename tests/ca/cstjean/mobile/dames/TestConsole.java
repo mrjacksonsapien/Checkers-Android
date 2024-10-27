@@ -57,8 +57,8 @@ public class TestConsole extends TestCase {
     }
 
     public void testAffichage2() {
-        damier.ajouterPion(23, new Pion());
-        List<Integer>[] casesPossibles = damier.deplacementsPossibleSansLimite(23);
+        damier.ajouterPion(28, new Pion());
+        List<Integer>[] casesPossibles = damier.deplacementsPossibleSansLimite(28);
 
         System.out.println(casesPossibles[0]);
         System.out.println(casesPossibles[1]);
