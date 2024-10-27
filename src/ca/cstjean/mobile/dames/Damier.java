@@ -105,23 +105,18 @@ public class Damier {
         }
 
         for (int direction = 0; direction < 4; direction++) {
-            // Reset current position to original and recalculate
             int positionPossible = position;
             boolean[] positionsCalcule = calculerPosition(positionPossible);
             int[] directionsCalcule = calculerDirections(positionsCalcule[0]);
-            boolean nePeutPasBouger = direction % 2 == 0 ? positionsCalcule[1] : positionsCalcule[2]; // Calcule si il est possible de bouger dans la direction actuelle basé sur la position actuelle.
+            boolean nePeutPasBouger = direction % 2 == 0 ? positionsCalcule[1] : positionsCalcule[2];
 
-            // Check if there's a possible next move else end loop
             while (!nePeutPasBouger) {
-                // Move to the next position
                 positionPossible += directionsCalcule[direction];
 
-                // Recalculate with new position
                 positionsCalcule = calculerPosition(positionPossible);
                 directionsCalcule = calculerDirections(positionsCalcule[0]);
                 nePeutPasBouger = direction % 2 == 0 ? positionsCalcule[1] : positionsCalcule[2];
 
-                // Check if new position is in range else end loop
                 if (positionPossible > 0 && positionPossible <= 50) {
                     deplacements[direction].add(positionPossible);
                 } else {
