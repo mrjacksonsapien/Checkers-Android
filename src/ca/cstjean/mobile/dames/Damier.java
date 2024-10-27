@@ -75,7 +75,7 @@ public class Damier {
     }
 
     private boolean[] calculerPosition(int position) {
-        boolean lignePair = (position / 5) % 2 == 0;
+        boolean lignePair = (position / 5) % 2 == 0 && position % 10 != 0;
         boolean colleCoteGauche = (position - 6) % 10 == 0;
         boolean colleCoteDroit = position % 5 == 0 && position % 10 != 0;
 
@@ -91,11 +91,6 @@ public class Damier {
         return new int[] {nordOuest, nordEst, sudOuest, sudEst};
     }
 
-    /*
-    Problèmes à régler:
-        - Les dizaines (10, 20, 30...) sont sur des lignes impaires, mais la vérification de la parité de la ligne de
-        la position retourne paire pour les dizaines.
-     */
     public List<Integer>[] deplacementsPossibleSansLimite(int position) {
         Pion pion = getPion(position);
         if (pion == null) {
