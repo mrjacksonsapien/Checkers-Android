@@ -4,11 +4,7 @@ import ca.cstjean.mobile.dames.pions.Pion;
 
 public class Jeu {
     private Damier damier;
-    private boolean tourJoueur1 = true;
-
-    public boolean damierEstValide() {
-        return damier.getNbPions() == 40;
-    }
+    private boolean tourJoueur1;
 
     private boolean pionEstAdequat(int position, Pion.Couleur couleur) {
         Pion pion = damier.getPion(position);
@@ -46,11 +42,7 @@ public class Jeu {
         damier.initialiser();
     }
 
-    public Jeu(Damier damier) {
-        this.damier = damier;
-    }
-
-    public void tourDuJoueur() {
+    public void changerTour() {
         tourJoueur1 = !tourJoueur1;
     }
 
@@ -58,11 +50,8 @@ public class Jeu {
         return tourJoueur1;
     }
 
-    public void deplacerPion(Pion pion) {
-        if (pion.getCouleur() == Pion.Couleur.BLANC) {
-
-        } else {
-
-        }
+    public Jeu(Damier damier) {
+        this.damier = damier;
+        tourJoueur1  = true;
     }
 }

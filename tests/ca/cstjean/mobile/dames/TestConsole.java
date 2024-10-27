@@ -1,9 +1,13 @@
 package ca.cstjean.mobile.dames;
 
+import ca.cstjean.mobile.dames.pions.Pion;
 import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Test la classe Graphique.
@@ -50,5 +54,15 @@ public class TestConsole extends TestCase {
                 "p-p-p-p-p-\n", representation);
 
         System.out.println(representation);
+    }
+
+    public void testAffichage2() {
+        damier.ajouterPion(23, new Pion());
+        List<Integer>[] casesPossibles = damier.deplacementsPossibleSansLimite(23);
+
+        System.out.println(casesPossibles[0]);
+        System.out.println(casesPossibles[1]);
+        System.out.println(casesPossibles[2]);
+        System.out.println(casesPossibles[3]);
     }
 }

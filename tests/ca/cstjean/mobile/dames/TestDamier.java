@@ -4,7 +4,6 @@ import ca.cstjean.mobile.dames.pions.Pion;
 import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
 
 /**
  * Test la classe Damier.
@@ -27,7 +26,6 @@ public class TestDamier extends TestCase {
         damier = new Damier();
     }
 
-    @Test
     public void testCreer() {
 
         Pion pionBlanc = new Pion();
@@ -41,10 +39,14 @@ public class TestDamier extends TestCase {
         Assert.assertNull(damier.getPion(-1));
     }
 
-    @Test
     public void testInitialiser() {
         damier.initialiser();
 
         Assert.assertEquals(40, damier.getNbPions());
+    }
+
+    public void testMouvementPions() {
+        Pion pionBlanc = new Pion();
+        damier.ajouterPion(6, pionBlanc);
     }
 }

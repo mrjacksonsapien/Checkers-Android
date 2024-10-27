@@ -13,17 +13,13 @@ public class TestJeu extends TestCase {
         jeu.commencer();
     }
 
-    public void testDamierValide() {
-        assertTrue(jeu.damierEstValide());
-    }
-
     public void testPositionAdequate() {
         assertTrue(jeu.damierEstAdequat());
     }
 
     public void testTourJoueur() {
         assertTrue(jeu.getTourJoueur());
-        jeu.tourDuJoueur();
+        jeu.changerTour();
         assertFalse(jeu.getTourJoueur());
     }
 }

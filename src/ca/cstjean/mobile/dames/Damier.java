@@ -1,7 +1,9 @@
 package ca.cstjean.mobile.dames;
 
 import ca.cstjean.mobile.dames.pions.Pion;
-import java.util.Arrays;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Représente un damier avec 50 cases libres pour des pions.
@@ -70,6 +72,60 @@ public class Damier {
         for (int i = 30; i < 50; i++) {
             ajouterPion(i + 1, new Pion());
         }
+    }
+
+    private boolean[] calculerPosition(int position) {
+        return new boolean[] {
+                (position / 5) % 2 == 0,
+                (position - 6) % 10 == 0,
+                (position - 5) % 10 == 0
+        };
+    }
+
+    private int[] calculerDirections(boolean rangeePair) {
+        return new int[] {
+                -(rangeePair ? 5 : 6),
+                -(rangeePair ? 4 : 5),
+                rangeePair ? 5 : 4,
+                rangeePair ? 6 : 5
+        };
+    }
+
+    public List<Integer>[] deplacementsPossibleSansLimite(int position) {
+        Pion pion = getPion(position);
+
+        if (pion == null) {
+            throw new NullPointerException();
+        } else if (position < 1 || position > 50) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
+
+        List<Integer>[] deplacements = new List[4];
+
+        for (int i = 0; i < deplacements.length; i++) {
+            deplacements[i] = new ArrayList<>();
+        }
+
+        int positionImaginaire = position;
+        boolean[] positionsCalcule = calculerPosition(positionImaginaire);
+        int[] directionsCalcule = calculerDirections(positionsCalcule[0]);
+
+        for (int direction = 0; direction < 4; direction++) {
+            positionImaginaire = position;
+            boolean estSurLimite = direction % 2 == 0 ? positionsCalcule[1] : positionsCalcule[2];
+
+            while (positionImaginaire > 0 && positionImaginaire <= 50 && !estSurLimite) {
+                if (positionImaginaire != position) {
+                    deplacements[direction].add(positionImaginaire);
+                }
+                positionImaginaire += directionsCalcule[direction];
+                positionsCalcule = calculerPosition(positionImaginaire);
+                directionsCalcule = calculerDirections(positionsCalcule[0]);
+                estSurLimite = direction % 2 == 0 ? positionsCalcule[1] : positionsCalcule[2];
+            }
+        }
+
+        return deplacements;
     }
 
     /**
