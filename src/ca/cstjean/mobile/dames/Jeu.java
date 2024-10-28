@@ -2,6 +2,8 @@ package ca.cstjean.mobile.dames;
 
 import ca.cstjean.mobile.dames.pions.Pion;
 
+import java.util.Stack;
+
 /**
  * Représente un jeu de dame incluant les règles.
  *
@@ -19,6 +21,8 @@ public class Jeu {
      */
     private boolean tourJoueur1;
 
+    private Stack<String> historique;
+
     /**
      * Méthode qui vérifie si le pion est adéquat.
      *
@@ -34,6 +38,10 @@ public class Jeu {
         } else {
             return false;
         }
+    }
+
+    public Damier getDamier() {
+        return damier;
     }
 
     /**
@@ -89,5 +97,6 @@ public class Jeu {
     public Jeu(Damier damier) {
         this.damier = damier;
         tourJoueur1 = true;
+        historique = new Stack<>();
     }
 }

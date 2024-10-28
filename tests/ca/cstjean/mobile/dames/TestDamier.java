@@ -48,12 +48,4 @@ public class TestDamier extends TestCase {
 
         Assert.assertEquals(40, damier.getNbPions());
     }
-
-    /**
-     * Méthode testant le mouvement des pions.
-     */
-    public void testMouvementPions() {
-        Pion pionBlanc = new Pion();
-        damier.ajouterPion(6, pionBlanc);
-    }
 }

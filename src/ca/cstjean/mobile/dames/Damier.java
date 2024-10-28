@@ -17,6 +17,10 @@ public class Damier {
      */
     private final Pion[] cases;
 
+    public Pion[] getCases() {
+        return cases.clone();
+    }
+
     /**
      * Ajoute un pion sur une case spécifique avec une position qui suit la notation de Manoury.
      *
@@ -45,6 +49,15 @@ public class Damier {
         return pion;
     }
 
+    private void verifiePositionPion(int position) {
+        if (position < 1 || position > 50) {
+            throw new ArrayIndexOutOfBoundsException("Cette position n'est pas valide.");
+        }
+        if (cases[position] == null) {
+            throw new NullPointerException("Il n'y a aucun pion à cette case.");
+        }
+    }
+
     /**
      * Le nombre de pions présentement sur le damier.
      *
@@ -69,6 +82,9 @@ public class Damier {
         for (int i = 0; i < 20; i++) {
             ajouterPion(i + 1, new Pion(Pion.Couleur.NOIR));
         }
+        for (int i = 20; i < 30; i++) {
+            cases[i] = null;
+        }
         for (int i = 30; i < 50; i++) {
             ajouterPion(i + 1, new Pion());
         }
@@ -91,19 +107,8 @@ public class Damier {
         return new int[] {nordOuest, nordEst, sudOuest, sudEst};
     }
 
-    /**
-     * Méthode pour trouver toutes les cases en diagonales d'un pion ou d'une dame.
-     *
-     * @param position Position du pion ou de la dame.
-     * @return Liste des cases où le pion peut aller.
-     */
-    public List<Integer>[] deplacementsPossibleSansLimite(int position) {
-        Pion pion = getPion(position);
-        if (pion == null) {
-            throw new NullPointerException();
-        } else if (position < 1 || position > 50) {
-            throw new ArrayIndexOutOfBoundsException();
-        }
+    private List<Integer>[] deplacementsPossibleSansLimite(int position) {
+        verifiePositionPion(position);
 
         List<Integer>[] deplacements = new List[4];
         for (int i = 0; i < deplacements.length; i++) {
@@ -134,13 +139,10 @@ public class Damier {
         return deplacements;
     }
 
-    /**
-     * Méthode pour vérifier les déplacements valides d'un pion ou d'une dame.
-     *
-     * @param position Position du pion ou de la dame.
-     * @return La liste des déplacements qui sont valides.
-     */
-    public List<Integer> deplacementValide(int position) {
+    // Maybe here?
+    private List<Integer> deplacementsSansPrise(int position) {
+        verifiePositionPion(position);
+
         Pion pion = getPion(position);
         List<Integer> deplacements = new ArrayList<>();
         List<Integer>[] deplacementsPossibles = deplacementsPossibleSansLimite(position);
@@ -165,13 +167,10 @@ public class Damier {
         return deplacements;
     }
 
-    /**
-     * Méthode pour le déplacement avec prise.
-     *
-     * @param position Position du pion ou de la dame.
-     * @return La liste des deplacements avec prise.
-     */
-    public List<Integer> deplacementAvecPrise(int position) {
+    // Maybe here?
+    private List<Integer> deplacementAvecPrise(int position) {
+        verifiePositionPion(position);
+
         Pion pion = getPion(position);
         List<Integer> deplacementsAvecPrises = new ArrayList<>();
 
@@ -181,6 +180,68 @@ public class Damier {
         return deplacementsAvecPrises;
     }
 
+    /**
+     * Retourne les positions possibles où le pion à la position donné peut se déplacer.
+     *
+     * @param position Position d'une qui contient un pion.
+     * @return Les positions où le pion peut se déplacer. Si il est possible de faire une prise
+     * le tableau contiendra une seule position.
+     */
+    public List<Integer> deplacements(int position) {
+        verifiePositionPion(position);
+
+        List<Integer> mouvementsPossibles = deplacementAvecPrise(position);
+
+        if (mouvementsPossibles.isEmpty()) {
+            mouvementsPossibles = deplacementsSansPrise(position);
+        }
+
+        return mouvementsPossibles;
+    }
+
+    /**
+     * Déplace un pion à une position donnée à sa destination. La destination doit faire partie du return
+     * de la méthode deplacements avec positionPion donnée en argument.
+     *
+     * @param positionPion Une position qui contient un pion.
+     * @param destination Une destination qui fait parti des déplacements possibles du pion.
+     */
+    public void deplacerPion(int positionPion, int destination) {
+        if (!deplacements(positionPion).contains(destination)) {
+            throw new IllegalArgumentException("La destination de fait pas parti des déplacements possible du pion.");
+        }
+
+        if (!deplacementAvecPrise(positionPion).isEmpty()) {
+            List<Integer>[] directions = deplacementsPossibleSansLimite(destination);
+
+            for (List<Integer> direction: directions) {
+                if (direction.contains(positionPion)) {
+                    cases[direction.getFirst()] = null;
+                    break;
+                }
+            }
+        }
+
+        cases[destination - 1] = cases[positionPion - 1];
+        cases[positionPion - 1] = null;
+
+        promotionDame(destination);
+    }
+
+    private void promotionDame(int position) {
+        if (getPion(position) == null) {
+            throw new NullPointerException("Il n'y a aucun pion à cette case.");
+        }
+
+        Pion pion = getPion(position);
+
+        if ((pion.getCouleur() == Pion.Couleur.BLANC && position <= 5) ||
+                (pion.getCouleur() == Pion.Couleur.NOIR && position >= 46)) {
+            cases[position - 1] = new Dame(pion.getCouleur());
+        }
+    }
+
+    // Maybe here?
     private void verifierPrises(List<Integer>[] deplacementsPossibles, Pion pion,
                                 List<Integer> deplacementsAvecPrises) {
         for (List<Integer> direction : deplacementsPossibles) {
@@ -201,15 +262,9 @@ public class Damier {
                             }
                         }
                     }
-
-                    verifierPrises(deplacementsPossibleSansLimite(caseSuivante), pion, deplacementsAvecPrises);
                 }
             }
         }
-    }
-
-    private List<Integer> genererNouveauxDeplacements(Integer position) {
-        return deplacementsPossibleSansLimite(position)[0];
     }
 
     /**
@@ -224,24 +279,11 @@ public class Damier {
 
         for (int caseDamier = 1; caseDamier <= 50; caseDamier++) {
             Pion pion = getPion(caseDamier);
-            if (pion != null && !deplacementValide(caseDamier).isEmpty()) {
+            if (pion != null && !deplacementsSansPrise(caseDamier).isEmpty()) {
                 return false;
             }
         }
         return true;
-    }
-
-    /**
-     * Méthode gérant la promotion en dame d'un pion.
-     *
-     * @param pion Le pion.
-     * @param position La position du pion.
-     */
-    public void promotionDame(Pion pion, int position) {
-        if ((pion.getCouleur() == Pion.Couleur.BLANC && position <= 5) ||
-                (pion.getCouleur() == Pion.Couleur.NOIR && position >= 46)) {
-            cases[position - 1] = new Dame(pion.getCouleur());
-        }
     }
 
     /**

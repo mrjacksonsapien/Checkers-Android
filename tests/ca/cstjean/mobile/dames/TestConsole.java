@@ -52,18 +52,4 @@ public class TestConsole extends TestCase {
 
         System.out.println(representation);
     }
-
-    /**
-     * Méthode affichant la liste des cases en diagonales d'une pièce.
-     */
-    public void testAffichage2() {
-        int position = 9;
-        damier.ajouterPion(position, new Pion());
-        List<Integer>[] casesPossibles = damier.deplacementsPossibleSansLimite(position);
-
-        System.out.println(casesPossibles[0]);
-        System.out.println(casesPossibles[1]);
-        System.out.println(casesPossibles[2]);
-        System.out.println(casesPossibles[3]);
-    }
 }
