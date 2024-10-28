@@ -1,7 +1,7 @@
 package ca.cstjean.mobile.dames;
 
+import ca.cstjean.mobile.dames.pions.Dame;
 import ca.cstjean.mobile.dames.pions.Pion;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,6 +91,12 @@ public class Damier {
         return new int[] {nordOuest, nordEst, sudOuest, sudEst};
     }
 
+    /**
+     * Méthode pour trouver toutes les cases en diagonales d'un pion ou d'une dame.
+     *
+     * @param position Position du pion ou de la dame.
+     * @return Liste des cases où le pion peut aller.
+     */
     public List<Integer>[] deplacementsPossibleSansLimite(int position) {
         Pion pion = getPion(position);
         if (pion == null) {
@@ -126,6 +132,84 @@ public class Damier {
         }
 
         return deplacements;
+    }
+
+    /**
+     * Méthode pour vérifier les déplacements valides d'un pion ou d'une dame.
+     *
+     * @param position Position du pion ou de la dame.
+     * @return La liste des déplacements qui sont valides.
+     */
+    public List<Integer> deplacementValide(int position) {
+        Pion pion = getPion(position);
+        List<Integer> deplacements = new ArrayList<>();
+        List<Integer>[] deplacementsPossibles = deplacementsPossibleSansLimite(position);
+
+        if (pion instanceof Dame) {
+            for (List<Integer> deplacement : deplacementsPossibles) {
+                for (Integer cible : deplacement) {
+                    if (getPion(cible) == null) {
+                        deplacements.add(cible);
+                    } else {
+                        break;
+                    }
+                }
+            }
+        } else {
+            for (Integer deplacement : deplacementsPossibles[0]) {
+                if (getPion(deplacement) == null) {
+                    deplacements.add(deplacement);
+                }
+            }
+        }
+        return deplacements;
+    }
+
+    /**
+     * Méthode pour le déplacement avec prise.
+     *
+     * @param position Position du pion ou de la dame.
+     * @return La liste des deplacements avec prise.
+     */
+    public List<Integer> deplacementAvecPrise(int position) {
+        Pion pion = getPion(position);
+        List<Integer> deplacementsAvecPrises = new ArrayList<>();
+
+        List<Integer>[] deplacementsPossibles = deplacementsPossibleSansLimite(position);
+        verifierPrises(deplacementsPossibles, pion, deplacementsAvecPrises);
+
+        return deplacementsAvecPrises;
+    }
+
+    private void verifierPrises(List<Integer>[] deplacementsPossibles, Pion pion,
+                                List<Integer> deplacementsAvecPrises) {
+        for (List<Integer> direction : deplacementsPossibles) {
+            for (int i = 0; i < direction.size() - 1; i++) {
+                Integer cible = direction.get(i);
+                Integer caseSuivante = direction.get(i + 1);
+
+                if (getPion(cible) != null && getPion(cible).getCouleur() != pion.getCouleur() &&
+                        getPion(caseSuivante) == null) {
+                    deplacementsAvecPrises.add(caseSuivante);
+                    if (pion instanceof Dame) {
+                        for (int j = i + 2; j < direction.size(); j++) {
+                            Integer caseLibre = direction.get(j);
+                            if (getPion(caseLibre) == null) {
+                                deplacementsAvecPrises.add(caseLibre);
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+
+                    verifierPrises(deplacementsPossibleSansLimite(caseSuivante), pion, deplacementsAvecPrises);
+                }
+            }
+        }
+    }
+
+    private List<Integer> genererNouveauxDeplacements(Integer position) {
+        return deplacementsPossibleSansLimite(position)[0];
     }
 
     /**

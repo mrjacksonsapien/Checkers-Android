@@ -1,8 +1,5 @@
 package ca.cstjean.mobile.dames.pions;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Pion de dames.
  *

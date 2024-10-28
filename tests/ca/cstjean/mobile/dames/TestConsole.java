@@ -1,13 +1,9 @@
 package ca.cstjean.mobile.dames;
 
 import ca.cstjean.mobile.dames.pions.Pion;
+import java.util.List;
 import junit.framework.TestCase;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Test la classe Graphique.
@@ -30,13 +26,14 @@ public class TestConsole extends TestCase {
     /**
      * Créer le damier avant de débuter les tests.
      */
-    @Before
     public void setUp() {
         damier = new Damier();
         graphiques = new Graphiques();
     }
 
-    @Test
+    /**
+     * Méthode testant l'affichage du damier.
+     */
     public void testAffichage() {
         damier.initialiser();
 
@@ -56,6 +53,9 @@ public class TestConsole extends TestCase {
         System.out.println(representation);
     }
 
+    /**
+     * Méthode affichant la liste des cases en diagonales d'une pièce.
+     */
     public void testAffichage2() {
         int position = 9;
         damier.ajouterPion(position, new Pion());
