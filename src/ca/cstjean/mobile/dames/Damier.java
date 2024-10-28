@@ -206,12 +206,16 @@ public class Damier {
      * @param positionPion Une position qui contient un pion.
      * @param destination Une destination qui fait parti des déplacements possibles du pion.
      */
-    public void deplacerPion(int positionPion, int destination) {
+    public String deplacerPion(int positionPion, int destination) {
         if (!deplacements(positionPion).contains(destination)) {
             throw new IllegalArgumentException("La destination de fait pas parti des déplacements possible du pion.");
         }
 
+        char typeMouvement;
+
         if (!deplacementAvecPrise(positionPion).isEmpty()) {
+            typeMouvement = 'x';
+
             List<Integer>[] directions = deplacementsPossibleSansLimite(destination);
 
             for (List<Integer> direction: directions) {
@@ -220,12 +224,18 @@ public class Damier {
                     break;
                 }
             }
+        } else {
+            typeMouvement = '-';
         }
 
         cases[destination - 1] = cases[positionPion - 1];
         cases[positionPion - 1] = null;
 
         promotionDame(destination);
+
+        String mouvement = String.valueOf(positionPion + typeMouvement + destination);
+
+        return getPion(positionPion).getCouleur() == Pion.Couleur.BLANC ? mouvement : "(" + mouvement + ")";
     }
 
     private void promotionDame(int position) {
