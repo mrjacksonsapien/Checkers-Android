@@ -213,6 +213,38 @@ public class Damier {
     }
 
     /**
+     * Méthode pour vérifier si la partie est terminée ou non.
+     *
+     * @return True si la partie est terminée, false sinon.
+     */
+    public boolean estTerminee() {
+        if (getNbPions() == 1) {
+            return true;
+        }
+
+        for (int caseDamier = 1; caseDamier <= 50; caseDamier++) {
+            Pion pion = getPion(caseDamier);
+            if (pion != null && !deplacementValide(caseDamier).isEmpty()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Méthode gérant la promotion en dame d'un pion.
+     *
+     * @param pion Le pion.
+     * @param position La position du pion.
+     */
+    public void promotionDame(Pion pion, int position) {
+        if ((pion.getCouleur() == Pion.Couleur.BLANC && position <= 5) ||
+                (pion.getCouleur() == Pion.Couleur.NOIR && position >= 46)) {
+            cases[position - 1] = new Dame(pion.getCouleur());
+        }
+    }
+
+    /**
      * Constructeur du damier.
      */
     public Damier() {
