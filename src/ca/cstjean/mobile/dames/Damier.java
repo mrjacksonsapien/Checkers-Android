@@ -152,15 +152,22 @@ public class Damier {
                 for (Integer cible : deplacement) {
                     if (getPion(cible) == null) {
                         deplacements.add(cible);
+                    } else if (getPion(cible) != null) {
+                        break;
                     } else {
                         break;
                     }
                 }
             }
         } else {
-            for (Integer deplacement : deplacementsPossibles[0]) {
-                if (getPion(deplacement) == null) {
-                    deplacements.add(deplacement);
+            for (int i = 0; i <= 3; i++) {
+                for (Integer deplacement : deplacementsPossibles[i]) {
+                    if (getPion(deplacement) == null && getPion(position).getCouleur() == Pion.Couleur.BLANC && i < 2) {
+                        deplacements.add(deplacement);
+                    } else if (getPion(deplacement) == null && getPion(position).getCouleur() == Pion.Couleur.NOIR &&
+                            i > 1) {
+                        deplacements.add(deplacement);
+                    }
                 }
             }
         }
