@@ -2,8 +2,6 @@ package ca.cstjean.mobile.dames;
 
 import ca.cstjean.mobile.dames.pions.Pion;
 
-import java.util.Stack;
-
 /**
  * Représente un jeu de dame incluant les règles.
  *
@@ -21,10 +19,11 @@ public class Jeu {
      */
     private boolean tourJoueur1;
 
-    /**
-     * Historique du jeu.
-     */
-    private Stack<String> historique;
+    private boolean commence;
+
+    public Damier getDamier() {
+        return damier;
+    }
 
     /**
      * Méthode qui vérifie si le pion est adéquat.
@@ -70,25 +69,34 @@ public class Jeu {
         return true;
     }
 
-    /**
-     * Méthode pour commencer l'initialisation du damier.
-     */
     public void commencer() {
-        damier.initialiser();
+        if (!commence && damierEstAdequat()) {
+            commence = true;
+        }
     }
 
-    private void deplacerPion(int origine, int destination) {
-        Pion.Couleur couleurQuiJoue = tourJoueur1 ? Pion.Couleur.BLANC : Pion.Couleur.NOIR;
-        Pion pion = damier.getPion(origine);
+    public void deplacerPion(int origine, int destination) {
+        if (commence) {
+            Pion.Couleur couleurQuiJoue = tourJoueur1 ? Pion.Couleur.BLANC : Pion.Couleur.NOIR;
+            Pion pion = damier.getPion(origine);
 
-        if (pion == null) {
-            throw new NullPointerException("La position d'origine ne contient pas de pion.");
-        }
-        if (pion.getCouleur() != couleurQuiJoue) {
-            throw new IllegalArgumentException("Le pion choisi n'est pas de la bonne couleur.");
-        }
+            if (pion == null) {
+                throw new NullPointerException("La position d'origine ne contient pas de pion.");
+            }
+            if (pion.getCouleur() != couleurQuiJoue) {
+                throw new IllegalArgumentException("Le pion choisi n'est pas de la bonne couleur.");
+            }
 
-        historique.push(damier.deplacerPion(origine, destination));
+            damier.deplacerPion(origine, destination);
+
+            if (damier.deplacementAvecPrise(destination).isEmpty()) {
+                tourJoueur1 = !tourJoueur1;
+            }
+
+            if (estTerminee()) {
+                commence = false;
+            }
+        }
     }
 
     /**
@@ -118,6 +126,6 @@ public class Jeu {
     public Jeu(Damier damier) {
         this.damier = damier;
         tourJoueur1 = true;
-        historique = new Stack<>();
+        commence = false;
     }
 }

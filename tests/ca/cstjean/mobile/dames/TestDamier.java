@@ -48,7 +48,6 @@ public class TestDamier extends TestCase {
      */
     public void testInitialiser() {
         damier.initialiser();
-
         Assert.assertEquals(40, damier.getNbPions());
     }
 
@@ -67,6 +66,39 @@ public class TestDamier extends TestCase {
 
         System.out.println(graphiques.getRepresentation(damier));
         damier.deplacerPion(23, 32);
+        System.out.println(graphiques.getRepresentation(damier));
+    }
+
+    public void testPromotionEnDameBlanc() {
+        Graphiques graphiques = new Graphiques();
+        damier.ajouterPion(10, new Pion());
+        System.out.println(graphiques.getRepresentation(damier));
+        damier.deplacerPion(10, 4);
+        System.out.println(graphiques.getRepresentation(damier));
+    }
+
+    public void testPromotionEnDameNoire() {
+        Graphiques graphiques = new Graphiques();
+        damier.ajouterPion(44, new Pion(Pion.Couleur.NOIR));
+        System.out.println(graphiques.getRepresentation(damier));
+        damier.deplacerPion(44, 50);
+        System.out.println(graphiques.getRepresentation(damier));
+    }
+
+    public void testRetourEnArriere() {
+        Graphiques graphiques = new Graphiques();
+        damier.initialiser();
+        System.out.println(graphiques.getRepresentation(damier));
+
+        damier.deplacerPion(31, 26);
+        System.out.println(graphiques.getRepresentation(damier));
+        damier.deplacerPion(26, 21);
+        System.out.println(graphiques.getRepresentation(damier));
+
+        damier.retournerEnArriere();
+        System.out.println(graphiques.getRepresentation(damier));
+
+        damier.retournerEnArriere();
         System.out.println(graphiques.getRepresentation(damier));
     }
 }

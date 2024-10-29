@@ -4,6 +4,9 @@ import ca.cstjean.mobile.dames.pions.Dame;
 import ca.cstjean.mobile.dames.pions.Pion;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Représente un damier avec 50 cases libres pour des pions.
@@ -17,8 +20,51 @@ public class Damier {
      */
     private final Pion[] cases;
 
+    /**
+     * Historique des mouvements jeu.
+     */
+    private Stack<String> historique;
+
+    /**
+     * Historique des pions morts.
+     */
+    private Stack<Pion> morts;
+
     public Pion[] getCases() {
         return cases.clone();
+    }
+
+    // TODO: Ne fonctionne pas dans les tests, mais marche avec debugger.
+    public void retournerEnArriere() {
+        Pattern pattern = Pattern.compile("^\\(?(\\d{1,2})([x-])(\\d{1,2})\\)?$");
+        Matcher matcher = pattern.matcher(historique.pop());
+
+        if (matcher.find()) {
+            int origine = Integer.parseInt(matcher.group(1));
+            boolean estUnePrise = matcher.group(2).equals("x");
+            int destination = Integer.parseInt(matcher.group(3));
+
+            if (estUnePrise) {
+                Pion pion = morts.pop();
+                int cible = getPositionCible(origine, destination);
+                cases[cible] = pion;
+            }
+
+            cases[origine] = cases[destination];
+            cases[destination] = null;
+        }
+    }
+
+    private int getPositionCible(int origine, int destination) {
+        List<Integer>[] directions = deplacementsPossibleSansLimite(destination);
+
+        for (List<Integer> direction: directions) {
+            if (direction.contains(origine)) {
+                return direction.getFirst() - 1;
+            }
+        }
+
+        return -1;
     }
 
     /**
@@ -139,7 +185,6 @@ public class Damier {
         return deplacements;
     }
 
-    // Maybe here?
     private List<Integer> deplacementsSansPrise(int position) {
         verifiePositionPion(position);
 
@@ -176,7 +221,6 @@ public class Damier {
         return deplacements;
     }
 
-    // Maybe here?
     public List<Integer> deplacementAvecPrise(int position) {
         verifiePositionPion(position);
 
@@ -215,40 +259,39 @@ public class Damier {
      * @param positionPion Une position qui contient un pion.
      * @param destination Une destination qui fait parti des déplacements possibles du pion.
      */
-    public String deplacerPion(int positionPion, int destination) {
+    public void deplacerPion(int positionPion, int destination) {
         if (!deplacements(positionPion).contains(destination)) {
             throw new IllegalArgumentException("La destination de fait pas parti des déplacements possible du pion.");
         }
 
-        char typeMouvement;
-
         boolean estUnePrise = !deplacementAvecPrise(positionPion).isEmpty();
-
-        if (estUnePrise) {
-            typeMouvement = 'x';
-        } else {
-            typeMouvement = '-';
-        }
 
         cases[destination - 1] = cases[positionPion - 1];
         cases[positionPion - 1] = null;
 
         if (estUnePrise) {
-            List<Integer>[] directions = deplacementsPossibleSansLimite(destination);
-
-            for (List<Integer> direction: directions) {
-                if (direction.contains(positionPion)) {
-                    cases[direction.getFirst() - 1] = null;
-                    break;
-                }
-            }
+            int cible = getPositionCible(positionPion, destination);
+            morts.push(cases[cible]);
+            cases[cible] = null;
         }
 
         promotionDame(destination);
 
-        String mouvement = String.valueOf(positionPion + typeMouvement + destination);
+        boolean inclureParanthese = getPion(destination).getCouleur() == Pion.Couleur.NOIR;
+        char typeMouvement = estUnePrise ? 'x' : '-';
+        StringBuilder stringBuilder = new StringBuilder();
 
-        return getPion(destination).getCouleur() == Pion.Couleur.BLANC ? mouvement : "(" + mouvement + ")";
+        if (inclureParanthese) {
+            stringBuilder.append("(");
+        }
+
+        stringBuilder.append(positionPion).append(typeMouvement).append(destination);
+
+        if (inclureParanthese) {
+            stringBuilder.append(")");
+        }
+
+        historique.push(stringBuilder.toString());
     }
 
     private void promotionDame(int position) {
@@ -264,7 +307,6 @@ public class Damier {
         }
     }
 
-    // Maybe here?
     private void verifierPrises(List<Integer>[] deplacementsPossibles, Pion pion,
                                 List<Integer> deplacementsAvecPrises) {
 
@@ -290,5 +332,7 @@ public class Damier {
      */
     public Damier() {
         cases = new Pion[50];
+        historique = new Stack<>();
+        morts = new Stack<>();
     }
 }
