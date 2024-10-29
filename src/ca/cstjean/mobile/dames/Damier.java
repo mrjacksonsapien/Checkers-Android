@@ -53,7 +53,7 @@ public class Damier {
         if (position < 1 || position > 50) {
             throw new ArrayIndexOutOfBoundsException("Cette position n'est pas valide.");
         }
-        if (cases[position] == null) {
+        if (cases[position - 1] == null) {
             throw new NullPointerException("Il n'y a aucun pion à cette case.");
         }
     }
@@ -222,23 +222,27 @@ public class Damier {
 
         char typeMouvement;
 
-        if (!deplacementAvecPrise(positionPion).isEmpty()) {
+        boolean estUnePrise = !deplacementAvecPrise(positionPion).isEmpty();
+
+        if (estUnePrise) {
             typeMouvement = 'x';
-
-            List<Integer>[] directions = deplacementsPossibleSansLimite(destination);
-
-            for (List<Integer> direction: directions) {
-                if (direction.contains(positionPion)) {
-                    cases[direction.getFirst()] = null;
-                    break;
-                }
-            }
         } else {
             typeMouvement = '-';
         }
 
         cases[destination - 1] = cases[positionPion - 1];
         cases[positionPion - 1] = null;
+
+        if (estUnePrise) {
+            List<Integer>[] directions = deplacementsPossibleSansLimite(destination);
+
+            for (List<Integer> direction: directions) {
+                if (direction.contains(positionPion)) {
+                    cases[direction.getFirst() - 1] = null;
+                    break;
+                }
+            }
+        }
 
         promotionDame(destination);
 
@@ -263,6 +267,7 @@ public class Damier {
     // Maybe here?
     private void verifierPrises(List<Integer>[] deplacementsPossibles, Pion pion,
                                 List<Integer> deplacementsAvecPrises) {
+
         for (List<Integer> deplacement : deplacementsPossibles) {
             for (int i = 0; i < deplacement.size() - 1; i++) {
                 int cible = deplacement.get(i);

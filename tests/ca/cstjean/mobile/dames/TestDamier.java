@@ -1,5 +1,6 @@
 package ca.cstjean.mobile.dames;
 
+import ca.cstjean.mobile.dames.pions.Dame;
 import ca.cstjean.mobile.dames.pions.Pion;
 import junit.framework.TestCase;
 import org.junit.Assert;
@@ -55,7 +56,17 @@ public class TestDamier extends TestCase {
         Graphiques graphiques = new Graphiques();
         damier.initialiser();
         System.out.println(graphiques.getRepresentation(damier));
-        damier.deplacerPion(17, 28);
+        damier.deplacerPion(17, 22);
+        System.out.println(graphiques.getRepresentation(damier));
+    }
+
+    public void testPriseValide() {
+        Graphiques graphiques = new Graphiques();
+        damier.ajouterPion(23, new Pion(Pion.Couleur.NOIR));
+        damier.ajouterPion(28, new Pion());
+
+        System.out.println(graphiques.getRepresentation(damier));
+        damier.deplacerPion(23, 32);
         System.out.println(graphiques.getRepresentation(damier));
     }
 }
