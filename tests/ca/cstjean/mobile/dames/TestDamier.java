@@ -1,5 +1,7 @@
 package ca.cstjean.mobile.dames;
 
+import static org.junit.Assert.assertThrows;
+
 import ca.cstjean.mobile.dames.pions.Dame;
 import ca.cstjean.mobile.dames.pions.Pion;
 import junit.framework.TestCase;
@@ -29,7 +31,6 @@ public class TestDamier extends TestCase {
      * Méthode pour tester la création du damier.
      */
     public void testCreer() {
-
         Pion pionBlanc = new Pion();
         damier.ajouterPion(38, pionBlanc);
         Assert.assertEquals(pionBlanc, damier.getPion(38));
@@ -103,6 +104,9 @@ public class TestDamier extends TestCase {
         Graphiques graphiques = new Graphiques();
         damier.ajouterPion(10, new Pion());
         System.out.println(graphiques.getRepresentation(damier));
+        assertThrows(NullPointerException.class, () -> {
+            damier.deplacerPion(4, 10);
+        });
         damier.deplacerPion(10, 4);
         System.out.println(graphiques.getRepresentation(damier));
     }
@@ -114,6 +118,9 @@ public class TestDamier extends TestCase {
         Graphiques graphiques = new Graphiques();
         damier.ajouterPion(44, new Pion(Pion.Couleur.NOIR));
         System.out.println(graphiques.getRepresentation(damier));
+        assertThrows(NullPointerException.class, () -> {
+            damier.deplacerPion(50, 44);
+        });
         damier.deplacerPion(44, 50);
         System.out.println(graphiques.getRepresentation(damier));
     }
