@@ -126,9 +126,9 @@ public class TestDamier extends TestCase {
     }
 
     /**
-     * Méthode pour tester le retour en arrière utilisant l'historique des déplacements.
+     * Premier test sur le retour en arrière utilisant l'historique des déplacements.
      */
-    public void testRetourEnArriere() {
+    public void testRetourEnArriere1() {
         Graphiques graphiques = new Graphiques();
         damier.initialiser();
         System.out.println(graphiques.getRepresentation(damier));
@@ -143,5 +143,25 @@ public class TestDamier extends TestCase {
 
         damier.retournerEnArriere();
         System.out.println(graphiques.getRepresentation(damier));
+    }
+
+    /**
+     * Deuxième test sur le retour en arrière utilisant l'historique des déplacements.
+     */
+    public void testRetourEnArriere2() {
+        Pion pionBlanc = new Pion();
+        damier.ajouterPion(27, pionBlanc);
+        Pion pionNoir = new Pion(Pion.Couleur.NOIR);
+        damier.ajouterPion(22, pionNoir);
+        damier.deplacerPion(27, 18);
+
+        assertNull(damier.getPion(22));
+        assertNull(damier.getPion(27));
+        assertEquals(pionBlanc, damier.getPion(18));
+
+        damier.retournerEnArriere();
+
+        assertEquals(pionNoir, damier.getPion(22));
+        assertEquals(pionBlanc, damier.getPion(27));
     }
 }

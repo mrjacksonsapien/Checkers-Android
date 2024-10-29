@@ -22,7 +22,7 @@ public class TestJeu extends TestCase {
      */
     public void setUp() {
         Damier damier = new Damier();
-        jeu = new Jeu(damier);
+        jeu = new Jeu(damier, true);
     }
 
     /**
@@ -113,5 +113,16 @@ public class TestJeu extends TestCase {
         boolean tourAvantDeplacement = jeu.getTourJoueur1();
         jeu.deplacerPion(33, 29);
         assertEquals(tourAvantDeplacement, !jeu.getTourJoueur1());
+    }
+
+    /**
+     * Méthode pour tester quand la partie est terminé.
+     */
+    public void testTermine() {
+        assertTrue(jeu.estTerminee());
+        jeu.getDamier().ajouterPion(48, new Pion());
+        jeu.commencer();
+        jeu.deplacerPion(48, 42);
+        assertTrue(jeu.estTerminee());
     }
 }

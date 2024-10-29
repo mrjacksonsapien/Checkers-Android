@@ -24,6 +24,8 @@ public class Jeu {
      */
     private boolean commence;
 
+    private boolean debug;
+
     public Damier getDamier() {
         return damier;
     }
@@ -76,8 +78,9 @@ public class Jeu {
      * Méthode pour commencer la partie.
      */
     public void commencer() {
-        if (!commence && damierEstAdequat()) {
+        if (!commence && (damierEstAdequat() || debug)) {
             commence = true;
+            tourJoueur1 = true;
         }
     }
 
@@ -117,7 +120,7 @@ public class Jeu {
      * @return True si la partie est terminée, false sinon.
      */
     public boolean estTerminee() {
-        if (damier.getNbPions() == 1) {
+        if (damier.getNbPions() <= 1) {
             return true;
         }
 
@@ -135,10 +138,11 @@ public class Jeu {
      *
      * @param damier Le damier.
      */
-    public Jeu(Damier damier) {
+    public Jeu(Damier damier, boolean debug) {
         this.damier = damier;
         tourJoueur1 = true;
         commence = false;
+        this.debug = debug;
     }
 
     public boolean getTourJoueur1() {

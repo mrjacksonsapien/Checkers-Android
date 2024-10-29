@@ -33,7 +33,6 @@ public class Damier {
     /**
      * Méthode pour effectuer un retour en arrière d'un état de jeu.
      */
-    // TODO: Ne fonctionne pas dans les tests, mais marche avec debugger.
     public void retournerEnArriere() {
         Pattern pattern = Pattern.compile("^\\(?(\\d{1,2})([x-])(\\d{1,2})\\)?$");
         Matcher matcher = pattern.matcher(historique.pop());
@@ -49,21 +48,22 @@ public class Damier {
                 cases[cible] = pion;
             }
 
-            cases[origine] = cases[destination];
-            cases[destination] = null;
+            cases[origine - 1] = cases[destination - 1];
+            cases[destination - 1] = null;
         }
     }
 
     private int getPositionCible(int origine, int destination) {
         List<Integer>[] directions = deplacementsPossibleSansLimite(destination);
+        int positionCible = -1;
 
         for (List<Integer> direction : directions) {
             if (direction.contains(origine)) {
-                return direction.getFirst() - 1;
+                positionCible = direction.getFirst() - 1;
             }
         }
 
-        return -1;
+        return positionCible;
     }
 
     /**
@@ -300,10 +300,6 @@ public class Damier {
     }
 
     private void promotionDame(int position) {
-        if (getPion(position) == null) {
-            throw new NullPointerException("Il n'y a aucun pion à cette case.");
-        }
-
         Pion pion = getPion(position);
 
         if ((pion.getCouleur() == Pion.Couleur.BLANC && position <= 5) ||
