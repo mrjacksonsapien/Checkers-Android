@@ -30,6 +30,7 @@ public class Damier {
      */
     private Stack<Pion> morts;
 
+    // TODO: Voir si de besoin, si oui, doit tester, sinon, à supprimer
     public Pion[] getCases() {
         return cases.clone();
     }

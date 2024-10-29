@@ -1,5 +1,6 @@
 package ca.cstjean.mobile.dames;
 
+import ca.cstjean.mobile.dames.pions.Pion;
 import junit.framework.TestCase;
 
 /**
@@ -45,5 +46,14 @@ public class TestJeu extends TestCase {
         jeu.getDamier().initialiser();
         jeu.deplacerPion(31, 26);
         assertNull(jeu.getDamier().getPion(26));
+    }
+
+    /**
+     * Méthode pour tester si la partie est terminée.
+     */
+    public void testPartieTerminee() {
+        jeu.getDamier().ajouterPion(21, new Pion());
+        assertTrue(jeu.estTerminee());
+
     }
 }
