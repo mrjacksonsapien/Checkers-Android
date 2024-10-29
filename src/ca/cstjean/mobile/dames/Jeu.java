@@ -21,6 +21,9 @@ public class Jeu {
      */
     private boolean tourJoueur1;
 
+    /**
+     * Historique du jeu.
+     */
     private Stack<String> historique;
 
     /**
@@ -38,10 +41,6 @@ public class Jeu {
         } else {
             return false;
         }
-    }
-
-    public Damier getDamier() {
-        return damier;
     }
 
     /**
@@ -78,15 +77,43 @@ public class Jeu {
         damier.initialiser();
     }
 
-    /**
-     * Méthode pour changer le tour du joueur.
-     */
-    public void changerTour() {
-        tourJoueur1 = !tourJoueur1;
+    public void deplacerPion(int origine, int destination) {
+        Pion.Couleur couleurQuiJoue = tourJoueur1 ? Pion.Couleur.BLANC : Pion.Couleur.NOIR;
+        Pion pion = damier.getPion(origine);
+
+        if (pion == null) {
+            throw new NullPointerException("La position d'origine ne contient pas de pion.");
+        }
+        if (pion.getCouleur() != couleurQuiJoue) {
+            throw new IllegalArgumentException("Le pion choisi ne fait pas parti de la couleurs choisi.");
+        }
     }
 
-    public boolean getTourJoueur() {
-        return tourJoueur1;
+    public void retournerEnArriere() {
+
+    }
+
+    public Pion[] getInfoDamier() {
+        return damier.getCases();
+    }
+
+    /**
+     * Méthode pour vérifier si la partie est terminée ou non.
+     *
+     * @return True si la partie est terminée, false sinon.
+     */
+    public boolean estTerminee() {
+        if (damier.getNbPions() == 1) {
+            return true;
+        }
+
+        for (int caseDamier = 1; caseDamier <= 50; caseDamier++) {
+            Pion pion = damier.getPion(caseDamier);
+            if (pion != null && !damier.deplacements(caseDamier).isEmpty()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

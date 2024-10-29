@@ -278,25 +278,6 @@ public class Damier {
     }
 
     /**
-     * Méthode pour vérifier si la partie est terminée ou non.
-     *
-     * @return True si la partie est terminée, false sinon.
-     */
-    public boolean estTerminee() {
-        if (getNbPions() == 1) {
-            return true;
-        }
-
-        for (int caseDamier = 1; caseDamier <= 50; caseDamier++) {
-            Pion pion = getPion(caseDamier);
-            if (pion != null && !deplacementsSansPrise(caseDamier).isEmpty()) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
      * Constructeur du damier.
      */
     public Damier() {
