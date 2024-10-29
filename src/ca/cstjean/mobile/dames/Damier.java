@@ -94,7 +94,7 @@ public class Damier {
         return pion;
     }
 
-    private void verifiePositionPion(int position) {
+    public void verifiePositionPion(int position) {
         if (position < 1 || position > 50) {
             throw new ArrayIndexOutOfBoundsException("Cette position n'est pas valide.");
         }

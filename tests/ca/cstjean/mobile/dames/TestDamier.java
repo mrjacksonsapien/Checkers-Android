@@ -164,4 +164,13 @@ public class TestDamier extends TestCase {
         assertEquals(pionNoir, damier.getPion(22));
         assertEquals(pionBlanc, damier.getPion(27));
     }
+
+    /**
+     * Méthode pour tester la position d'un pion.
+     */
+    public void testPosition() {
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+            damier.verifiePositionPion(51);
+        });
+    }
 }

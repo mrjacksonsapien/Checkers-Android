@@ -123,17 +123,20 @@ public class Jeu {
      * @return True si la partie est terminée, false sinon.
      */
     public boolean estTerminee() {
-        if (damier.getNbPions() <= 1) {
-            return true;
-        }
+        boolean terminee = true;
 
         for (int caseDamier = 1; caseDamier <= 50; caseDamier++) {
             Pion pion = damier.getPion(caseDamier);
             if (pion != null && !damier.deplacements(caseDamier).isEmpty()) {
-                return false;
+                terminee = false;
             }
         }
-        return true;
+
+        if (damier.getNbPions() <= 1) {
+            terminee = true;
+        }
+
+        return terminee;
     }
 
     /**
