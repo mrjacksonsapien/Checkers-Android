@@ -30,13 +30,20 @@ public class TestJeu extends TestCase {
         assertTrue(jeu.damierEstAdequat());
     }
 
+    /**
+     * Méthode testant une position inadéquate.
+     */
     public void testPositionInadequate() {
         jeu.commencer();
         assertFalse(jeu.damierEstAdequat());
     }
 
+    /**
+     * Méthode testant le déplacement d'un pion.
+     */
     public void testDeplacerPion() {
         jeu.getDamier().initialiser();
         jeu.deplacerPion(31, 26);
+        assertNull(jeu.getDamier().getPion(26));
     }
 }

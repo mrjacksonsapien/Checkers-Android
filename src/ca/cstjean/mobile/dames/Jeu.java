@@ -19,6 +19,9 @@ public class Jeu {
      */
     private boolean tourJoueur1;
 
+    /**
+     * Si la partie est commencé ou non.
+     */
     private boolean commence;
 
     public Damier getDamier() {
@@ -69,12 +72,21 @@ public class Jeu {
         return true;
     }
 
+    /**
+     * Méthode pour commencer la partie.
+     */
     public void commencer() {
         if (!commence && damierEstAdequat()) {
             commence = true;
         }
     }
 
+    /**
+     * Méthode pour déplacer un pion ou une dame.
+     *
+     * @param origine Position d'origine du pion ou de la dame.
+     * @param destination Destination du pion ou de la dame.
+     */
     public void deplacerPion(int origine, int destination) {
         if (commence) {
             Pion.Couleur couleurQuiJoue = tourJoueur1 ? Pion.Couleur.BLANC : Pion.Couleur.NOIR;

@@ -2,8 +2,6 @@ package ca.cstjean.mobile.dames;
 
 import ca.cstjean.mobile.dames.pions.Pion;
 
-import java.util.List;
-
 /**
  * Permet la représentation graphique du damier.
  *

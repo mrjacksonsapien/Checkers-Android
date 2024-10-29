@@ -5,8 +5,6 @@ import ca.cstjean.mobile.dames.pions.Pion;
 import junit.framework.TestCase;
 import org.junit.Assert;
 
-import java.util.Arrays;
-
 /**
  * Test la classe Damier.
  *
@@ -51,7 +49,10 @@ public class TestDamier extends TestCase {
         Assert.assertEquals(40, damier.getNbPions());
     }
 
-    public void testDeplacementValide() {
+    /**
+     * Méthode pour tester le déplacement valide d'un pion.
+     */
+    public void testDeplacementValidePion() {
         Graphiques graphiques = new Graphiques();
         damier.initialiser();
         System.out.println(graphiques.getRepresentation(damier));
@@ -59,6 +60,32 @@ public class TestDamier extends TestCase {
         System.out.println(graphiques.getRepresentation(damier));
     }
 
+    /**
+     * Méthode pour tester un déplacement non valide d'une dame.
+     */
+    public void testDeplacementInvalideDame() {
+        Graphiques graphiques = new Graphiques();
+        Dame dame = new Dame();
+        damier.ajouterPion(23, dame);
+        damier.deplacerPion(23, 37);
+        System.out.println(graphiques.getRepresentation(damier));
+        damier.ajouterPion(46, new Pion());
+        try {
+            damier.deplacerPion(37, 46);
+        } catch (Exception e) {
+            assertEquals(dame, damier.getPion(37));
+        }
+
+        try {
+            damier.deplacerPion(37, 51);
+        } catch (Exception e) {
+            assertEquals(dame, damier.getPion(37));
+        }
+    }
+
+    /**
+     * Méthode pour tester une prise valide.
+     */
     public void testPriseValide() {
         Graphiques graphiques = new Graphiques();
         damier.ajouterPion(23, new Pion(Pion.Couleur.NOIR));
@@ -69,6 +96,9 @@ public class TestDamier extends TestCase {
         System.out.println(graphiques.getRepresentation(damier));
     }
 
+    /**
+     * Méthode pour tester la promotion d'un pion blanc en dame.
+     */
     public void testPromotionEnDameBlanc() {
         Graphiques graphiques = new Graphiques();
         damier.ajouterPion(10, new Pion());
@@ -77,6 +107,9 @@ public class TestDamier extends TestCase {
         System.out.println(graphiques.getRepresentation(damier));
     }
 
+    /**
+     * Méthode pour tester la promotion d'un pion noir en dame.
+     */
     public void testPromotionEnDameNoire() {
         Graphiques graphiques = new Graphiques();
         damier.ajouterPion(44, new Pion(Pion.Couleur.NOIR));
@@ -85,6 +118,9 @@ public class TestDamier extends TestCase {
         System.out.println(graphiques.getRepresentation(damier));
     }
 
+    /**
+     * Méthode pour tester le retour en arrière utilisant l'historique des déplacements.
+     */
     public void testRetourEnArriere() {
         Graphiques graphiques = new Graphiques();
         damier.initialiser();

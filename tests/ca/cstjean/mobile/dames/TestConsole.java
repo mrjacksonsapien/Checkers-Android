@@ -1,7 +1,5 @@
 package ca.cstjean.mobile.dames;
 
-import ca.cstjean.mobile.dames.pions.Pion;
-import java.util.List;
 import junit.framework.TestCase;
 import org.junit.Assert;
 

@@ -34,6 +34,9 @@ public class Damier {
         return cases.clone();
     }
 
+    /**
+     * Méthode pour effectuer un retour en arrière d'un état de jeu.
+     */
     // TODO: Ne fonctionne pas dans les tests, mais marche avec debugger.
     public void retournerEnArriere() {
         Pattern pattern = Pattern.compile("^\\(?(\\d{1,2})([x-])(\\d{1,2})\\)?$");
@@ -58,7 +61,7 @@ public class Damier {
     private int getPositionCible(int origine, int destination) {
         List<Integer>[] directions = deplacementsPossibleSansLimite(destination);
 
-        for (List<Integer> direction: directions) {
+        for (List<Integer> direction : directions) {
             if (direction.contains(origine)) {
                 return direction.getFirst() - 1;
             }
@@ -221,6 +224,12 @@ public class Damier {
         return deplacements;
     }
 
+    /**
+     * Méthode retournant la liste des déplacements valides avec prise.
+     *
+     * @param position La position de la pièce.
+     * @return Liste des déplacements valides.
+     */
     public List<Integer> deplacementAvecPrise(int position) {
         verifiePositionPion(position);
 
@@ -237,8 +246,8 @@ public class Damier {
      * Retourne les positions possibles où le pion à la position donné peut se déplacer.
      *
      * @param position Position d'une qui contient un pion.
-     * @return Les positions où le pion peut se déplacer. Si il est possible de faire une prise
-     * le tableau contiendra une seule position.
+     * @return Les positions où le pion peut se déplacer. Si il est possible de faire une prise le tableau
+     *      contiendra une seule position.
      */
     public List<Integer> deplacements(int position) {
         verifiePositionPion(position);
