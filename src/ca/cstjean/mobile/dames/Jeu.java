@@ -140,4 +140,8 @@ public class Jeu {
         tourJoueur1 = true;
         commence = false;
     }
+
+    public boolean getTourJoueur1() {
+        return tourJoueur1;
+    }
 }
