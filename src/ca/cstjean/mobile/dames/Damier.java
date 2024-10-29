@@ -168,7 +168,7 @@ public class Damier {
     }
 
     // Maybe here?
-    private List<Integer> deplacementAvecPrise(int position) {
+    public List<Integer> deplacementAvecPrise(int position) {
         verifiePositionPion(position);
 
         Pion pion = getPion(position);

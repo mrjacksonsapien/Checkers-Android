@@ -24,7 +24,7 @@ public class Graphiques {
                 if (i % 2 == 0) {
                     sb.append("-").append(getRepresentationPion(damier, (i * 5) + j));
                 } else {
-                    sb.append(getRepresentationPion(damier, ((i * 5) - 5) + j)).append("-");
+                    sb.append(getRepresentationPion(damier, (i * 5) + j)).append("-");
                 }
             }
             sb.append("\n");

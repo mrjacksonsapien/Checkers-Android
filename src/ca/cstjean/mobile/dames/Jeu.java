@@ -77,7 +77,7 @@ public class Jeu {
         damier.initialiser();
     }
 
-    public void deplacerPion(int origine, int destination) {
+    private void deplacerPion(int origine, int destination) {
         Pion.Couleur couleurQuiJoue = tourJoueur1 ? Pion.Couleur.BLANC : Pion.Couleur.NOIR;
         Pion pion = damier.getPion(origine);
 
@@ -88,15 +88,7 @@ public class Jeu {
             throw new IllegalArgumentException("Le pion choisi n'est pas de la bonne couleur.");
         }
 
-
-    }
-
-    public void retournerEnArriere() {
-
-    }
-
-    public Pion[] getInfoDamier() {
-        return damier.getCases();
+        historique.push(damier.deplacerPion(origine, destination));
     }
 
     /**
