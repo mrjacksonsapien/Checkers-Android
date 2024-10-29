@@ -54,8 +54,6 @@ public class TestDamier extends TestCase {
     public void testDeplacementValide() {
         damier.initialiser();
         Graphiques graph = new Graphiques();
-        System.out.println(graph.getRepresentation(damier));
-        damier.deplacerPion(31, 26);
-        System.out.println(graph.getRepresentation(damier));
+        System.out.println(graph.getRepresentation(damier, 31));
     }
 }
