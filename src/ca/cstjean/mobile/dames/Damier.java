@@ -164,9 +164,11 @@ public class Damier {
                 for (Integer deplacement : deplacementsPossibles[i]) {
                     if (getPion(deplacement) == null && getPion(position).getCouleur() == Pion.Couleur.BLANC && i < 2) {
                         deplacements.add(deplacement);
+                        break;
                     } else if (getPion(deplacement) == null && getPion(position).getCouleur() == Pion.Couleur.NOIR &&
                             i > 1) {
                         deplacements.add(deplacement);
+                        break;
                     }
                 }
             }
