@@ -254,24 +254,18 @@ public class Damier {
     // Maybe here?
     private void verifierPrises(List<Integer>[] deplacementsPossibles, Pion pion,
                                 List<Integer> deplacementsAvecPrises) {
-        for (List<Integer> direction : deplacementsPossibles) {
-            for (int i = 0; i < direction.size() - 1; i++) {
-                Integer cible = direction.get(i);
-                Integer caseSuivante = direction.get(i + 1);
+        for (List<Integer> deplacement : deplacementsPossibles) {
+            for (int i = 0; i < deplacement.size(); i++) {
+                int cible = deplacement.get(i);
+                int caseSuivante = deplacement.get(i + 1);
 
-                if (getPion(cible) != null && getPion(cible).getCouleur() != pion.getCouleur() &&
+                if (pion instanceof Dame && getPion(cible) == null) {
+                    continue;
+                }
+
+                if (getPion(cible) != null && pion.getCouleur() != getPion(cible).getCouleur() &&
                         getPion(caseSuivante) == null) {
                     deplacementsAvecPrises.add(caseSuivante);
-                    if (pion instanceof Dame) {
-                        for (int j = i + 2; j < direction.size(); j++) {
-                            Integer caseLibre = direction.get(j);
-                            if (getPion(caseLibre) == null) {
-                                deplacementsAvecPrises.add(caseLibre);
-                            } else {
-                                break;
-                            }
-                        }
-                    }
                 }
             }
         }

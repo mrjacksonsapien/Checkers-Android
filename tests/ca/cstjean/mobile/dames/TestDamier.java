@@ -48,4 +48,10 @@ public class TestDamier extends TestCase {
 
         Assert.assertEquals(40, damier.getNbPions());
     }
+
+    public void testDeplacementValide() {
+        damier.initialiser();
+
+        damier.de
+    }
 }
