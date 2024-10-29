@@ -85,8 +85,10 @@ public class Jeu {
             throw new NullPointerException("La position d'origine ne contient pas de pion.");
         }
         if (pion.getCouleur() != couleurQuiJoue) {
-            throw new IllegalArgumentException("Le pion choisi ne fait pas parti de la couleurs choisi.");
+            throw new IllegalArgumentException("Le pion choisi n'est pas de la bonne couleur.");
         }
+
+
     }
 
     public void retournerEnArriere() {
