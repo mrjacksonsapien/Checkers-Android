@@ -30,11 +30,6 @@ public class Damier {
      */
     private Stack<Pion> morts;
 
-    // TODO: Voir si de besoin, si oui, doit tester, sinon, à supprimer
-    public Pion[] getCases() {
-        return cases.clone();
-    }
-
     /**
      * Méthode pour effectuer un retour en arrière d'un état de jeu.
      */
