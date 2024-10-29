@@ -24,6 +24,9 @@ public class Jeu {
      */
     private boolean commence;
 
+    /**
+     * Pour le débugage.
+     */
     private boolean debug;
 
     public Damier getDamier() {
@@ -137,6 +140,7 @@ public class Jeu {
      * Constructeur.
      *
      * @param damier Le damier.
+     * @param debug Si on est en debugage.
      */
     public Jeu(Damier damier, boolean debug) {
         this.damier = damier;
