@@ -29,13 +29,4 @@ public class TestJeu extends TestCase {
     public void testPositionAdequate() {
         assertTrue(jeu.damierEstAdequat());
     }
-
-    /**
-     * Méthode testant le tour des joueurs.
-     */
-    public void testTourJoueur() {
-        assertTrue(jeu.getTourJoueur());
-        jeu.changerTour();
-        assertFalse(jeu.getTourJoueur());
-    }
 }

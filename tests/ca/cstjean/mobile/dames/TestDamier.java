@@ -4,6 +4,8 @@ import ca.cstjean.mobile.dames.pions.Pion;
 import junit.framework.TestCase;
 import org.junit.Assert;
 
+import java.util.Arrays;
+
 /**
  * Test la classe Damier.
  *
@@ -51,7 +53,9 @@ public class TestDamier extends TestCase {
 
     public void testDeplacementValide() {
         damier.initialiser();
-
-        damier.de
+        Graphiques graph = new Graphiques();
+        System.out.println(graph.getRepresentation(damier));
+        damier.deplacerPion(31, 26);
+        System.out.println(graph.getRepresentation(damier));
     }
 }

@@ -235,7 +235,7 @@ public class Damier {
 
         String mouvement = String.valueOf(positionPion + typeMouvement + destination);
 
-        return getPion(positionPion).getCouleur() == Pion.Couleur.BLANC ? mouvement : "(" + mouvement + ")";
+        return getPion(destination).getCouleur() == Pion.Couleur.BLANC ? mouvement : "(" + mouvement + ")";
     }
 
     private void promotionDame(int position) {
@@ -255,7 +255,7 @@ public class Damier {
     private void verifierPrises(List<Integer>[] deplacementsPossibles, Pion pion,
                                 List<Integer> deplacementsAvecPrises) {
         for (List<Integer> deplacement : deplacementsPossibles) {
-            for (int i = 0; i < deplacement.size(); i++) {
+            for (int i = 0; i < deplacement.size() - 1; i++) {
                 int cible = deplacement.get(i);
                 int caseSuivante = deplacement.get(i + 1);
 
