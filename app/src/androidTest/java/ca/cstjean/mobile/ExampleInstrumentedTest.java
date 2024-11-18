@@ -1,4 +1,4 @@
-package com.example.tp_dame_android;
+package ca.cstjean.mobile;
 
 import android.content.Context;
 

@@ -1,8 +1,10 @@
-package com.example.tp_dame_android;
+package ca.cstjean.mobile.dames;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.tp_dame_android.R;
 
 public class MainActivity extends AppCompatActivity {
 
