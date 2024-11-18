@@ -12,7 +12,7 @@ public class Jeu {
     /**
      * Le damier.
      */
-    private Damier damier;
+    private final Damier damier;
 
     /**
      * Le tour du joueur.
@@ -27,7 +27,7 @@ public class Jeu {
     /**
      * Pour le débugage.
      */
-    private boolean debug;
+    private final boolean debug;
 
     public Damier getDamier() {
         return damier;

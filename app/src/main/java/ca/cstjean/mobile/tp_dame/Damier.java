@@ -23,12 +23,12 @@ public class Damier {
     /**
      * Historique des mouvements jeu.
      */
-    private Stack<String> historique;
+    private final Stack<String> historique;
 
     /**
      * Historique des pions morts.
      */
-    private Stack<Pion> morts;
+    private final Stack<Pion> morts;
 
     /**
      * Méthode pour effectuer un retour en arrière d'un état de jeu.
