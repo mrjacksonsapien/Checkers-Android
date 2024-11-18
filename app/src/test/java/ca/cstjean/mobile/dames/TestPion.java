@@ -1,7 +1,10 @@
 package ca.cstjean.mobile.dames;
 
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+
 import ca.cstjean.mobile.dames.pions.Pion;
-import junit.framework.TestCase;
 
 /**
  * Test la classe Pion.
@@ -9,10 +12,11 @@ import junit.framework.TestCase;
  * @author Martin Soltan
  * @author Tommy Desjardins
  */
-public class TestPion extends TestCase {
+public class TestPion {
     /**
      * Test la valeur de la couleur assigné aux pions.
      */
+    @Test
     public void testCreer() {
         Pion pionNoir = new Pion(Pion.Couleur.NOIR);
         Pion pionBlanc = new Pion();

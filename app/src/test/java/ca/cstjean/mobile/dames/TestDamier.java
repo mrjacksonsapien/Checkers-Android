@@ -1,11 +1,13 @@
 package ca.cstjean.mobile.dames;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 
 import ca.cstjean.mobile.dames.pions.Dame;
 import ca.cstjean.mobile.dames.pions.Pion;
-import junit.framework.TestCase;
-import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Test la classe Damier.
@@ -13,7 +15,7 @@ import org.junit.Assert;
  * @author Martin Soltan
  * @author Tommy Desjardins
  */
-public class TestDamier extends TestCase {
+public class TestDamier {
 
     /**
      * Le damier.
@@ -23,6 +25,7 @@ public class TestDamier extends TestCase {
     /**
      * Créer le damier avant de débuter les tests.
      */
+    @Before
     public void setUp() {
         damier = new Damier();
     }
@@ -30,29 +33,32 @@ public class TestDamier extends TestCase {
     /**
      * Méthode pour tester la création du damier.
      */
+    @Test
     public void testCreer() {
         Pion pionBlanc = new Pion();
         damier.ajouterPion(38, pionBlanc);
-        Assert.assertEquals(pionBlanc, damier.getPion(38));
-        Assert.assertEquals(1, damier.getNbPions());
+        assertEquals(pionBlanc, damier.getPion(38));
+        assertEquals(1, damier.getNbPions());
 
         Pion pionNoir = new Pion(Pion.Couleur.NOIR);
         damier.ajouterPion(50, pionNoir);
-        Assert.assertEquals(2, damier.getNbPions());
-        Assert.assertNull(damier.getPion(-1));
+        assertEquals(2, damier.getNbPions());
+        assertNull(damier.getPion(-1));
     }
 
     /**
      * Méthode pour tester l'initialisation du damier.
      */
+    @Test
     public void testInitialiser() {
         damier.initialiser();
-        Assert.assertEquals(40, damier.getNbPions());
+        assertEquals(40, damier.getNbPions());
     }
 
     /**
      * Méthode pour tester le déplacement valide d'un pion.
      */
+    @Test
     public void testDeplacementValidePion() {
         Graphiques graphiques = new Graphiques();
         damier.initialiser();
@@ -64,6 +70,7 @@ public class TestDamier extends TestCase {
     /**
      * Méthode pour tester un déplacement non valide d'une dame.
      */
+    @Test
     public void testDeplacementInvalideDame() {
         Graphiques graphiques = new Graphiques();
         Dame dame = new Dame();
@@ -87,6 +94,7 @@ public class TestDamier extends TestCase {
     /**
      * Méthode pour tester une prise valide.
      */
+    @Test
     public void testPriseValide() {
         Graphiques graphiques = new Graphiques();
         damier.ajouterPion(23, new Pion(Pion.Couleur.NOIR));
@@ -100,6 +108,7 @@ public class TestDamier extends TestCase {
     /**
      * Méthode pour tester la promotion d'un pion blanc en dame.
      */
+    @Test
     public void testPromotionEnDameBlanc() {
         Graphiques graphiques = new Graphiques();
         damier.ajouterPion(10, new Pion());
@@ -114,6 +123,7 @@ public class TestDamier extends TestCase {
     /**
      * Méthode pour tester la promotion d'un pion noir en dame.
      */
+    @Test
     public void testPromotionEnDameNoire() {
         Graphiques graphiques = new Graphiques();
         damier.ajouterPion(44, new Pion(Pion.Couleur.NOIR));
@@ -128,6 +138,7 @@ public class TestDamier extends TestCase {
     /**
      * Premier test sur le retour en arrière utilisant l'historique des déplacements.
      */
+    @Test
     public void testRetourEnArriere1() {
         Graphiques graphiques = new Graphiques();
         damier.initialiser();
@@ -148,6 +159,7 @@ public class TestDamier extends TestCase {
     /**
      * Deuxième test sur le retour en arrière utilisant l'historique des déplacements.
      */
+    @Test
     public void testRetourEnArriere2() {
         Pion pionBlanc = new Pion();
         damier.ajouterPion(27, pionBlanc);
@@ -168,6 +180,7 @@ public class TestDamier extends TestCase {
     /**
      * Méthode pour tester la position d'un pion.
      */
+    @Test
     public void testPosition() {
         assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
             damier.verifiePositionPion(51);

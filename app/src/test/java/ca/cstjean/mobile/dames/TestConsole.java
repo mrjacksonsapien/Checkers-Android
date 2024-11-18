@@ -1,7 +1,8 @@
 package ca.cstjean.mobile.dames;
 
-import junit.framework.TestCase;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Test la classe Graphique.
@@ -9,8 +10,7 @@ import org.junit.Assert;
  * @author Martin Soltan
  * @author Tommy Desjardins
  */
-public class TestConsole extends TestCase {
-
+public class TestConsole {
     /**
      * Le damier.
      */
@@ -24,6 +24,7 @@ public class TestConsole extends TestCase {
     /**
      * Créer le damier avant de débuter les tests.
      */
+    @Before
     public void setUp() {
         damier = new Damier();
         graphiques = new Graphiques();
@@ -32,6 +33,7 @@ public class TestConsole extends TestCase {
     /**
      * Méthode testant l'affichage du damier.
      */
+    @Test
     public void testAffichage() {
         damier.initialiser();
 

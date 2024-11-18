@@ -1,6 +1,7 @@
 package ca.cstjean.mobile.dames;
 
-import junit.framework.TestSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
 /**
  * Regroupe tous les tests dans une suite.
@@ -8,19 +9,14 @@ import junit.framework.TestSuite;
  * @author Martin Soltan
  * @author Tommy Desjardins
  */
+@RunWith(Suite.class)
+
+@Suite.SuiteClasses({
+    TestConsole.class,
+    TestDame.class,
+    TestDamier.class,
+    TestJeu.class,
+    TestPion.class
+})
 public class TestComplet {
-    /**
-     * Suite qui contient tous les tests.
-     *
-     * @return La suite des tests.
-     */
-    public static TestSuite suite() {
-        TestSuite suite = new TestSuite();
-        suite.addTestSuite(TestPion.class);
-        suite.addTestSuite(TestDamier.class);
-        suite.addTestSuite(TestConsole.class);
-        suite.addTestSuite(TestDame.class);
-        suite.addTestSuite(TestJeu.class);
-        return suite;
-    }
 }

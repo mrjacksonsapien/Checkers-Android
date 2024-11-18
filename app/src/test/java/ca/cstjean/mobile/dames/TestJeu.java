@@ -1,9 +1,15 @@
 package ca.cstjean.mobile.dames;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import ca.cstjean.mobile.dames.pions.Pion;
-import junit.framework.TestCase;
 
 /**
  * Classe de test du jeu.
@@ -11,7 +17,7 @@ import junit.framework.TestCase;
  * @author Martin Soltan
  * @author Tommy Desjardins
  */
-public class TestJeu extends TestCase {
+public class TestJeu {
     /**
      * Le jeu.
      */
@@ -20,6 +26,7 @@ public class TestJeu extends TestCase {
     /**
      * Méthode à effectuer avant les testes.
      */
+    @Before
     public void setUp() {
         Damier damier = new Damier();
         jeu = new Jeu(damier, true);
@@ -28,6 +35,7 @@ public class TestJeu extends TestCase {
     /**
      * Méthode testant la position adéquate.
      */
+    @Test
     public void testPositionAdequate() {
         jeu.getDamier().initialiser();
         assertTrue(jeu.damierEstAdequat());
@@ -36,6 +44,7 @@ public class TestJeu extends TestCase {
     /**
      * Méthode testant une position inadéquate.
      */
+    @Test
     public void testPositionInadequate() {
         jeu.commencer();
         assertFalse(jeu.damierEstAdequat());
@@ -44,6 +53,7 @@ public class TestJeu extends TestCase {
     /**
      * Méthode pour tester si un pion est au milieu lors de l'initialisation du damier.
      */
+    @Test
     public void testPositionMilieuInadequate() {
         jeu.getDamier().initialiser();
         assertTrue(jeu.damierEstAdequat());
@@ -54,6 +64,7 @@ public class TestJeu extends TestCase {
     /**
      * Méthode pour tester si un pion noir est initialiser du côté blanc.
      */
+    @Test
     public void testPositionBlancInadequate() {
         jeu.getDamier().initialiser();
         assertTrue(jeu.damierEstAdequat());
@@ -64,6 +75,7 @@ public class TestJeu extends TestCase {
     /**
      * Méthode de test débutant avec un damier adéquat pour vérifier que la partie n'est pas terminée.
      */
+    @Test
     public void testPartieNonTerminee() {
         jeu.getDamier().initialiser();
         jeu.commencer();
@@ -73,6 +85,7 @@ public class TestJeu extends TestCase {
     /**
      * Méthode testant le déplacement d'un pion.
      */
+    @Test
     public void testDeplacerPion() {
         jeu.getDamier().initialiser();
         jeu.deplacerPion(31, 26);
@@ -82,6 +95,7 @@ public class TestJeu extends TestCase {
     /**
      * Méthode pour tester si la partie est terminée.
      */
+    @Test
     public void testPartieTerminee() {
         jeu.getDamier().ajouterPion(21, new Pion());
         assertTrue(jeu.estTerminee());
@@ -90,6 +104,7 @@ public class TestJeu extends TestCase {
     /**
      * Méthode pour tester les exceptions du déplacement des pions.
      */
+    @Test
     public void testDeplacerPionException() {
         jeu.getDamier().initialiser();
         jeu.commencer();
@@ -106,6 +121,7 @@ public class TestJeu extends TestCase {
     /**
      * Méthode pour tester le changement de tour.
      */
+    @Test
     public void testChangementTourJoueur() {
         jeu.getDamier().initialiser();
         jeu.commencer();
@@ -118,6 +134,7 @@ public class TestJeu extends TestCase {
     /**
      * Méthode pour tester quand la partie est terminé.
      */
+    @Test
     public void testTermine() {
         assertTrue(jeu.estTerminee());
         jeu.getDamier().ajouterPion(48, new Pion());

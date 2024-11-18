@@ -59,7 +59,7 @@ public class Damier {
 
         for (List<Integer> direction : directions) {
             if (direction.contains(origine)) {
-                positionCible = direction.getFirst() - 1;
+                positionCible = direction.get(0) - 1;
             }
         }
 
