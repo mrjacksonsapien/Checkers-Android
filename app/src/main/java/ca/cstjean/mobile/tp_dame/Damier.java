@@ -1,7 +1,7 @@
-package ca.cstjean.mobile.dames;
+package ca.cstjean.mobile.tp_dame;
 
-import ca.cstjean.mobile.dames.pions.Dame;
-import ca.cstjean.mobile.dames.pions.Pion;
+import ca.cstjean.mobile.tp_dame.pions.Dame;
+import ca.cstjean.mobile.tp_dame.pions.Pion;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -94,6 +94,11 @@ public class Damier {
         return pion;
     }
 
+    /**
+     * Vérifie si il y a un pion à la position donné.
+     *
+     * @param position Position entre 1 et 50.
+     */
     public void verifiePositionPion(int position) {
         if (position < 1 || position > 50) {
             throw new ArrayIndexOutOfBoundsException("Cette position n'est pas valide.");

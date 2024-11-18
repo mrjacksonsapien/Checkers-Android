@@ -1,4 +1,4 @@
-package ca.cstjean.mobile;
+package ca.cstjean.mobile.tp_dame;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.tp_dame_android", appContext.getPackageName());
+        assertEquals("ca.cstjean.mobile.tp_dame", appContext.getPackageName());
     }
 }

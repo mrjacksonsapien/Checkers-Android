@@ -1,10 +1,9 @@
-package ca.cstjean.mobile.dames;
+package ca.cstjean.mobile.tp_dame;
 
 import static org.junit.Assert.assertEquals;
 
+import ca.cstjean.mobile.tp_dame.pions.Pion;
 import org.junit.Test;
-
-import ca.cstjean.mobile.dames.pions.Pion;
 
 /**
  * Test la classe Pion.

@@ -1,4 +1,4 @@
-package ca.cstjean.mobile.dames;
+package ca.cstjean.mobile.tp_dame;
 
 import org.junit.Assert;
 import org.junit.Before;

@@ -1,4 +1,4 @@
-package ca.cstjean.mobile.dames.pions;
+package ca.cstjean.mobile.tp_dame.pions;
 
 /**
  * Pion de dames.

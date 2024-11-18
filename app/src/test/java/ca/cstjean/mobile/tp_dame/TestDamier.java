@@ -1,11 +1,11 @@
-package ca.cstjean.mobile.dames;
+package ca.cstjean.mobile.tp_dame;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 
-import ca.cstjean.mobile.dames.pions.Dame;
-import ca.cstjean.mobile.dames.pions.Pion;
+import ca.cstjean.mobile.tp_dame.pions.Dame;
+import ca.cstjean.mobile.tp_dame.pions.Pion;
 import org.junit.Before;
 import org.junit.Test;
 

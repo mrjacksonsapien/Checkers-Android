@@ -1,6 +1,6 @@
-package ca.cstjean.mobile.dames;
+package ca.cstjean.mobile.tp_dame;
 
-import ca.cstjean.mobile.dames.pions.Pion;
+import ca.cstjean.mobile.tp_dame.pions.Pion;
 
 /**
  * Représente un jeu de dame incluant les règles.
