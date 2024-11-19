@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#C58C54</color>
-    <color name="white"> #F6CEA5</color>
+    <color name="case_noire">#C58C54</color>
+    <color name="case_blanche"> #F6CEA5</color>
 </resources>
