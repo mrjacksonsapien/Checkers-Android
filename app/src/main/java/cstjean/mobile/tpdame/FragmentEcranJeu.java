@@ -10,6 +10,10 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import cstjean.mobile.tpdame.pions.Dame;
 import cstjean.mobile.tpdame.pions.Pion;
 
@@ -20,6 +24,9 @@ import cstjean.mobile.tpdame.pions.Pion;
  */
 public class FragmentEcranJeu extends Fragment {
     private Integer pionSelectionne;
+    private List<Integer> mouvementsPossiblesPionSelectionne;
+    private Jeu jeu;
+    private View view;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,71 +36,96 @@ public class FragmentEcranJeu extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_ecran_jeu, container, false);
+        view = inflater.inflate(R.layout.fragment_ecran_jeu, container, false);
         GridLayout interfaceDamier = view.findViewById(R.id.damier);
 
-        Jeu jeu = new Jeu(new Damier(), false);
+        jeu = new Jeu(new Damier(), false);
         jeu.getDamier().initialiser();
 
         for (int i = 0; i < 10; i++) {
             for (int j = 1; j <= 5; j++) {
                 if (i % 2 == 0) {
                     inflater.inflate(R.layout.case_blanche, interfaceDamier);
-                    createCaseNoire(interfaceDamier, (i * 5) + j, inflater, jeu.getDamier());
+                    createCaseNoire(interfaceDamier, (i * 5) + j, inflater);
                 } else {
-                    createCaseNoire(interfaceDamier, (i * 5) + j, inflater, jeu.getDamier());
+                    createCaseNoire(interfaceDamier, (i * 5) + j, inflater);
 
                     inflater.inflate(R.layout.case_blanche, interfaceDamier);
                 }
             }
         }
 
-        rafraichirDamier(interfaceDamier, jeu.getDamier());
+        rafraichirDamier();
         pionSelectionne = null;
+        mouvementsPossiblesPionSelectionne = new ArrayList<>();
 
         return view;
     }
 
-    private void createCaseNoire(GridLayout interfaceDamier, int position, LayoutInflater inflater, Damier damier) {
+    private void createCaseNoire(GridLayout interfaceDamier, int position, LayoutInflater inflater) {
         Button caseNoire = (Button) inflater.inflate(R.layout.case_noire, interfaceDamier, false);
         caseNoire.setId(position);
         interfaceDamier.addView(caseNoire);
 
         caseNoire.setOnClickListener(v -> {
-            if (damier.getPion(position) != null) {
-                selectionnePion(position, interfaceDamier);
+            if (jeu.getDamier().getPion(position) != null) {
+                selectionnePion(position);
             }
         });
     }
 
-    private void selectionnePion(int position, GridLayout interfaceDamier) {
+    private void selectionnePion(int position) {
         if (pionSelectionne != null) {
-            Button dernierBouttonSelectionne = interfaceDamier.findViewById(pionSelectionne);
+            Button dernierBouttonSelectionne = view.findViewById(pionSelectionne);
             dernierBouttonSelectionne.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#C58C54")));
+            mouvementsPossibles(pionSelectionne, false);
         }
-        Button bouttonSelectionne = interfaceDamier.findViewById(position);
-        bouttonSelectionne.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FFDB4D")));
+        Button bouttonSelectionne = view.findViewById(position);
+        bouttonSelectionne.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#b7ff00")));
         pionSelectionne = position;
-        System.out.println(pionSelectionne);
+        mouvementsPossibles(position, true);
     }
 
-    private void rafraichirDamier(GridLayout interfaceDamier, Damier damier) {
-        for (int i = 1; i <= damier.getCasesClone().length; i++) {
-            Button boutton = interfaceDamier.findViewById(i);
-            Pion pion = damier.getPion(i);
+    private void mouvementsPossibles(int position, boolean montrer) {
+        mouvementsPossiblesPionSelectionne = jeu.getDamier().deplacements(position);
+
+        for (Integer positionPossible : mouvementsPossiblesPionSelectionne) {
+            Button boutton = view.findViewById(positionPossible);
+            if (montrer) {
+                boutton.setForeground(
+                        ContextCompat.getDrawable(view.getContext(), R.drawable.possibilite_case)
+                );
+            } else {
+                boutton.setForeground(null);
+            }
+        }
+    }
+
+    private void rafraichirDamier() {
+        for (int i = 1; i <= jeu.getDamier().getCasesClone().length; i++) {
+            Button boutton = view.findViewById(i);
+            Pion pion = jeu.getDamier().getPion(i);
 
             if (pion != null) {
                 if (pion instanceof Dame) {
                     if (pion.getCouleur() == Pion.Couleur.NOIR) {
-                        boutton.setForeground(ContextCompat.getDrawable(interfaceDamier.getContext(), R.drawable.dame_noire));
+                        boutton.setForeground(
+                                ContextCompat.getDrawable(view.getContext(), R.drawable.dame_noire)
+                        );
                     } else {
-                        boutton.setForeground(ContextCompat.getDrawable(interfaceDamier.getContext(), R.drawable.dame_blanche));
+                        boutton.setForeground(
+                                ContextCompat.getDrawable(view.getContext(), R.drawable.dame_blanche)
+                        );
                     }
                 } else {
                     if (pion.getCouleur() == Pion.Couleur.NOIR) {
-                        boutton.setForeground(ContextCompat.getDrawable(interfaceDamier.getContext(), R.drawable.pion_noir));
+                        boutton.setForeground(
+                                ContextCompat.getDrawable(view.getContext(), R.drawable.pion_noir)
+                        );
                     } else {
-                        boutton.setForeground(ContextCompat.getDrawable(interfaceDamier.getContext(), R.drawable.pion_blanc));
+                        boutton.setForeground(
+                                ContextCompat.getDrawable(view.getContext(), R.drawable.pion_blanc)
+                        );
                     }
                 }
             } else {
