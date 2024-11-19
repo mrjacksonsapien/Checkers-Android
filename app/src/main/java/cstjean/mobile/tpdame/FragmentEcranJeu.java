@@ -59,6 +59,8 @@ public class FragmentEcranJeu extends Fragment {
         pionSelectionne = null;
         mouvementsPossiblesPionSelectionne = new ArrayList<>();
 
+        jeu.commencer();
+
         return view;
     }
 
@@ -68,18 +70,32 @@ public class FragmentEcranJeu extends Fragment {
         interfaceDamier.addView(caseNoire);
 
         caseNoire.setOnClickListener(v -> {
-            if (jeu.getDamier().getPion(position) != null) {
-                selectionnePion(position);
+            Pion pion = jeu.getDamier().getPion(position);
+
+            if (pion != null) {
+                boolean pionValide = (pion.getCouleur() == Pion.Couleur.BLANC && jeu.getTourJoueur1()) ||
+                        (pion.getCouleur() == Pion.Couleur.NOIR && !jeu.getTourJoueur1());
+                if (pionValide) {
+                    selectionnerCase(position);
+                }
+            } else if (pionSelectionne != null && mouvementsPossiblesPionSelectionne.contains(position)) {
+                jeu.deplacerPion(pionSelectionne, position);
+                rafraichirDamier();
+                deselectionnerCase(pionSelectionne);
             }
         });
     }
 
-    private void selectionnePion(int position) {
+    private void deselectionnerCase(int position) {
+        Button bouttonSelectionne = view.findViewById(position);
+        bouttonSelectionne.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#C58C54")));
+    }
+
+    private void selectionnerCase(int position) {
         if (pionSelectionne != null) {
-            Button dernierBouttonSelectionne = view.findViewById(pionSelectionne);
-            dernierBouttonSelectionne.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#C58C54")));
-            mouvementsPossibles(pionSelectionne, false);
+            deselectionnerCase(pionSelectionne);
         }
+
         Button bouttonSelectionne = view.findViewById(position);
         bouttonSelectionne.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#b7ff00")));
         pionSelectionne = position;
