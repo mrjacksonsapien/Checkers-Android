@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'ca.cstjean.mobile.tp_dame'
+    namespace 'cstjean.mobile.tpdame'
     compileSdk 34
 
     defaultConfig {
-        applicationId "ca.cstjean.mobile.tp_dame"
+        applicationId "cstjean.mobile.tpdame"
         minSdk 24
         targetSdk 34
         versionCode 1
