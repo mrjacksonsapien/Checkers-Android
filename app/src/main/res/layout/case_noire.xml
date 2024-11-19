@@ -1,5 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Button style="@style/CaseNoire"
-    android:foreground="@drawable/dame_noire"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<Button style="@style/CaseNoire">
 </Button>

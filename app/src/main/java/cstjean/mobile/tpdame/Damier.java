@@ -30,6 +30,10 @@ public class Damier {
      */
     private final Stack<Pion> morts;
 
+    public Pion[] getCasesClone() {
+        return cases.clone();
+    }
+
     /**
      * Méthode pour effectuer un retour en arrière d'un état de jeu.
      */
