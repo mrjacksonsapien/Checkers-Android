@@ -272,8 +272,9 @@ public class Damier {
      *
      * @param positionPion Une position qui contient un pion.
      * @param destination Une destination qui fait parti des déplacements possibles du pion.
+     * @return Si le deplacement contient une prise ou non.
      */
-    public void deplacerPion(int positionPion, int destination) {
+    public boolean deplacerPion(int positionPion, int destination) {
         if (!deplacements(positionPion).contains(destination)) {
             throw new IllegalArgumentException("La destination de fait pas parti des déplacements possible du pion.");
         }
@@ -306,6 +307,8 @@ public class Damier {
         }
 
         historique.push(stringBuilder.toString());
+
+        return estUnePrise;
     }
 
     private void promotionDame(int position) {

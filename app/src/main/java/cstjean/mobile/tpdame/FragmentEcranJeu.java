@@ -10,12 +10,10 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import cstjean.mobile.tpdame.pions.Dame;
 import cstjean.mobile.tpdame.pions.Pion;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,88 +34,110 @@ public class FragmentEcranJeu extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Set view pour autres fonctions
         view = inflater.inflate(R.layout.fragment_ecran_jeu, container, false);
-        GridLayout interfaceDamier = view.findViewById(R.id.damier);
 
+        // Initialise jeu
         jeu = new Jeu(new Damier(), false);
         jeu.getDamier().initialiser();
 
-        for (int i = 0; i < 10; i++) {
-            for (int j = 1; j <= 5; j++) {
-                if (i % 2 == 0) {
-                    inflater.inflate(R.layout.case_blanche, interfaceDamier);
-                    createCaseNoire(interfaceDamier, (i * 5) + j, inflater);
-                } else {
-                    createCaseNoire(interfaceDamier, (i * 5) + j, inflater);
+        // Génère l'interface du damier et synchronise avec damier logique
+        genererInterfaceDamier(inflater);
+        rafraichirInterfaceDamier();
 
-                    inflater.inflate(R.layout.case_blanche, interfaceDamier);
-                }
-            }
-        }
-
-        rafraichirDamier();
+        // Initialise le pion selectionne et ses mouvements possibles à partir de l'interface
         pionSelectionne = null;
         mouvementsPossiblesPionSelectionne = new ArrayList<>();
 
+        // Commencer le jeu
         jeu.commencer();
 
         return view;
     }
 
-    private void createCaseNoire(GridLayout interfaceDamier, int position, LayoutInflater inflater) {
+    private void genererInterfaceDamier(LayoutInflater inflater) {
+        for (int i = 0; i < 10; i++) {
+            for (int j = 1; j <= 5; j++) {
+                if (i % 2 == 0) {
+                    inflater.inflate(R.layout.case_blanche, view.findViewById(R.id.damier));
+                    createCaseNoire((i * 5) + j, inflater);
+                } else {
+                    createCaseNoire((i * 5) + j, inflater);
+
+                    inflater.inflate(R.layout.case_blanche, view.findViewById(R.id.damier));
+                }
+            }
+        }
+    }
+
+    private void createCaseNoire(int position, LayoutInflater inflater) {
+        GridLayout interfaceDamier = view.findViewById(R.id.damier);
         Button caseNoire = (Button) inflater.inflate(R.layout.case_noire, interfaceDamier, false);
         caseNoire.setId(position);
+
         interfaceDamier.addView(caseNoire);
 
+        // Fonction clique case noire
         caseNoire.setOnClickListener(v -> {
             Pion pion = jeu.getDamier().getPion(position);
 
-            if (pion != null) {
+            if (pion != null) { // Pion est sélectionné
                 boolean pionValide = (pion.getCouleur() == Pion.Couleur.BLANC && jeu.getTourJoueur1()) ||
                         (pion.getCouleur() == Pion.Couleur.NOIR && !jeu.getTourJoueur1());
-                if (pionValide) {
-                    selectionnerCase(position);
+
+                if (pionValide) { // Si le joueur sélectionne un de ses propres pions
+                    selectionnerPion(position);
                 }
             } else if (pionSelectionne != null && mouvementsPossiblesPionSelectionne.contains(position)) {
+                // Destination est sélectionné pour pion actuel sélectionné
                 jeu.deplacerPion(pionSelectionne, position);
-                rafraichirDamier();
                 deselectionnerCase(pionSelectionne);
+                rafraichirInterfaceDamier();
             }
         });
     }
 
     private void deselectionnerCase(int position) {
         Button bouttonSelectionne = view.findViewById(position);
+        effacerMouvementsPossibles();
         bouttonSelectionne.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#C58C54")));
+        pionSelectionne = null;
+        mouvementsPossiblesPionSelectionne.clear();
     }
 
-    private void selectionnerCase(int position) {
+    private void selectionnerPion(int position) {
+        // Affichage deselection pion precedemment selectionne
         if (pionSelectionne != null) {
             deselectionnerCase(pionSelectionne);
         }
 
-        Button bouttonSelectionne = view.findViewById(position);
-        bouttonSelectionne.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#b7ff00")));
+        // Set nouvelles valeures pour pion selectionne
         pionSelectionne = position;
-        mouvementsPossibles(position, true);
-    }
-
-    private void mouvementsPossibles(int position, boolean montrer) {
         mouvementsPossiblesPionSelectionne = jeu.getDamier().deplacements(position);
 
+        // Affichage selection pour pion selectionne
+        Button bouttonSelectionne = view.findViewById(position);
+        bouttonSelectionne.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#b7ff00")));
+        afficherMouvementsPossibles();
+    }
+
+    private void afficherMouvementsPossibles() {
         for (Integer positionPossible : mouvementsPossiblesPionSelectionne) {
             Button boutton = view.findViewById(positionPossible);
-            if (montrer) {
-                boutton.setForeground(
-                        ContextCompat.getDrawable(view.getContext(), R.drawable.possibilite_case)
-                );
-            } else {
-                boutton.setForeground(null);
-            }
+            boutton.setForeground(
+                    ContextCompat.getDrawable(view.getContext(), R.drawable.possibilite_case)
+            );
         }
     }
 
-    private void rafraichirDamier() {
+    private void effacerMouvementsPossibles() {
+        for (Integer positionPossible : mouvementsPossiblesPionSelectionne) {
+            Button boutton = view.findViewById(positionPossible);
+            boutton.setForeground(null);
+        }
+    }
+
+    private void rafraichirInterfaceDamier() {
         for (int i = 1; i <= jeu.getDamier().getCasesClone().length; i++) {
             Button boutton = view.findViewById(i);
             Pion pion = jeu.getDamier().getPion(i);

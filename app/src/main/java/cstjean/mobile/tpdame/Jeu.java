@@ -105,9 +105,9 @@ public class Jeu {
                 throw new IllegalArgumentException("Le pion choisi n'est pas de la bonne couleur.");
             }
 
-            damier.deplacerPion(origine, destination);
+            boolean estUnePrise = damier.deplacerPion(origine, destination);
 
-            if (damier.deplacementAvecPrise(destination).isEmpty()) {
+            if (damier.deplacementAvecPrise(destination).isEmpty() || !estUnePrise) {
                 tourJoueur1 = !tourJoueur1;
             }
 
