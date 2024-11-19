@@ -28,20 +28,18 @@ public class FragmentEcranJeu extends Fragment {
         GridLayout interfaceDamier = view.findViewById(R.id.damier);
 
         for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 5; j++) {
+            for (int j = 1; j <= 5; j++) {
                 if (i % 2 == 0) {
                     inflater.inflate(R.layout.case_blanche, interfaceDamier);
 
                     Button caseNoire = (Button) inflater.inflate(R.layout.case_noire, interfaceDamier, false);
                     int id = (i * 5) + j;
                     caseNoire.setId(id);
-                    caseNoire.setText(String.valueOf(id));
                     interfaceDamier.addView(caseNoire);
                 } else {
                     Button caseNoire = (Button) inflater.inflate(R.layout.case_noire, interfaceDamier, false);
                     int id = (i * 5) + j;
                     caseNoire.setId(id);
-                    caseNoire.setText(String.valueOf(id));
                     interfaceDamier.addView(caseNoire);
 
                     inflater.inflate(R.layout.case_blanche, interfaceDamier);
