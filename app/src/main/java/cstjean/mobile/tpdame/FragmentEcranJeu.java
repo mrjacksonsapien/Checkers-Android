@@ -31,16 +31,9 @@ public class FragmentEcranJeu extends Fragment {
             for (int j = 1; j <= 5; j++) {
                 if (i % 2 == 0) {
                     inflater.inflate(R.layout.case_blanche, interfaceDamier);
-
-                    Button caseNoire = (Button) inflater.inflate(R.layout.case_noire, interfaceDamier, false);
-                    int id = (i * 5) + j;
-                    caseNoire.setId(id);
-                    interfaceDamier.addView(caseNoire);
+                    createCaseNoire(interfaceDamier, (i * 5) + j, inflater);
                 } else {
-                    Button caseNoire = (Button) inflater.inflate(R.layout.case_noire, interfaceDamier, false);
-                    int id = (i * 5) + j;
-                    caseNoire.setId(id);
-                    interfaceDamier.addView(caseNoire);
+                    createCaseNoire(interfaceDamier, (i * 5) + j, inflater);
 
                     inflater.inflate(R.layout.case_blanche, interfaceDamier);
                 }
@@ -48,5 +41,11 @@ public class FragmentEcranJeu extends Fragment {
         }
 
         return view;
+    }
+
+    private void createCaseNoire(GridLayout interfaceDamier, int position, LayoutInflater inflater) {
+        Button caseNoire = (Button) inflater.inflate(R.layout.case_noire, interfaceDamier, false);
+        caseNoire.setId(position);
+        interfaceDamier.addView(caseNoire);
     }
 }
