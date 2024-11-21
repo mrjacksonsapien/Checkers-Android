@@ -214,7 +214,16 @@ public class Damier {
             }
         } else {
             for (int i = 0; i <= 3; i++) {
+                if (!deplacementsPossibles[i].isEmpty()) {
+                    Integer premierePosition = deplacementsPossibles[i].get(0);
+
+                    if (getPion(premierePosition) != null) {
+                        continue;
+                    }
+                }
+
                 for (Integer deplacement : deplacementsPossibles[i]) {
+
                     if (getPion(deplacement) == null && getPion(position).getCouleur() == Pion.Couleur.BLANC && i < 2) {
                         deplacements.add(deplacement);
                         break;
@@ -320,6 +329,7 @@ public class Damier {
         }
     }
 
+    // TODO: fix
     private void verifierPrises(List<Integer>[] deplacementsPossibles, Pion pion,
                                 List<Integer> deplacementsAvecPrises) {
 
