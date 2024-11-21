@@ -203,10 +203,9 @@ public class Damier {
         if (pion instanceof Dame) {
             for (List<Integer> deplacement : deplacementsPossibles) {
                 for (Integer cible : deplacement) {
+                    // TODO: Not sure
                     if (getPion(cible) == null) {
                         deplacements.add(cible);
-                    } else if (getPion(cible) != null) {
-                        break;
                     } else {
                         break;
                     }
@@ -339,6 +338,10 @@ public class Damier {
                 int caseSuivante = deplacement.get(i + 1);
 
                 if (pion instanceof Dame && getPion(cible) == null) {
+                    continue;
+                }
+
+                if (getPion(cible) != null && pion.getCouleur() == getPion(cible).getCouleur()) {
                     continue;
                 }
 
