@@ -203,7 +203,6 @@ public class Damier {
         if (pion instanceof Dame) {
             for (List<Integer> deplacement : deplacementsPossibles) {
                 for (Integer cible : deplacement) {
-                    // TODO: Not sure
                     if (getPion(cible) == null) {
                         deplacements.add(cible);
                     } else {
@@ -333,21 +332,49 @@ public class Damier {
                                 List<Integer> deplacementsAvecPrises) {
 
         for (List<Integer> deplacement : deplacementsPossibles) {
-            for (int i = 0; i < deplacement.size() - 1; i++) {
-                int cible = deplacement.get(i);
-                int caseSuivante = deplacement.get(i + 1);
+            if (pion instanceof Dame) {
+                for (int i = 0; i < deplacement.size() - 1; i++) {
+                    int cible = deplacement.get(i);
+                    int caseSuivante = deplacement.get(i + 1);
 
-                if (pion instanceof Dame && getPion(cible) == null) {
+                    if (getPion(caseSuivante) != null) {
+                        if (getPion(cible) != null) {
+                            break;
+                        } else {
+                            continue;
+                        }
+                    }
+
+                    if (getPion(cible) != null) {
+                        if (getPion(cible).getCouleur() != pion.getCouleur()) {
+                            deplacementsAvecPrises.add(caseSuivante);
+                            for (int j = caseSuivante + 1; j < deplacement.size() - 1; j++) {
+                                if (getPion(j) == null) {
+                                    deplacementsAvecPrises.add(caseSuivante);
+                                } else {
+                                    break;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            } else {
+                if (deplacement.size() < 2) {
                     continue;
                 }
 
-                if (getPion(cible) != null && pion.getCouleur() == getPion(cible).getCouleur()) {
+                int cible = deplacement.get(0);
+                int caseSuivante = deplacement.get(1);
+
+                if (getPion(caseSuivante) != null) {
                     continue;
                 }
 
-                if (getPion(cible) != null && pion.getCouleur() != getPion(cible).getCouleur() &&
-                        getPion(caseSuivante) == null) {
-                    deplacementsAvecPrises.add(caseSuivante);
+                if (getPion(cible) != null) {
+                    if (getPion(cible).getCouleur() != pion.getCouleur()) {
+                        deplacementsAvecPrises.add(caseSuivante);
+                    }
                 }
             }
         }
