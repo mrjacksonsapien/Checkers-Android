@@ -328,8 +328,9 @@ public class Damier {
     }
 
     // TODO: fix
-    private void verifierPrises(List<Integer>[] deplacementsPossibles, Pion pion,
-                                List<Integer> deplacementsAvecPrises) {
+    private List<Integer> verifierPrises(List<Integer>[] deplacementsPossibles, Pion pion,
+                                         List<Integer> deplacementsAvecPrises) {
+        List<Integer> cibles = new ArrayList<>();
 
         for (List<Integer> deplacement : deplacementsPossibles) {
             if (pion instanceof Dame) {
@@ -347,10 +348,11 @@ public class Damier {
 
                     if (getPion(cible) != null) {
                         if (getPion(cible).getCouleur() != pion.getCouleur()) {
-                            deplacementsAvecPrises.add(caseSuivante);
-                            for (int j = caseSuivante + 1; j < deplacement.size() - 1; j++) {
-                                if (getPion(j) == null) {
-                                    deplacementsAvecPrises.add(caseSuivante);
+                            cibles.add(cible);
+
+                            for (int j = i + 1; j < deplacement.size(); j++) {
+                                if (getPion(deplacement.get(j)) == null) {
+                                    deplacementsAvecPrises.add(deplacement.get(j));
                                 } else {
                                     break;
                                 }
@@ -378,6 +380,8 @@ public class Damier {
                 }
             }
         }
+
+        return cibles;
     }
 
     /**
