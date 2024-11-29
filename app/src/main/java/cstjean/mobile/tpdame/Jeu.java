@@ -156,6 +156,7 @@ public class Jeu {
     }
 
     public void retournerEnArriere() {
+        commence = true;
         damier.retournerEnArriere();
         if (!historiqueToursJoueurs.isEmpty()) {
             tourJoueur1 = historiqueToursJoueurs.pop();
