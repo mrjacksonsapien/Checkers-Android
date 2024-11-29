@@ -29,6 +29,7 @@ public class Damier {
      * Historique des pions morts.
      */
     private final Stack<Mort> morts;
+    private final Stack<Boolean> isPromotionDame;
 
     public Pion[] getCasesClone() {
         return cases.clone();
@@ -53,6 +54,9 @@ public class Damier {
                 }
 
                 cases[origine - 1] = cases[destination - 1];
+                if (isPromotionDame.pop()) {
+                    cases[origine - 1] = new Pion(cases[origine - 1].getCouleur());
+                }
                 cases[destination - 1] = null;
             }
         }
@@ -328,6 +332,9 @@ public class Damier {
         if ((pion.getCouleur() == Pion.Couleur.BLANC && position <= 5) ||
                 (pion.getCouleur() == Pion.Couleur.NOIR && position >= 46)) {
             cases[position - 1] = new Dame(pion.getCouleur());
+            isPromotionDame.push(true);
+        } else {
+            isPromotionDame.push(false);
         }
     }
 
@@ -394,5 +401,6 @@ public class Damier {
         cases = new Pion[50];
         historique = new Stack<>();
         morts = new Stack<>();
+        isPromotionDame = new Stack<>();
     }
 }
