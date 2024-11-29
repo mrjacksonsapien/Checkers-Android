@@ -4,6 +4,7 @@ import cstjean.mobile.tpdame.pions.Dame;
 import cstjean.mobile.tpdame.pions.Pion;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -45,7 +46,7 @@ public class Damier {
 
             if (matcher.find()) {
                 int origine = Integer.parseInt(matcher.group(1));
-                boolean estUnePrise = matcher.group(2).equals("x");
+                boolean estUnePrise = Objects.equals(matcher.group(2), "x");
                 int destination = Integer.parseInt(matcher.group(3));
 
                 if (estUnePrise) {
