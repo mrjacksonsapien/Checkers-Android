@@ -9,11 +9,13 @@
         android:id="@+id/damier"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="1:1"
+        android:layout_marginTop="160dp"
         android:columnCount="10"
         android:rowCount="10"
-        tools:ignore="MissingConstraints">
-    </GridLayout>
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp" />
 
     <Button
         android:id="@+id/rewind"
