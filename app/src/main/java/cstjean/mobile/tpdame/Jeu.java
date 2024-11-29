@@ -1,6 +1,7 @@
 package cstjean.mobile.tpdame;
 
 import cstjean.mobile.tpdame.pions.Pion;
+import java.util.Stack;
 
 /**
  * Représente un jeu de dame incluant les règles.
@@ -28,6 +29,8 @@ public class Jeu {
      * Pour le débugage.
      */
     private final boolean debug;
+
+    private final Stack<Boolean> historiqueToursJoueurs;
 
     public Damier getDamier() {
         return damier;
@@ -107,7 +110,8 @@ public class Jeu {
 
             boolean estUnePrise = damier.deplacerPion(origine, destination);
 
-            if (damier.deplacementAvecPrise(destination).isEmpty() || !estUnePrise) {
+            if (damier.deplacementAvecPrise(destination, new Cibles()).isEmpty() || !estUnePrise) {
+                historiqueToursJoueurs.push(tourJoueur1);
                 tourJoueur1 = !tourJoueur1;
             }
 
@@ -124,11 +128,19 @@ public class Jeu {
      */
     public boolean estTerminee() {
         boolean terminee = true;
+        boolean auMoinsUnPionCouleurNoir = false;
 
         for (int caseDamier = 1; caseDamier <= 50; caseDamier++) {
             Pion pion = damier.getPion(caseDamier);
-            if (pion != null && !damier.deplacements(caseDamier).isEmpty()) {
-                terminee = false;
+
+            if (pion != null) {
+                if (pion.getCouleur() == Pion.Couleur.NOIR && !auMoinsUnPionCouleurNoir) {
+                    auMoinsUnPionCouleurNoir = true;
+                } else if ((pion.getCouleur() == Pion.Couleur.BLANC && auMoinsUnPionCouleurNoir) ||
+                        !damier.deplacements(caseDamier).isEmpty()) {
+                    terminee = false;
+                    break;
+                }
             }
         }
 
@@ -136,7 +148,18 @@ public class Jeu {
             terminee = true;
         }
 
+        if (terminee) {
+            commence = false;
+        }
+
         return terminee;
+    }
+
+    public void retournerEnArriere() {
+        damier.retournerEnArriere();
+        if (!historiqueToursJoueurs.isEmpty()) {
+            tourJoueur1 = historiqueToursJoueurs.pop();
+        }
     }
 
     /**
@@ -149,6 +172,7 @@ public class Jeu {
         this.damier = damier;
         tourJoueur1 = true;
         commence = false;
+        historiqueToursJoueurs = new Stack<>();
         this.debug = debug;
     }
 

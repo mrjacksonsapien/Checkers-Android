@@ -28,7 +28,7 @@ public class Damier {
     /**
      * Historique des pions morts.
      */
-    private final Stack<Pion> morts;
+    private final Stack<Mort> morts;
 
     public Pion[] getCasesClone() {
         return cases.clone();
@@ -38,32 +38,36 @@ public class Damier {
      * Méthode pour effectuer un retour en arrière d'un état de jeu.
      */
     public void retournerEnArriere() {
-        Pattern pattern = Pattern.compile("^\\(?(\\d{1,2})([x-])(\\d{1,2})\\)?$");
-        Matcher matcher = pattern.matcher(historique.pop());
+        if (!historique.isEmpty()) {
+            Pattern pattern = Pattern.compile("^\\(?(\\d{1,2})([x-])(\\d{1,2})\\)?$");
+            Matcher matcher = pattern.matcher(historique.pop());
 
-        if (matcher.find()) {
-            int origine = Integer.parseInt(matcher.group(1));
-            boolean estUnePrise = matcher.group(2).equals("x");
-            int destination = Integer.parseInt(matcher.group(3));
+            if (matcher.find()) {
+                int origine = Integer.parseInt(matcher.group(1));
+                boolean estUnePrise = matcher.group(2).equals("x");
+                int destination = Integer.parseInt(matcher.group(3));
 
-            if (estUnePrise) {
-                Pion pion = morts.pop();
-                int cible = getPositionCible(origine, destination);
-                cases[cible] = pion;
+                if (estUnePrise) {
+                    Mort mort = morts.pop();
+                    cases[mort.getDernierePosition() - 1] = mort.getPion();
+                }
+
+                cases[origine - 1] = cases[destination - 1];
+                cases[destination - 1] = null;
             }
-
-            cases[origine - 1] = cases[destination - 1];
-            cases[destination - 1] = null;
         }
     }
 
-    private int getPositionCible(int origine, int destination) {
-        List<Integer>[] directions = deplacementsPossibleSansLimite(destination);
+    private int getPositionCible(int origine, int destination, Cibles cibles) {
+        List<Integer>[] directions = deplacementsPossibleSansLimite(origine);
         int positionCible = -1;
 
-        for (List<Integer> direction : directions) {
-            if (direction.contains(origine)) {
-                positionCible = direction.get(0) - 1;
+        for (int i = 0; i < directions.length; i++) {
+            List<Integer> direction = directions[i];
+
+            if (direction.contains(destination)) {
+                positionCible = cibles.getDirections()[i];
+                break;
             }
         }
 
@@ -221,7 +225,6 @@ public class Damier {
                 }
 
                 for (Integer deplacement : deplacementsPossibles[i]) {
-
                     if (getPion(deplacement) == null && getPion(position).getCouleur() == Pion.Couleur.BLANC && i < 2) {
                         deplacements.add(deplacement);
                         break;
@@ -242,14 +245,14 @@ public class Damier {
      * @param position La position de la pièce.
      * @return Liste des déplacements valides.
      */
-    public List<Integer> deplacementAvecPrise(int position) {
+    public List<Integer> deplacementAvecPrise(int position, Cibles cibles) {
         verifiePositionPion(position);
 
         Pion pion = getPion(position);
         List<Integer> deplacementsAvecPrises = new ArrayList<>();
 
         List<Integer>[] deplacementsPossibles = deplacementsPossibleSansLimite(position);
-        verifierPrises(deplacementsPossibles, pion, deplacementsAvecPrises);
+        verifierPrises(deplacementsPossibles, pion, deplacementsAvecPrises, cibles);
 
         return deplacementsAvecPrises;
     }
@@ -264,7 +267,7 @@ public class Damier {
     public List<Integer> deplacements(int position) {
         verifiePositionPion(position);
 
-        List<Integer> mouvementsPossibles = deplacementAvecPrise(position);
+        List<Integer> mouvementsPossibles = deplacementAvecPrise(position, new Cibles());
 
         if (mouvementsPossibles.isEmpty()) {
             mouvementsPossibles = deplacementsSansPrise(position);
@@ -286,16 +289,17 @@ public class Damier {
             throw new IllegalArgumentException("La destination de fait pas parti des déplacements possible du pion.");
         }
 
-        boolean estUnePrise = !deplacementAvecPrise(positionPion).isEmpty();
+        Cibles cibles = new Cibles();
+        boolean estUnePrise = !deplacementAvecPrise(positionPion, cibles).isEmpty();
+
+        if (estUnePrise) {
+            int cible = getPositionCible(positionPion, destination, cibles);
+            morts.push(new Mort(cases[cible - 1], cible));
+            cases[cible - 1] = null;
+        }
 
         cases[destination - 1] = cases[positionPion - 1];
         cases[positionPion - 1] = null;
-
-        if (estUnePrise) {
-            int cible = getPositionCible(positionPion, destination);
-            morts.push(cases[cible]);
-            cases[cible] = null;
-        }
 
         promotionDame(destination);
 
@@ -327,16 +331,16 @@ public class Damier {
         }
     }
 
-    // TODO: fix
-    private List<Integer> verifierPrises(List<Integer>[] deplacementsPossibles, Pion pion,
-                                         List<Integer> deplacementsAvecPrises) {
-        List<Integer> cibles = new ArrayList<>();
+    private void verifierPrises(List<Integer>[] deplacementsPossibles, Pion pion,
+                                         List<Integer> deplacementsAvecPrises, Cibles cibles) {
 
-        for (List<Integer> deplacement : deplacementsPossibles) {
+        for (int i = 0; i < deplacementsPossibles.length; i++) {
+            List<Integer> deplacement = deplacementsPossibles[i];
+
             if (pion instanceof Dame) {
-                for (int i = 0; i < deplacement.size() - 1; i++) {
-                    int cible = deplacement.get(i);
-                    int caseSuivante = deplacement.get(i + 1);
+                for (int j = 0; j < deplacement.size() - 1; j++) {
+                    int cible = deplacement.get(j);
+                    int caseSuivante = deplacement.get(j + 1);
 
                     if (getPion(caseSuivante) != null) {
                         if (getPion(cible) != null) {
@@ -348,11 +352,11 @@ public class Damier {
 
                     if (getPion(cible) != null) {
                         if (getPion(cible).getCouleur() != pion.getCouleur()) {
-                            cibles.add(cible);
+                            cibles.getDirections()[i] = cible;
 
-                            for (int j = i + 1; j < deplacement.size(); j++) {
-                                if (getPion(deplacement.get(j)) == null) {
-                                    deplacementsAvecPrises.add(deplacement.get(j));
+                            for (int k = j + 1; k < deplacement.size(); k++) {
+                                if (getPion(deplacement.get(k)) == null) {
+                                    deplacementsAvecPrises.add(deplacement.get(k));
                                 } else {
                                     break;
                                 }
@@ -376,12 +380,11 @@ public class Damier {
                 if (getPion(cible) != null) {
                     if (getPion(cible).getCouleur() != pion.getCouleur()) {
                         deplacementsAvecPrises.add(caseSuivante);
+                        cibles.getDirections()[i] = cible;
                     }
                 }
             }
         }
-
-        return cibles;
     }
 
     /**

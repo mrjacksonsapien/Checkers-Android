@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import cstjean.mobile.tpdame.pions.Dame;
@@ -44,6 +45,11 @@ public class FragmentEcranJeu extends Fragment {
         // Génère l'interface du damier et synchronise avec damier logique
         genererInterfaceDamier(inflater);
         rafraichirInterfaceDamier();
+
+        view.findViewById(R.id.rewind).setOnClickListener(v -> {
+            jeu.retournerEnArriere();
+            rafraichirInterfaceDamier();
+        });
 
         // Initialise le pion selectionne et ses mouvements possibles à partir de l'interface
         pionSelectionne = null;
@@ -93,6 +99,10 @@ public class FragmentEcranJeu extends Fragment {
                 jeu.deplacerPion(pionSelectionne, position);
                 deselectionnerCase(pionSelectionne);
                 rafraichirInterfaceDamier();
+
+                if (jeu.estTerminee()) {
+                    Toast.makeText(view.getContext(), "Fini!", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
