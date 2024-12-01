@@ -1,6 +1,7 @@
 package cstjean.mobile.tpdame;
 
 import android.content.res.ColorStateList;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import cstjean.mobile.tpdame.pions.Dame;
@@ -26,6 +28,12 @@ public class FragmentEcranJeu extends Fragment {
     private List<Integer> mouvementsPossiblesPionSelectionne;
     private Jeu jeu;
     private View view;
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Code for when rotate or other changes
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +56,9 @@ public class FragmentEcranJeu extends Fragment {
 
         view.findViewById(R.id.rewind).setOnClickListener(v -> {
             jeu.retournerEnArriere();
+            if (pionSelectionne != null) {
+                deselectionnerCase(pionSelectionne);
+            }
             rafraichirInterfaceDamier();
         });
 
