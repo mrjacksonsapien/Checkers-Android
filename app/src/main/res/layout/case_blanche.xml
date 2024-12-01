@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Button style="@style/CaseBlanche"
+<Button style="@style/Case"
     android:enabled="false"
+    android:backgroundTint="@color/case_blanche"
     xmlns:android="http://schemas.android.com/apk/res/android">
 </Button>
