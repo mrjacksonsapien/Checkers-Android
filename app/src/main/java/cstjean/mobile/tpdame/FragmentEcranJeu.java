@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import cstjean.mobile.tpdame.pions.Dame;
@@ -33,6 +35,20 @@ public class FragmentEcranJeu extends Fragment {
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         // Code for when rotate or other changes
+
+        View bouttonRewind = view.findViewById(R.id.rewind);
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) bouttonRewind.getLayoutParams();
+        ViewParent parent = bouttonRewind.getParent();
+
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+        }
+
+        bouttonRewind.setLayoutParams(params);
+    }
+
+    private int dpToPx(int dp) {
+        return (int) (dp * getResources().getDisplayMetrics().density);
     }
 
     @Override
@@ -53,6 +69,8 @@ public class FragmentEcranJeu extends Fragment {
         // Génère l'interface du damier et synchronise avec damier logique
         genererInterfaceDamier(inflater);
         rafraichirInterfaceDamier();
+
+
 
         view.findViewById(R.id.rewind).setOnClickListener(v -> {
             jeu.retournerEnArriere();
