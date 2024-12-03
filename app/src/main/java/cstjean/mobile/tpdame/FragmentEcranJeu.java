@@ -1,7 +1,6 @@
 package cstjean.mobile.tpdame;
 
 import android.content.res.ColorStateList;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,32 +29,33 @@ public class FragmentEcranJeu extends Fragment {
     private View view;
 
     @Override
-    public void onConfigurationChanged(@NonNull Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-        }
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
     @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("jeu", jeu);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Set view pour autres fonctions
         view = inflater.inflate(R.layout.fragment_ecran_jeu, container, false);
 
-        // Initialise jeu
-        jeu = new Jeu(new Damier(), false);
-        jeu.getDamier().initialiser();
+        if (savedInstanceState != null) {
+            jeu = (Jeu) savedInstanceState.getSerializable("jeu");
+        } else {
+            jeu = new Jeu(new Damier(), false);
+            jeu.getDamier().initialiser();
+            jeu.commencer();
+        }
 
-        // Génère l'interface du damier et synchronise avec damier logique
-        genererInterfaceDamier(inflater);
+        pionSelectionne = null;
+        mouvementsPossiblesPionSelectionne = new ArrayList<>();
+
+        genererInterfaceDamier();
         rafraichirInterfaceDamier();
 
         view.findViewById(R.id.rewind).setOnClickListener(v -> {
@@ -66,17 +66,11 @@ public class FragmentEcranJeu extends Fragment {
             rafraichirInterfaceDamier();
         });
 
-        // Initialise le pion selectionne et ses mouvements possibles à partir de l'interface
-        pionSelectionne = null;
-        mouvementsPossiblesPionSelectionne = new ArrayList<>();
-
-        // Commencer le jeu
-        jeu.commencer();
-
         return view;
     }
 
-    private void genererInterfaceDamier(LayoutInflater inflater) {
+    private void genererInterfaceDamier() {
+        LayoutInflater inflater = getLayoutInflater();
         for (int i = 0; i < 10; i++) {
             for (int j = 1; j <= 5; j++) {
                 if (i % 2 == 0) {

@@ -1,6 +1,7 @@
 package cstjean.mobile.tpdame;
 
 import cstjean.mobile.tpdame.pions.Pion;
+import java.io.Serializable;
 import java.util.Stack;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Stack;
  * @author Martin Soltan
  * @author Tommy Desjardins
  */
-public class Jeu {
+public class Jeu implements Serializable {
     /**
      * Le damier.
      */
