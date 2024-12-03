@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:text="@string/rewind"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/damier" />
+        app:layout_constraintEnd_toStartOf="@id/damier"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
