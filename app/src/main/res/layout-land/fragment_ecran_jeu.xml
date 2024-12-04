@@ -15,8 +15,32 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
-
     </GridLayout>
+
+    <LinearLayout
+        android:id="@+id/joueur1UI"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/damier"
+        android:background="@color/white">
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/joueur2UI"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:rotation="180"
+        app:layout_constraintStart_toEndOf="@id/damier"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/black">
+    </LinearLayout>
 
     <Button
         android:id="@+id/rewind"
