@@ -31,6 +31,9 @@ public class Jeu implements Serializable {
      */
     private final boolean debug;
 
+    /**
+     * Historique du tour des joueurs.
+     */
     private final Stack<Boolean> historiqueToursJoueurs;
 
     public Damier getDamier() {
@@ -156,6 +159,9 @@ public class Jeu implements Serializable {
         return terminee;
     }
 
+    /**
+     * Reculer dans le temps.
+     */
     public void retournerEnArriere() {
         commence = true;
         damier.retournerEnArriere();

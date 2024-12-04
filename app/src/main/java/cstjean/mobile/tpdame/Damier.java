@@ -30,6 +30,9 @@ public class Damier {
      * Historique des pions morts.
      */
     private final Stack<Mort> morts;
+    /**
+     * Garde dans l'historique si le dernier mouvement a engendré une promotion de damme.
+     */
     private final Stack<Boolean> isPromotionDame;
 
     public Pion[] getCasesClone() {
@@ -55,9 +58,11 @@ public class Damier {
                 }
 
                 cases[origine - 1] = cases[destination - 1];
+
                 if (isPromotionDame.pop()) {
                     cases[origine - 1] = new Pion(cases[origine - 1].getCouleur());
                 }
+
                 cases[destination - 1] = null;
             }
         }
@@ -248,6 +253,7 @@ public class Damier {
      * Méthode retournant la liste des déplacements valides avec prise.
      *
      * @param position La position de la pièce.
+     * @param cibles Les cibles du pion.
      * @return Liste des déplacements valides.
      */
     public List<Integer> deplacementAvecPrise(int position, Cibles cibles) {

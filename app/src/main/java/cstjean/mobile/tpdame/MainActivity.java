@@ -3,6 +3,12 @@ package cstjean.mobile.tpdame;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * L'activité principal de l'application.
+ *
+ * @author Martin Soltan
+ * @author Tommy Desjardins
+ */
 public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
