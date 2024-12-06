@@ -15,7 +15,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import cstjean.mobile.tpdame.pions.Dame;
 import cstjean.mobile.tpdame.pions.Pion;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +24,7 @@ import java.util.List;
  * @author Martin Soltan
  * @author Tommy Desjardins
  */
-public class JeuFragment extends Fragment implements Serializable {
+public class JeuFragment extends Fragment {
     /**
      * La position du pion actuellement sélectionné.
      */
@@ -46,6 +45,17 @@ public class JeuFragment extends Fragment implements Serializable {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            jeu = (Jeu) savedInstanceState.getSerializable("jeu");
+        } else {
+            jeu = new Jeu(new Damier(), false);
+            jeu.getDamier().initialiser();
+            jeu.commencer();
+        }
+
+        pionSelectionne = null;
+        mouvementsPossiblesPionSelectionne = new ArrayList<>();
     }
 
     @Override
@@ -58,8 +68,6 @@ public class JeuFragment extends Fragment implements Serializable {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_ecran_jeu, container, false);
-        MainActivity mainActivity = (MainActivity) requireActivity();
-        mainActivity.setCurrentFragment(this);
 
         Bundle arguments = getArguments();
         String nomJoueur1 = "";
@@ -70,23 +78,6 @@ public class JeuFragment extends Fragment implements Serializable {
             nomJoueur2 = arguments.getString("nomJoueur2");
         }
 
-        if (savedInstanceState != null) {
-            jeu = (Jeu) savedInstanceState.getSerializable("jeu");
-            assert jeu != null;
-            setTourJoueurInterface(jeu.getTourJoueur1());
-        } else {
-            jeu = new Jeu(new Damier(), false);
-            jeu.getDamier().initialiser();
-            jeu.commencer();
-            setTourJoueurInterface(jeu.getTourJoueur1());
-        }
-
-        pionSelectionne = null;
-        mouvementsPossiblesPionSelectionne = new ArrayList<>();
-
-        genererInterfaceDamier();
-        rafraichirInterfaceDamier();
-
         rootView.findViewById(R.id.rewind).setOnClickListener(v -> {
             jeu.retournerEnArriere();
             if (pionSelectionne != null) {
@@ -94,11 +85,14 @@ public class JeuFragment extends Fragment implements Serializable {
             }
             rafraichirInterfaceDamier();
         });
-
         TextView player1NameView = rootView.findViewById(R.id.plr1_name_game);
         player1NameView.setText(nomJoueur1);
         TextView player2NameView = rootView.findViewById(R.id.plr2_name_game);
         player2NameView.setText(nomJoueur2);
+        setTourJoueurInterface(jeu.getTourJoueur1());
+        genererInterfaceDamier();
+
+        rafraichirInterfaceDamier();
 
         return rootView;
     }

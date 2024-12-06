@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import androidx.fragment.app.Fragment;
-import java.io.Serializable;
 
 /**
  * Fragment de l'écran d'accueil pour la saisie des noms.
@@ -15,7 +14,7 @@ import java.io.Serializable;
  * @author Martin Soltan
  * @author Tommy Desjardins
  */
-public class AccueilFragment extends Fragment implements Serializable {
+public class AccueilFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +26,6 @@ public class AccueilFragment extends Fragment implements Serializable {
         View rootView = inflater.inflate(R.layout.fragment_accueil, container, false);
 
         Button bouttonStart = rootView.findViewById(R.id.start);
-
         bouttonStart.setOnClickListener(v -> {
             EditText nomJoueur1View = rootView.findViewById(R.id.plr1_name_menu);
             EditText nomJoueur2View = rootView.findViewById(R.id.plr2_name_menu);
@@ -43,6 +41,7 @@ public class AccueilFragment extends Fragment implements Serializable {
 
                 requireActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.main, jeuFragment)
+                        .addToBackStack(null)
                         .commit();
             }
         });
