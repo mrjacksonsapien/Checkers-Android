@@ -84,6 +84,7 @@ public class JeuFragment extends Fragment {
                 deselectionnerCase(pionSelectionne);
             }
             rafraichirInterfaceDamier();
+            setTourJoueurInterface(jeu.getTourJoueur1());
         });
         TextView player1NameView = rootView.findViewById(R.id.plr1_name_game);
         player1NameView.setText(nomJoueur1);
@@ -118,10 +119,10 @@ public class JeuFragment extends Fragment {
         Button caseNoire = (Button) inflater.inflate(R.layout.case_noire, interfaceDamier, false);
         caseNoire.setId(position);
         interfaceDamier.addView(caseNoire);
-        caseNoire.setOnClickListener(v -> onClickListener(position));
+        caseNoire.setOnClickListener(v -> caseNoireOnClickListener(position));
     }
 
-    private void onClickListener(int position) {
+    private void caseNoireOnClickListener(int position) {
         Pion pion = jeu.getDamier().getPion(position);
 
         if (pion != null) { // Pion est sélectionné
