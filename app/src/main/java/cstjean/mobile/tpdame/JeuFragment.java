@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -23,7 +24,7 @@ import java.util.List;
  * @author Martin Soltan
  * @author Tommy Desjardins
  */
-public class FragmentEcranJeu extends Fragment {
+public class JeuFragment extends Fragment {
     /**
      * La position du pion actuellement sélectionné.
      */
@@ -59,10 +60,13 @@ public class FragmentEcranJeu extends Fragment {
 
         if (savedInstanceState != null) {
             jeu = (Jeu) savedInstanceState.getSerializable("jeu");
+            assert jeu != null;
+            setTourJoueurInterface(jeu.getTourJoueur1());
         } else {
             jeu = new Jeu(new Damier(), false);
             jeu.getDamier().initialiser();
             jeu.commencer();
+            setTourJoueurInterface(jeu.getTourJoueur1());
         }
 
         pionSelectionne = null;
@@ -102,31 +106,53 @@ public class FragmentEcranJeu extends Fragment {
         GridLayout interfaceDamier = rootView.findViewById(R.id.damier);
         Button caseNoire = (Button) inflater.inflate(R.layout.case_noire, interfaceDamier, false);
         caseNoire.setId(position);
-
         interfaceDamier.addView(caseNoire);
+        caseNoire.setOnClickListener(v -> onClickListener(position));
+    }
 
-        // Fonction clique case noire
-        caseNoire.setOnClickListener(v -> {
-            Pion pion = jeu.getDamier().getPion(position);
+    private void onClickListener(int position) {
+        Pion pion = jeu.getDamier().getPion(position);
 
-            if (pion != null) { // Pion est sélectionné
-                boolean pionValide = (pion.getCouleur() == Pion.Couleur.BLANC && jeu.getTourJoueur1()) ||
-                        (pion.getCouleur() == Pion.Couleur.NOIR && !jeu.getTourJoueur1());
+        if (pion != null) { // Pion est sélectionné
+            boolean pionValide = (pion.getCouleur() == Pion.Couleur.BLANC && jeu.getTourJoueur1()) ||
+                    (pion.getCouleur() == Pion.Couleur.NOIR && !jeu.getTourJoueur1());
 
-                if (pionValide) { // Si le joueur sélectionne un de ses propres pions
-                    selectionnerPion(position);
-                }
-            } else if (pionSelectionne != null && mouvementsPossiblesPionSelectionne.contains(position)) {
-                // Destination est sélectionné pour pion actuel sélectionné
-                jeu.deplacerPion(pionSelectionne, position);
-                deselectionnerCase(pionSelectionne);
-                rafraichirInterfaceDamier();
-
-                if (jeu.estTerminee()) {
-                    Toast.makeText(rootView.getContext(), "Fini!", Toast.LENGTH_LONG).show();
-                }
+            if (pionValide) { // Si le joueur sélectionne un de ses propres pions
+                selectionnerPion(position);
             }
-        });
+        } else if (pionSelectionne != null && mouvementsPossiblesPionSelectionne.contains(position)) {
+            // Destination est sélectionné pour pion actuel sélectionné
+            jeu.deplacerPion(pionSelectionne, position);
+            deselectionnerCase(pionSelectionne);
+            rafraichirInterfaceDamier();
+
+            Pion.Couleur couleur = jeu.estTerminee();
+            if (couleur != null) {
+                Toast.makeText(rootView.getContext(), "Fini!", Toast.LENGTH_LONG).show();
+                setTourJoueurInterface(null);
+            } else {
+                setTourJoueurInterface(jeu.getTourJoueur1());
+            }
+        }
+    }
+
+    private void setTourJoueurInterface(Boolean tourJoueur1) {
+        TextView textTourJoueur1 = rootView.findViewById(R.id.plr1_turn_text);
+        TextView textTourJoueur2 = rootView.findViewById(R.id.plr2_turn_text);
+
+        int visibiltyTextTourJoueur1;
+        int visibiltyTextTourJoueur2;
+
+        if (tourJoueur1 != null) {
+            visibiltyTextTourJoueur1 = tourJoueur1 ? View.VISIBLE : View.GONE;
+            visibiltyTextTourJoueur2 = tourJoueur1 ? View.GONE : View.VISIBLE;
+        } else {
+            visibiltyTextTourJoueur1 = View.GONE;
+            visibiltyTextTourJoueur2 = View.GONE;
+        }
+
+        textTourJoueur1.setVisibility(visibiltyTextTourJoueur1);
+        textTourJoueur2.setVisibility(visibiltyTextTourJoueur2);
     }
 
     private void deselectionnerCase(int position) {
@@ -176,25 +202,13 @@ public class FragmentEcranJeu extends Fragment {
 
             if (pion != null) {
                 if (pion instanceof Dame) {
-                    if (pion.getCouleur() == Pion.Couleur.NOIR) {
-                        boutton.setForeground(
-                                ContextCompat.getDrawable(rootView.getContext(), R.drawable.dame_noire)
-                        );
-                    } else {
-                        boutton.setForeground(
-                                ContextCompat.getDrawable(rootView.getContext(), R.drawable.dame_blanche)
-                        );
-                    }
+                    int foreground = pion.getCouleur() == Pion.Couleur.NOIR ? R.drawable.dame_noire :
+                            R.drawable.dame_blanche;
+                    boutton.setForeground(ContextCompat.getDrawable(rootView.getContext(), foreground));
                 } else {
-                    if (pion.getCouleur() == Pion.Couleur.NOIR) {
-                        boutton.setForeground(
-                                ContextCompat.getDrawable(rootView.getContext(), R.drawable.pion_noir)
-                        );
-                    } else {
-                        boutton.setForeground(
-                                ContextCompat.getDrawable(rootView.getContext(), R.drawable.pion_blanc)
-                        );
-                    }
+                    int foreground = pion.getCouleur() == Pion.Couleur.NOIR ? R.drawable.pion_noir :
+                            R.drawable.pion_blanc;
+                    boutton.setForeground(ContextCompat.getDrawable(rootView.getContext(), foreground));
                 }
             } else {
                 boutton.setForeground(null);

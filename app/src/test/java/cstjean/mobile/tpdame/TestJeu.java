@@ -2,6 +2,7 @@ package cstjean.mobile.tpdame;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
@@ -78,7 +79,7 @@ public class TestJeu {
     public void testPartieNonTerminee() {
         jeu.getDamier().initialiser();
         jeu.commencer();
-        assertFalse(jeu.estTerminee());
+        assertNull(jeu.estTerminee());
     }
 
     /**
@@ -97,7 +98,7 @@ public class TestJeu {
     @Test
     public void testPartieTerminee() {
         jeu.getDamier().ajouterPion(21, new Pion());
-        assertTrue(jeu.estTerminee());
+        assertNotNull(jeu.estTerminee());
     }
 
     /**
@@ -135,10 +136,10 @@ public class TestJeu {
      */
     @Test
     public void testTermine() {
-        assertTrue(jeu.estTerminee());
+        assertNotNull(jeu.estTerminee());
         jeu.getDamier().ajouterPion(48, new Pion());
         jeu.commencer();
         jeu.deplacerPion(48, 42);
-        assertTrue(jeu.estTerminee());
+        assertNotNull(jeu.estTerminee());
     }
 }

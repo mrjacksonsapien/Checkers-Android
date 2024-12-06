@@ -2,4 +2,5 @@
     <string name="app_name">tp_dame</string>
     <string name="rewind">Rewind</string>
     <string name="template_plr_name">Player\'s name</string>
+    <string name="turn_text">It\'s your turn!</string>
 </resources>

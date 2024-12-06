@@ -119,7 +119,7 @@ public class Jeu implements Serializable {
                 tourJoueur1 = !tourJoueur1;
             }
 
-            if (estTerminee()) {
+            if (estTerminee() != null) {
                 commence = false;
             }
         }
@@ -128,35 +128,26 @@ public class Jeu implements Serializable {
     /**
      * Méthode pour vérifier si la partie est terminée ou non.
      *
-     * @return True si la partie est terminée, false sinon.
+     * @return La couleur gagnante si la partie est terminé, ou sinon null.
      */
-    public boolean estTerminee() {
-        boolean terminee = true;
-        boolean auMoinsUnPionCouleurNoir = false;
+    public Pion.Couleur estTerminee() {
+        Pion.Couleur premiereCouleurTrouve = null;
 
         for (int caseDamier = 1; caseDamier <= 50; caseDamier++) {
             Pion pion = damier.getPion(caseDamier);
 
             if (pion != null) {
-                if (pion.getCouleur() == Pion.Couleur.NOIR && !auMoinsUnPionCouleurNoir) {
-                    auMoinsUnPionCouleurNoir = true;
-                } else if ((pion.getCouleur() == Pion.Couleur.BLANC && auMoinsUnPionCouleurNoir) ||
-                        !damier.deplacements(caseDamier).isEmpty()) {
-                    terminee = false;
-                    break;
+                if (premiereCouleurTrouve == null) {
+                    premiereCouleurTrouve = pion.getCouleur();
+                } else if (pion.getCouleur() != premiereCouleurTrouve) {
+                    return null;
                 }
             }
         }
 
-        if (damier.getNbPions() <= 1) {
-            terminee = true;
-        }
+        commence = false;
 
-        if (terminee) {
-            commence = false;
-        }
-
-        return terminee;
+        return premiereCouleurTrouve;
     }
 
     /**

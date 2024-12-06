@@ -17,13 +17,16 @@
         <include
             android:id="@+id/rewind"
             layout="@layout/rewind_button"/>
-
         <include
             layout="@layout/rewind_button_desc"/>
 
         <include
             android:id="@+id/plr1_name"
             layout="@layout/player_name"/>
+
+        <include
+            android:id="@+id/plr1_turn_text"
+            layout="@layout/turn_text_layout"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include
@@ -44,6 +47,10 @@
         <include
             android:id="@+id/plr2_name"
             layout="@layout/player_name"/>
+
+        <include
+            android:id="@+id/plr2_turn_text"
+            layout="@layout/turn_text_layout"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
