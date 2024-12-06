@@ -213,15 +213,15 @@ public class JeuFragment extends Fragment {
             Pion pion = jeu.getDamier().getPion(i);
 
             if (pion != null) {
+                int foreground;
                 if (pion instanceof Dame) {
-                    int foreground = pion.getCouleur() == Pion.Couleur.NOIR ? R.drawable.dame_noire :
+                    foreground = pion.getCouleur() == Pion.Couleur.NOIR ? R.drawable.dame_noire :
                             R.drawable.dame_blanche;
-                    boutton.setForeground(ContextCompat.getDrawable(rootView.getContext(), foreground));
                 } else {
-                    int foreground = pion.getCouleur() == Pion.Couleur.NOIR ? R.drawable.pion_noir :
+                    foreground = pion.getCouleur() == Pion.Couleur.NOIR ? R.drawable.pion_noir :
                             R.drawable.pion_blanc;
-                    boutton.setForeground(ContextCompat.getDrawable(rootView.getContext(), foreground));
                 }
+                boutton.setForeground(ContextCompat.getDrawable(rootView.getContext(), foreground));
             } else {
                 boutton.setForeground(null);
             }

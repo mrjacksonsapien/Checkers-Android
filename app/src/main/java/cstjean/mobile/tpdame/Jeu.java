@@ -132,11 +132,21 @@ public class Jeu implements Serializable {
      */
     public Pion.Couleur estTerminee() {
         Pion.Couleur premiereCouleurTrouve = null;
+        boolean aucunDeplacementPossibleNoire = true;
+        boolean aucuneDeplacmentPossibleBlanc = true;
 
         for (int caseDamier = 1; caseDamier <= 50; caseDamier++) {
             Pion pion = damier.getPion(caseDamier);
 
             if (pion != null) {
+                if (!damier.deplacements(caseDamier).isEmpty()) {
+                    if (pion.getCouleur() == Pion.Couleur.BLANC) {
+                        aucuneDeplacmentPossibleBlanc = false;
+                    } else {
+                        aucunDeplacementPossibleNoire = false;
+                    }
+                }
+
                 if (premiereCouleurTrouve == null) {
                     premiereCouleurTrouve = pion.getCouleur();
                 } else if (pion.getCouleur() != premiereCouleurTrouve) {
@@ -145,7 +155,11 @@ public class Jeu implements Serializable {
             }
         }
 
-        commence = false;
+        if (!aucunDeplacementPossibleNoire) {
+            return Pion.Couleur.BLANC;
+        } else if (aucuneDeplacmentPossibleBlanc) {
+            return Pion.Couleur.NOIR;
+        }
 
         return premiereCouleurTrouve;
     }
