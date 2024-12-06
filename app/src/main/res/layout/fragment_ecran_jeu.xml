@@ -15,6 +15,10 @@
         app:layout_constraintBottom_toTopOf="@id/damier"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@color/black">
+
+        <include
+            android:id="@+id/plr2_name"
+            layout="@layout/player_name"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include
@@ -38,6 +42,10 @@
 
         <include
             layout="@layout/rewind_button_desc"/>
+
+        <include
+            android:id="@+id/plr1_name"
+            layout="@layout/player_name"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
