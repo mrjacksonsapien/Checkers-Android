@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import cstjean.mobile.tpdame.pions.Dame;
 import cstjean.mobile.tpdame.pions.Pion;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ import java.util.List;
  * @author Martin Soltan
  * @author Tommy Desjardins
  */
-public class JeuFragment extends Fragment {
+public class JeuFragment extends Fragment implements Serializable {
     /**
      * La position du pion actuellement sélectionné.
      */
@@ -57,6 +58,8 @@ public class JeuFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_ecran_jeu, container, false);
+        MainActivity mainActivity = (MainActivity) requireActivity();
+        mainActivity.setCurrentFragment(this);
 
         Bundle arguments = getArguments();
         String nomJoueur1 = "";

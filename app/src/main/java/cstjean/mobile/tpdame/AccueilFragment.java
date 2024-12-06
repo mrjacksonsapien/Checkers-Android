@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import androidx.fragment.app.Fragment;
+import java.io.Serializable;
 
 /**
  * Fragment de l'écran d'accueil pour la saisie des noms.
@@ -14,7 +15,7 @@ import androidx.fragment.app.Fragment;
  * @author Martin Soltan
  * @author Tommy Desjardins
  */
-public class AccueilFragment extends Fragment {
+public class AccueilFragment extends Fragment implements Serializable {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

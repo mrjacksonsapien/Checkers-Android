@@ -31,8 +31,6 @@ public class Jeu implements Serializable {
      */
     private final boolean debug;
 
-    private Pion.Couleur gagnant;
-
     /**
      * Historique du tour des joueurs.
      */
@@ -173,7 +171,6 @@ public class Jeu implements Serializable {
         this.damier = damier;
         tourJoueur1 = true;
         commence = false;
-        gagnant = null;
         historiqueToursJoueurs = new Stack<>();
         this.debug = debug;
     }
