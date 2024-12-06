@@ -21,7 +21,7 @@
             layout="@layout/rewind_button_desc"/>
 
         <include
-            android:id="@+id/plr1_name"
+            android:id="@+id/plr1_name_game"
             layout="@layout/player_name"/>
 
         <include
@@ -45,7 +45,7 @@
         android:background="@color/black">
 
         <include
-            android:id="@+id/plr2_name"
+            android:id="@+id/plr2_name_game"
             layout="@layout/player_name"/>
 
         <include

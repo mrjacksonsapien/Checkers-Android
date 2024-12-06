@@ -58,6 +58,15 @@ public class JeuFragment extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_ecran_jeu, container, false);
 
+        Bundle arguments = getArguments();
+        String nomJoueur1 = "";
+        String nomJoueur2 = "";
+
+        if (arguments != null) {
+            nomJoueur1 = arguments.getString("nomJoueur1");
+            nomJoueur2 = arguments.getString("nomJoueur2");
+        }
+
         if (savedInstanceState != null) {
             jeu = (Jeu) savedInstanceState.getSerializable("jeu");
             assert jeu != null;
@@ -82,6 +91,11 @@ public class JeuFragment extends Fragment {
             }
             rafraichirInterfaceDamier();
         });
+
+        TextView player1NameView = rootView.findViewById(R.id.plr1_name_game);
+        player1NameView.setText(nomJoueur1);
+        TextView player2NameView = rootView.findViewById(R.id.plr2_name_game);
+        player2NameView.setText(nomJoueur2);
 
         return rootView;
     }
