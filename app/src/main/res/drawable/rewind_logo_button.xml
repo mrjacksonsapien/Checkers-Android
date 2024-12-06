@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/empty_shape"/>
+    <item android:drawable="@drawable/pion_noir"/>
     <item>
         <inset
             android:drawable="@drawable/rewind_logo"
-            android:inset="15dp"/>
+            android:inset="10dp"/>
     </item>
 </layer-list>

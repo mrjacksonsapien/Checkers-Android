@@ -17,6 +17,9 @@
         <include
             android:id="@+id/rewind"
             layout="@layout/rewind_button"/>
+
+        <include
+            layout="@layout/rewind_button_desc"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include

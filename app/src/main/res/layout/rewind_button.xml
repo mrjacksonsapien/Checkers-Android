@@ -6,8 +6,8 @@
     app:layout_constraintDimensionRatio="1:1"
     android:foreground="@drawable/rewind_logo_button"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     android:layout_marginTop="10dp"
-    android:background="@drawable/pion_noir">
+    android:layout_marginStart="10dp"
+    android:background="@drawable/empty_shape">
 </Button>
