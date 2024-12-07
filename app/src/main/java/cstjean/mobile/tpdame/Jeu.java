@@ -47,13 +47,13 @@ public class Jeu implements Serializable {
      * @param couleur Couleur du pion.
      * @return True si le pion est adéquat, false sinon
      */
-    private boolean pionEstAdequat(int position, Pion.Couleur couleur) {
+    private boolean pionEstPasAdequat(int position, Pion.Couleur couleur) {
         Pion pion = damier.getPion(position);
 
         if (pion != null) {
-            return pion.getCouleur() == couleur;
+            return pion.getCouleur() != couleur;
         } else {
-            return false;
+            return true;
         }
     }
 
@@ -64,7 +64,7 @@ public class Jeu implements Serializable {
      */
     public boolean damierEstAdequat() {
         for (int i = 0; i < 20; i++) {
-            if (!pionEstAdequat(i + 1, Pion.Couleur.NOIR)) {
+            if (pionEstPasAdequat(i + 1, Pion.Couleur.NOIR)) {
                 return false;
             }
         }
@@ -76,7 +76,7 @@ public class Jeu implements Serializable {
         }
 
         for (int i = 30; i < 50; i++) {
-            if (!pionEstAdequat(i + 1, Pion.Couleur.BLANC)) {
+            if (pionEstPasAdequat(i + 1, Pion.Couleur.BLANC)) {
                 return false;
             }
         }
@@ -92,6 +92,10 @@ public class Jeu implements Serializable {
             commence = true;
             tourJoueur1 = true;
         }
+    }
+
+    public boolean isCommence() {
+        return commence;
     }
 
     /**
@@ -131,44 +135,50 @@ public class Jeu implements Serializable {
      * @return La couleur gagnante si la partie est terminé, ou sinon null.
      */
     public Pion.Couleur estTerminee() {
+        commence = false;
+
+        boolean uneSeulCouleurPresente = true;
         Pion.Couleur premiereCouleurTrouve = null;
-        boolean aucunDeplacementPossibleNoire = true;
-        boolean aucuneDeplacmentPossibleBlanc = true;
+        boolean blancsPeuventSeDeplacer = false;
+        boolean noirsPeuventSeDeplacer = false;
 
         for (int caseDamier = 1; caseDamier <= 50; caseDamier++) {
             Pion pion = damier.getPion(caseDamier);
 
             if (pion != null) {
-                if (!damier.deplacements(caseDamier).isEmpty()) {
-                    if (pion.getCouleur() == Pion.Couleur.BLANC) {
-                        aucuneDeplacmentPossibleBlanc = false;
+                if (uneSeulCouleurPresente) {
+                    if (premiereCouleurTrouve == null) {
+                        premiereCouleurTrouve = pion.getCouleur();
                     } else {
-                        aucunDeplacementPossibleNoire = false;
+                        if (premiereCouleurTrouve != pion.getCouleur()) {
+                            uneSeulCouleurPresente = false;
+                        }
                     }
                 }
-
-                if (premiereCouleurTrouve == null) {
-                    premiereCouleurTrouve = pion.getCouleur();
-                } else if (pion.getCouleur() != premiereCouleurTrouve) {
-                    commence = false;
-                    return null;
+                if (!blancsPeuventSeDeplacer &&
+                        pion.getCouleur() == Pion.Couleur.BLANC &&
+                        !damier.deplacements(caseDamier).isEmpty()) {
+                    blancsPeuventSeDeplacer = true;
+                }
+                if (!noirsPeuventSeDeplacer &&
+                    pion.getCouleur() == Pion.Couleur.NOIR &&
+                    !damier.deplacements(caseDamier).isEmpty()) {
+                    noirsPeuventSeDeplacer = true;
                 }
             }
         }
 
-        if (!aucunDeplacementPossibleNoire) {
-            commence = false;
-            return Pion.Couleur.BLANC;
-        } else if (aucuneDeplacmentPossibleBlanc) {
-            commence = false;
+        if (uneSeulCouleurPresente) {
+            return premiereCouleurTrouve;
+        } else if (!blancsPeuventSeDeplacer) {
             return Pion.Couleur.NOIR;
+        } else if (!noirsPeuventSeDeplacer) {
+            return Pion.Couleur.BLANC;
         }
 
-        if (premiereCouleurTrouve != null) {
-            commence = false;
-        }
+        commence = true;
 
-        return premiereCouleurTrouve;
+        return null;
     }
 
     /**

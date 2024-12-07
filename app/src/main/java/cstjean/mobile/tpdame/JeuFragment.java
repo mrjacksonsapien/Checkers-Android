@@ -123,27 +123,41 @@ public class JeuFragment extends Fragment {
     }
 
     private void caseNoireOnClickListener(int position) {
-        Pion pion = jeu.getDamier().getPion(position);
+        if (jeu.isCommence()) {
+            Pion pion = jeu.getDamier().getPion(position);
 
-        if (pion != null) { // Pion est sélectionné
-            boolean pionValide = (pion.getCouleur() == Pion.Couleur.BLANC && jeu.getTourJoueur1()) ||
-                    (pion.getCouleur() == Pion.Couleur.NOIR && !jeu.getTourJoueur1());
+            if (pion != null) { // Pion est sélectionné
+                boolean pionValide = (pion.getCouleur() == Pion.Couleur.BLANC && jeu.getTourJoueur1()) ||
+                        (pion.getCouleur() == Pion.Couleur.NOIR && !jeu.getTourJoueur1());
 
-            if (pionValide) { // Si le joueur sélectionne un de ses propres pions
-                selectionnerPion(position);
-            }
-        } else if (pionSelectionne != null && mouvementsPossiblesPionSelectionne.contains(position)) {
-            // Destination est sélectionné pour pion actuel sélectionné
-            jeu.deplacerPion(pionSelectionne, position);
-            deselectionnerCase(pionSelectionne);
-            rafraichirInterfaceDamier();
+                if (pionValide) { // Si le joueur sélectionne un de ses propres pions
+                    selectionnerPion(position);
+                }
+            } else if (pionSelectionne != null && mouvementsPossiblesPionSelectionne.contains(position)) {
+                // Destination est sélectionné pour pion actuel sélectionné
+                jeu.deplacerPion(pionSelectionne, position);
+                deselectionnerCase(pionSelectionne);
+                rafraichirInterfaceDamier();
 
-            Pion.Couleur couleur = jeu.estTerminee();
-            if (couleur != null) {
-                Toast.makeText(rootView.getContext(), "Fini!", Toast.LENGTH_LONG).show();
-                setTourJoueurInterface(null);
-            } else {
-                setTourJoueurInterface(jeu.getTourJoueur1());
+                Pion.Couleur couleur = jeu.estTerminee();
+
+                if (couleur != null) {
+                    TextView textTourJoueur1 = rootView.findViewById(R.id.plr1_turn_text);
+                    TextView textTourJoueur2 = rootView.findViewById(R.id.plr2_turn_text);
+
+                    String winMessage = "Vous avez gagné!";
+                    String loseMessage = "Vous avez perdu.";
+
+                    if (couleur == Pion.Couleur.BLANC) {
+                        textTourJoueur1.setText(winMessage);
+                        textTourJoueur2.setText(loseMessage);
+                    } else {
+                        textTourJoueur1.setText(loseMessage);
+                        textTourJoueur2.setText(winMessage);
+                    }
+                } else {
+                    setTourJoueurInterface(jeu.getTourJoueur1());
+                }
             }
         }
     }
