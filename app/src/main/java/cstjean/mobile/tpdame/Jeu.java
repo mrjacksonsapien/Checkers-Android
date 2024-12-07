@@ -150,15 +150,22 @@ public class Jeu implements Serializable {
                 if (premiereCouleurTrouve == null) {
                     premiereCouleurTrouve = pion.getCouleur();
                 } else if (pion.getCouleur() != premiereCouleurTrouve) {
+                    commence = false;
                     return null;
                 }
             }
         }
 
         if (!aucunDeplacementPossibleNoire) {
+            commence = false;
             return Pion.Couleur.BLANC;
         } else if (aucuneDeplacmentPossibleBlanc) {
+            commence = false;
             return Pion.Couleur.NOIR;
+        }
+
+        if (premiereCouleurTrouve != null) {
+            commence = false;
         }
 
         return premiereCouleurTrouve;
