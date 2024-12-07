@@ -3,8 +3,6 @@ package cstjean.mobile.tpdame;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +23,7 @@ import java.util.List;
  * @author Martin Soltan
  * @author Tommy Desjardins
  */
+// TODO: Afficher liste des déplacements sous forme de notation Manoury?
 public class JeuFragment extends Fragment {
     /**
      * La position du pion actuellement sélectionné.
@@ -71,9 +70,9 @@ public class JeuFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_ecran_jeu, container, false);
 
         rootView.findViewById(R.id.rewind).setOnClickListener(v -> retournerEnArriere());
-        rootView.findViewById(R.id.backstap_pop).setOnClickListener(v -> {
-            requireActivity().getSupportFragmentManager().popBackStack();
-        });
+        rootView.findViewById(R.id.backstap_pop).setOnClickListener(v ->
+            requireActivity().getSupportFragmentManager().popBackStack()
+        );
 
         genererInterfaceDamier();
         rafraichirInterfaceDamier();
@@ -157,7 +156,6 @@ public class JeuFragment extends Fragment {
 
         TextView textTourJoueur1 = rootView.findViewById(R.id.plr1_turn_text);
         TextView textTourJoueur2 = rootView.findViewById(R.id.plr2_turn_text);
-        View bouttonBackStack = rootView.findViewById(R.id.backstap_pop);
 
         if (couleur != null) {
             String winMessage = "Vous avez gagné!";
@@ -187,7 +185,7 @@ public class JeuFragment extends Fragment {
 
         textTourJoueur1.setVisibility(visibiliteTextTourJoueur1);
         textTourJoueur2.setVisibility(visibiliteTextTourJoueur2);
-        bouttonBackStack.setVisibility(visibiliteBouttonBackStack);
+        rootView.findViewById(R.id.backstap_pop).setVisibility(visibiliteBouttonBackStack);
     }
 
     private void deselectionnerCase(int position) {
