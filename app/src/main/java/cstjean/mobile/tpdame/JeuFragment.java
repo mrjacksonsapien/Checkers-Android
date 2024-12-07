@@ -68,33 +68,34 @@ public class JeuFragment extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_ecran_jeu, container, false);
 
-        Bundle arguments = getArguments();
-        String nomJoueur1 = "";
-        String nomJoueur2 = "";
+        rootView.findViewById(R.id.rewind).setOnClickListener(v -> retournerEnArriere());
 
-        if (arguments != null) {
-            nomJoueur1 = arguments.getString("nomJoueur1");
-            nomJoueur2 = arguments.getString("nomJoueur2");
-        }
-
-        rootView.findViewById(R.id.rewind).setOnClickListener(v -> {
-            jeu.retournerEnArriere();
-            if (pionSelectionne != null) {
-                deselectionnerCase(pionSelectionne);
-            }
-            rafraichirInterfaceDamier();
-            setTourJoueurInterface(jeu.getTourJoueur1());
-        });
-        TextView player1NameView = rootView.findViewById(R.id.plr1_name_game);
-        player1NameView.setText(nomJoueur1);
-        TextView player2NameView = rootView.findViewById(R.id.plr2_name_game);
-        player2NameView.setText(nomJoueur2);
-        setTourJoueurInterface(jeu.getTourJoueur1());
         genererInterfaceDamier();
-
         rafraichirInterfaceDamier();
 
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            String nomJoueur1 = arguments.getString("nomJoueur1");
+            String nomJoueur2 = arguments.getString("nomJoueur2");
+
+            TextView player1NameView = rootView.findViewById(R.id.plr1_name_game);
+            player1NameView.setText(nomJoueur1);
+            TextView player2NameView = rootView.findViewById(R.id.plr2_name_game);
+            player2NameView.setText(nomJoueur2);
+        }
+
+        setTourJoueurInterface();
+
         return rootView;
+    }
+
+    private void retournerEnArriere() {
+        jeu.retournerEnArriere();
+        if (pionSelectionne != null) {
+            deselectionnerCase(pionSelectionne);
+        }
+        rafraichirInterfaceDamier();
+        setTourJoueurInterface();
     }
 
     private void genererInterfaceDamier() {
@@ -123,6 +124,7 @@ public class JeuFragment extends Fragment {
 
     private void caseNoireOnClickListener(int position) {
         if (jeu.isEnCours()) {
+            jeu.mettreSurPause();
             Pion pion = jeu.getDamier().getPion(position);
 
             if (pion != null) { // Pion est sélectionné
@@ -137,47 +139,47 @@ public class JeuFragment extends Fragment {
                 jeu.deplacerPion(pionSelectionne, position);
                 deselectionnerCase(pionSelectionne);
                 rafraichirInterfaceDamier();
-
-                Pion.Couleur couleur = jeu.estTerminee();
-
-                if (couleur != null) {
-                    TextView textTourJoueur1 = rootView.findViewById(R.id.plr1_turn_text);
-                    TextView textTourJoueur2 = rootView.findViewById(R.id.plr2_turn_text);
-
-                    String winMessage = "Vous avez gagné!";
-                    String loseMessage = "Vous avez perdu.";
-
-                    if (couleur == Pion.Couleur.BLANC) {
-                        textTourJoueur1.setText(winMessage);
-                        textTourJoueur2.setText(loseMessage);
-                    } else {
-                        textTourJoueur1.setText(loseMessage);
-                        textTourJoueur2.setText(winMessage);
-                    }
-                } else {
-                    setTourJoueurInterface(jeu.getTourJoueur1());
-                }
+                setTourJoueurInterface();
             }
+            jeu.resumer();
         }
     }
 
-    private void setTourJoueurInterface(Boolean tourJoueur1) {
+    private void setTourJoueurInterface() {
+        Pion.Couleur couleur = jeu.estTerminee();
+
+        int visibilityTextTourJoueur1;
+        int visibilityTextTourJoueur2;
+
         TextView textTourJoueur1 = rootView.findViewById(R.id.plr1_turn_text);
         TextView textTourJoueur2 = rootView.findViewById(R.id.plr2_turn_text);
 
-        int visibiltyTextTourJoueur1;
-        int visibiltyTextTourJoueur2;
+        if (couleur != null) {
+            String winMessage = "Vous avez gagné!";
+            String loseMessage = "Vous avez perdu.";
 
-        if (tourJoueur1 != null) {
-            visibiltyTextTourJoueur1 = tourJoueur1 ? View.VISIBLE : View.GONE;
-            visibiltyTextTourJoueur2 = tourJoueur1 ? View.GONE : View.VISIBLE;
+            if (couleur == Pion.Couleur.BLANC) {
+                textTourJoueur1.setText(winMessage);
+                textTourJoueur2.setText(loseMessage);
+            } else {
+                textTourJoueur1.setText(loseMessage);
+                textTourJoueur2.setText(winMessage);
+            }
+
+            visibilityTextTourJoueur1 = View.VISIBLE;
+            visibilityTextTourJoueur2 = View.VISIBLE;
         } else {
-            visibiltyTextTourJoueur1 = View.GONE;
-            visibiltyTextTourJoueur2 = View.GONE;
+            boolean tourJoueur1 = jeu.getTourJoueur1();
+
+            textTourJoueur1.setText(R.string.turn_text);
+            textTourJoueur2.setText(R.string.turn_text);
+
+            visibilityTextTourJoueur1 = tourJoueur1 ? View.VISIBLE : View.GONE;
+            visibilityTextTourJoueur2 = tourJoueur1 ? View.GONE : View.VISIBLE;
         }
 
-        textTourJoueur1.setVisibility(visibiltyTextTourJoueur1);
-        textTourJoueur2.setVisibility(visibiltyTextTourJoueur2);
+        textTourJoueur1.setVisibility(visibilityTextTourJoueur1);
+        textTourJoueur2.setVisibility(visibilityTextTourJoueur2);
     }
 
     private void deselectionnerCase(int position) {
