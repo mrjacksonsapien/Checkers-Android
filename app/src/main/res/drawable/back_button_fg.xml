@@ -3,7 +3,7 @@
     <item android:drawable="@drawable/pion_noir"/>
     <item>
         <inset
-            android:drawable="@drawable/rewind_logo"
+            android:drawable="@drawable/back"
             android:inset="10dp"/>
     </item>
 </layer-list>

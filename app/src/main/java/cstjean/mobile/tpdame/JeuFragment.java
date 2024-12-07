@@ -3,6 +3,8 @@ package cstjean.mobile.tpdame;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,6 +71,9 @@ public class JeuFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_ecran_jeu, container, false);
 
         rootView.findViewById(R.id.rewind).setOnClickListener(v -> retournerEnArriere());
+        rootView.findViewById(R.id.backstap_pop).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager().popBackStack();
+        });
 
         genererInterfaceDamier();
         rafraichirInterfaceDamier();
@@ -84,7 +89,7 @@ public class JeuFragment extends Fragment {
             player2NameView.setText(nomJoueur2);
         }
 
-        setTourJoueurInterface();
+        rafraichirInterfaceJoueurs();
 
         return rootView;
     }
@@ -95,7 +100,7 @@ public class JeuFragment extends Fragment {
             deselectionnerCase(pionSelectionne);
         }
         rafraichirInterfaceDamier();
-        setTourJoueurInterface();
+        rafraichirInterfaceJoueurs();
     }
 
     private void genererInterfaceDamier() {
@@ -118,13 +123,12 @@ public class JeuFragment extends Fragment {
         GridLayout interfaceDamier = rootView.findViewById(R.id.damier);
         Button caseNoire = (Button) inflater.inflate(R.layout.case_noire, interfaceDamier, false);
         caseNoire.setId(position);
-        interfaceDamier.addView(caseNoire);
         caseNoire.setOnClickListener(v -> caseNoireOnClickListener(position));
+        interfaceDamier.addView(caseNoire);
     }
 
     private void caseNoireOnClickListener(int position) {
         if (jeu.isEnCours()) {
-            jeu.mettreSurPause();
             Pion pion = jeu.getDamier().getPion(position);
 
             if (pion != null) { // Pion est sélectionné
@@ -139,20 +143,21 @@ public class JeuFragment extends Fragment {
                 jeu.deplacerPion(pionSelectionne, position);
                 deselectionnerCase(pionSelectionne);
                 rafraichirInterfaceDamier();
-                setTourJoueurInterface();
+                rafraichirInterfaceJoueurs();
             }
-            jeu.resumer();
         }
     }
 
-    private void setTourJoueurInterface() {
+    private void rafraichirInterfaceJoueurs() {
         Pion.Couleur couleur = jeu.estTerminee();
 
-        int visibilityTextTourJoueur1;
-        int visibilityTextTourJoueur2;
+        int visibiliteTextTourJoueur1;
+        int visibiliteTextTourJoueur2;
+        int visibiliteBouttonBackStack;
 
         TextView textTourJoueur1 = rootView.findViewById(R.id.plr1_turn_text);
         TextView textTourJoueur2 = rootView.findViewById(R.id.plr2_turn_text);
+        View bouttonBackStack = rootView.findViewById(R.id.backstap_pop);
 
         if (couleur != null) {
             String winMessage = "Vous avez gagné!";
@@ -166,20 +171,23 @@ public class JeuFragment extends Fragment {
                 textTourJoueur2.setText(winMessage);
             }
 
-            visibilityTextTourJoueur1 = View.VISIBLE;
-            visibilityTextTourJoueur2 = View.VISIBLE;
+            visibiliteTextTourJoueur1 = View.VISIBLE;
+            visibiliteTextTourJoueur2 = View.VISIBLE;
+            visibiliteBouttonBackStack = View.VISIBLE;
         } else {
             boolean tourJoueur1 = jeu.getTourJoueur1();
 
             textTourJoueur1.setText(R.string.turn_text);
             textTourJoueur2.setText(R.string.turn_text);
 
-            visibilityTextTourJoueur1 = tourJoueur1 ? View.VISIBLE : View.GONE;
-            visibilityTextTourJoueur2 = tourJoueur1 ? View.GONE : View.VISIBLE;
+            visibiliteTextTourJoueur1 = tourJoueur1 ? View.VISIBLE : View.GONE;
+            visibiliteTextTourJoueur2 = tourJoueur1 ? View.GONE : View.VISIBLE;
+            visibiliteBouttonBackStack = View.GONE;
         }
 
-        textTourJoueur1.setVisibility(visibilityTextTourJoueur1);
-        textTourJoueur2.setVisibility(visibilityTextTourJoueur2);
+        textTourJoueur1.setVisibility(visibiliteTextTourJoueur1);
+        textTourJoueur2.setVisibility(visibiliteTextTourJoueur2);
+        bouttonBackStack.setVisibility(visibiliteBouttonBackStack);
     }
 
     private void deselectionnerCase(int position) {

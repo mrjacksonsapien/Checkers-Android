@@ -4,10 +4,10 @@
     android:layout_width="50dp"
     android:layout_height="50dp"
     app:layout_constraintDimensionRatio="1:1"
-    android:foreground="@drawable/rewind_button_fg"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    android:layout_marginTop="10dp"
+    android:foreground="@drawable/back_button_fg"
     android:layout_marginStart="10dp"
-    android:background="@drawable/empty_shape">
+    android:background="@drawable/empty_shape"
+    app:layout_constraintTop_toBottomOf="@id/rewind"
+    app:layout_constraintStart_toStartOf="parent"
+    android:visibility="gone">
 </Button>

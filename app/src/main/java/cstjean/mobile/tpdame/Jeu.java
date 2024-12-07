@@ -27,12 +27,6 @@ public class Jeu implements Serializable {
     private boolean enCours;
 
     /**
-     * Si le jeu a été mis sur pause pendant la partie. Utilisé comme un lock de multi-threading
-     * pour ne faire qu'un clique à la fois.
-     */
-    private boolean surPause;
-
-    /**
      * Si le jeu est en mode debug (Peut commencer une partie avec une configuration non valide).
      */
     private final boolean debug;
@@ -97,26 +91,6 @@ public class Jeu implements Serializable {
         if (!enCours && (damierEstAdequat() || debug)) {
             enCours = true;
             tourJoueur1 = true;
-        }
-    }
-
-    /**
-     * Mettre le jeu sur pause (pour éviter que d'autres threads pose action sur le jeu).
-     */
-    public void mettreSurPause() {
-        if (enCours && !surPause) {
-            enCours = false;
-            surPause = true;
-        }
-    }
-
-    /**
-     * Résumer le jeu.
-     */
-    public void resumer() {
-        if (!enCours && surPause) {
-            enCours = true;
-            surPause = false;
         }
     }
 
@@ -232,7 +206,6 @@ public class Jeu implements Serializable {
         this.damier = damier;
         tourJoueur1 = true;
         enCours = false;
-        surPause = false;
         historiqueToursJoueurs = new Stack<>();
         this.debug = debug;
     }

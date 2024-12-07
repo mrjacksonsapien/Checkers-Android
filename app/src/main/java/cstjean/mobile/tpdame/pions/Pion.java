@@ -55,15 +55,6 @@ public class Pion {
     }
 
     /**
-     * Retourne la couleur opposé du pion.
-     *
-     * @return Couleur opposé.
-     */
-    public Pion.Couleur couleurOppose() {
-        return couleur == Couleur.BLANC ? Couleur.NOIR : Couleur.BLANC;
-    }
-
-    /**
      * Constructeur.
      *
      * @param couleur Couleur du pion.

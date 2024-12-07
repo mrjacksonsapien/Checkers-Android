@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">tp_dame</string>
     <string name="rewind">Rewind</string>
+    <string name="back">Retourner au menu principal</string>
     <string name="template_plr_name">Nom du joueur</string>
     <string name="turn_text">C\'est à votre tour!</string>
     <string name="edit_text_plr1_title">Joueur 1</string>

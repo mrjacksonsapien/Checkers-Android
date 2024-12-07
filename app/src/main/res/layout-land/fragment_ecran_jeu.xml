@@ -21,9 +21,12 @@
             layout="@layout/rewind_button_desc"/>
 
         <include
+            android:id="@+id/backstap_pop"
+            layout="@layout/backstackpop_button" />
+
+        <include
             android:id="@+id/plr1_name_game"
             layout="@layout/player_name"/>
-
         <include
             android:id="@+id/plr1_turn_text"
             android:visibility="gone"
@@ -48,7 +51,6 @@
         <include
             android:id="@+id/plr2_name_game"
             layout="@layout/player_name"/>
-
         <include
             android:id="@+id/plr2_turn_text"
             android:visibility="gone"

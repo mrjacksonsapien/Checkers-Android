@@ -178,7 +178,13 @@ public class Damier {
     private List<Integer>[] deplacementsPossibleSansLimite(int position) {
         verifiePositionPion(position);
 
+        @SuppressWarnings("unchecked")
+        /*
+        Java n'est pas capable de typer directement les List au moment de l'éxécution mais
+        la méthode garantie le cast des List en List<Integer> grâce à sa signature et le code ci-dessous.
+         */
         List<Integer>[] deplacements = new List[4];
+
         for (int i = 0; i < deplacements.length; i++) {
             deplacements[i] = new ArrayList<>();
         }
