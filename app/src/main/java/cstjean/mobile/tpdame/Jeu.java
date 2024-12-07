@@ -17,17 +17,17 @@ public class Jeu implements Serializable {
     private final Damier damier;
 
     /**
-     * Le tour du joueur.
+     * Si c'est le tour du premier joueur.
      */
     private boolean tourJoueur1;
 
     /**
-     * Si la partie est commencé ou non.
+     * Si la partie est en cours ou non.
      */
-    private boolean commence;
+    private boolean enCours;
 
     /**
-     * Pour le débugage.
+     * Si le jeu est en mode debug (Peut commencer une partie avec une configuration non valide).
      */
     private final boolean debug;
 
@@ -60,7 +60,7 @@ public class Jeu implements Serializable {
     /**
      * Méthode qui vérifie si le damier est adéquat.
      *
-     * @return Trye si le damier est adéquat, false sinon.
+     * @return True si le damier est adéquat, false sinon.
      */
     public boolean damierEstAdequat() {
         for (int i = 0; i < 20; i++) {
@@ -88,14 +88,18 @@ public class Jeu implements Serializable {
      * Méthode pour commencer la partie.
      */
     public void commencer() {
-        if (!commence && (damierEstAdequat() || debug)) {
-            commence = true;
+        if (!enCours && (damierEstAdequat() || debug)) {
+            enCours = true;
             tourJoueur1 = true;
         }
     }
 
-    public boolean isCommence() {
-        return commence;
+    public boolean isEnCours() {
+        return enCours;
+    }
+
+    public boolean getTourJoueur1() {
+        return tourJoueur1;
     }
 
     /**
@@ -105,7 +109,7 @@ public class Jeu implements Serializable {
      * @param destination Destination du pion ou de la dame.
      */
     public void deplacerPion(int origine, int destination) {
-        if (commence) {
+        if (enCours) {
             Pion.Couleur couleurQuiJoue = tourJoueur1 ? Pion.Couleur.BLANC : Pion.Couleur.NOIR;
             Pion pion = damier.getPion(origine);
 
@@ -124,7 +128,7 @@ public class Jeu implements Serializable {
             }
 
             if (estTerminee() != null) {
-                commence = false;
+                enCours = false;
             }
         }
     }
@@ -135,7 +139,7 @@ public class Jeu implements Serializable {
      * @return La couleur gagnante si la partie est terminé, ou sinon null.
      */
     public Pion.Couleur estTerminee() {
-        commence = false;
+        enCours = false;
 
         boolean uneSeulCouleurPresente = true;
         Pion.Couleur premiereCouleurTrouve = null;
@@ -176,7 +180,7 @@ public class Jeu implements Serializable {
             return Pion.Couleur.BLANC;
         }
 
-        commence = true;
+        enCours = true;
 
         return null;
     }
@@ -185,7 +189,7 @@ public class Jeu implements Serializable {
      * Reculer dans le temps.
      */
     public void retournerEnArriere() {
-        commence = true;
+        enCours = true;
         damier.retournerEnArriere();
         if (!historiqueToursJoueurs.isEmpty()) {
             tourJoueur1 = historiqueToursJoueurs.pop();
@@ -201,12 +205,8 @@ public class Jeu implements Serializable {
     public Jeu(Damier damier, boolean debug) {
         this.damier = damier;
         tourJoueur1 = true;
-        commence = false;
+        enCours = false;
         historiqueToursJoueurs = new Stack<>();
         this.debug = debug;
-    }
-
-    public boolean getTourJoueur1() {
-        return tourJoueur1;
     }
 }
