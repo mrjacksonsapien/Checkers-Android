@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">tp_dame</string>
+    <string name="app_name">Checkers Offline</string>
     <string name="rewind">Rewind</string>
     <string name="back">Retourner au menu principal</string>
     <string name="template_plr_name">Nom du joueur</string>
@@ -9,4 +9,8 @@
     <string name="edit_text_plr2_title">Joueur 2</string>
     <string name="plrname_placeholder">Entrez votre nom ici</string>
     <string name="start_button_text">Commencer la partie</string>
+    <string name="placeholder_history">2x10\n(10–6)\n3x5\n(2–1)\n5–7</string>
+    <string name="placeholder_history_title">Historique</string>
+    <string name="history_content_empty">…\n</string>
+    <string name="retourner_menu_principal_desc">Accueil</string>
 </resources>

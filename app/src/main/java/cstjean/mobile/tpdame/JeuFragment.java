@@ -70,7 +70,7 @@ public class JeuFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_ecran_jeu, container, false);
 
         rootView.findViewById(R.id.rewind).setOnClickListener(v -> retournerEnArriere());
-        rootView.findViewById(R.id.backstap_pop).setOnClickListener(v ->
+        rootView.findViewById(R.id.backstack_pop).setOnClickListener(v ->
             requireActivity().getSupportFragmentManager().popBackStack()
         );
 
@@ -185,7 +185,32 @@ public class JeuFragment extends Fragment {
 
         textTourJoueur1.setVisibility(visibiliteTextTourJoueur1);
         textTourJoueur2.setVisibility(visibiliteTextTourJoueur2);
-        rootView.findViewById(R.id.backstap_pop).setVisibility(visibiliteBouttonBackStack);
+        rootView.findViewById(R.id.backstack_pop).setVisibility(visibiliteBouttonBackStack);
+        rootView.findViewById(R.id.backstackpop_button_desc).setVisibility(visibiliteBouttonBackStack);
+
+        TextView viewHistorique1 = rootView.findViewById(R.id.history1);
+        TextView viewHistorique2 = rootView.findViewById(R.id.history2);
+
+        List<String> historique = jeu.getDamier().getHistoriqueAsList();
+
+        viewHistorique1.setText(R.string.history_content_empty);
+        viewHistorique2.setText(R.string.history_content_empty);
+
+        if (!historique.isEmpty()) {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            for (int i = 0; i < historique.size(); i++) {
+                if (i < 5) {
+                    stringBuilder.append(historique.get(i)).append("\n");
+                } else {
+                    stringBuilder.append("...\n");
+                    break;
+                }
+            }
+
+            viewHistorique1.setText(stringBuilder.toString());
+            viewHistorique2.setText(stringBuilder.toString());
+        }
     }
 
     private void deselectionnerCase(int position) {

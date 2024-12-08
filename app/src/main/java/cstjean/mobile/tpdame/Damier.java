@@ -3,6 +3,7 @@ package cstjean.mobile.tpdame;
 import cstjean.mobile.tpdame.pions.Dame;
 import cstjean.mobile.tpdame.pions.Pion;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Stack;
@@ -37,6 +38,17 @@ public class Damier {
 
     public Pion[] getCasesClone() {
         return cases.clone();
+    }
+
+    /**
+     * Retourne l'historique en ordre, trié du plus récent au plus ancien (top-bottom).
+     *
+     * @return L'historique sous forme de liste.
+     */
+    public List<String> getHistoriqueAsList() {
+        List<String> list = new ArrayList<>(historique);
+        Collections.reverse(list);
+        return list;
     }
 
     /**
@@ -342,8 +354,9 @@ public class Damier {
     private void promotionDame(int position) {
         Pion pion = getPion(position);
 
-        if ((pion.getCouleur() == Pion.Couleur.BLANC && position <= 5) ||
-                (pion.getCouleur() == Pion.Couleur.NOIR && position >= 46)) {
+        if (((pion.getCouleur() == Pion.Couleur.BLANC && position <= 5) ||
+                (pion.getCouleur() == Pion.Couleur.NOIR && position >= 46)) &&
+                !(pion instanceof Dame)) {
             cases[position - 1] = new Dame(pion.getCouleur());
             isPromotionDame.push(true);
         } else {
