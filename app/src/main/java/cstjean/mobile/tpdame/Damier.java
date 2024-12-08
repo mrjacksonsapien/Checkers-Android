@@ -187,7 +187,13 @@ public class Damier {
         return new int[] {nordOuest, nordEst, sudOuest, sudEst};
     }
 
-    private List<Integer>[] deplacementsPossibleSansLimite(int position) {
+    /**
+     * Méthode pour calculer les déplacements possibles sans contraintes.
+     *
+     * @param position La position du pion.
+     * @return La liste des déplacements possibles.
+     */
+    List<Integer>[] deplacementsPossibleSansLimite(int position) {
         verifiePositionPion(position);
 
         @SuppressWarnings("unchecked")
@@ -364,8 +370,16 @@ public class Damier {
         }
     }
 
-    private void verifierPrises(List<Integer>[] deplacementsPossibles, Pion pion,
-                                         List<Integer> deplacementsAvecPrises, Cibles cibles) {
+    /**
+     * Méthode pour vérifier les prises.
+     *
+     * @param deplacementsPossibles La liste des déplacements valides.
+     * @param pion Le pion.
+     * @param deplacementsAvecPrises La liste des déplacements avec prises.
+     * @param cibles Les cases cibles.
+     */
+    void verifierPrises(List<Integer>[] deplacementsPossibles, Pion pion,
+                        List<Integer> deplacementsAvecPrises, Cibles cibles) {
 
         for (int i = 0; i < deplacementsPossibles.length; i++) {
             List<Integer> deplacement = deplacementsPossibles[i];

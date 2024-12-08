@@ -60,4 +60,17 @@ public class TestAccueilFragment {
 
         onView(withId(R.id.start)).check(matches(isEnabled()));
     }
+
+    /**
+     * Méthode testant la saisie des noms avec même nom.
+     */
+    @Test
+    public void testSaisieMemeNom() {
+        onView(withId(R.id.start)).check(matches(isNotEnabled()));
+
+        onView(withId(R.id.plr1_name_menu)).perform(typeText("Player 1"));
+        onView(withId(R.id.plr2_name_menu)).perform(typeText("Player 1"));
+
+        onView(withId(R.id.start)).check(matches(isNotEnabled()));
+    }
 }

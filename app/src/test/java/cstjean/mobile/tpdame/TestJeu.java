@@ -80,6 +80,7 @@ public class TestJeu {
         jeu.getDamier().initialiser();
         jeu.commencer();
         assertNull(jeu.estTerminee());
+        assertTrue(jeu.isEnCours());
     }
 
     /**
@@ -99,6 +100,7 @@ public class TestJeu {
     public void testPartieTerminee() {
         jeu.getDamier().ajouterPion(21, new Pion());
         assertNotNull(jeu.estTerminee());
+        assertFalse(jeu.isEnCours());
     }
 
     /**
@@ -135,11 +137,46 @@ public class TestJeu {
      * Méthode pour tester quand la partie est terminé.
      */
     @Test
-    public void testTermine() {
-        assertNotNull(jeu.estTerminee());
-        jeu.getDamier().ajouterPion(48, new Pion());
+    public void testRetournerEnArriere() {
+        jeu.getDamier().initialiser();
         jeu.commencer();
-        jeu.deplacerPion(48, 42);
-        assertNotNull(jeu.estTerminee());
+
+        jeu.deplacerPion(31, 27);
+
+        assertFalse(jeu.getTourJoueur1());
+
+        jeu.retournerEnArriere();
+
+        assertTrue(jeu.getTourJoueur1());
+    }
+
+    /**
+     * Méthode pour tester la fin de partie avec un pion noir bloqué.
+     */
+    @Test
+    public void testFinPartieNoirBloque() {
+        jeu.getDamier().ajouterPion(5, new Pion(Pion.Couleur.NOIR));
+        jeu.getDamier().ajouterPion(10, new Pion());
+        jeu.getDamier().ajouterPion(14, new Pion());
+        jeu.getDamier().ajouterPion(19, new Pion());
+
+        jeu.commencer();
+        jeu.deplacerPion(19, 13);
+        assertEquals(Pion.Couleur.BLANC, jeu.estTerminee());
+        assertFalse(jeu.isEnCours());
+    }
+
+    /**
+     * Méthode pour tester la fin de partie avec un pion blanc bloqué.
+     */
+    @Test
+    public void testFinPartieBlancBloque() {
+        jeu.getDamier().ajouterPion(46, new Pion());
+        jeu.getDamier().ajouterPion(41, new Pion(Pion.Couleur.NOIR));
+        jeu.getDamier().ajouterPion(37, new Pion(Pion.Couleur.NOIR));
+
+        jeu.commencer();
+        assertEquals(Pion.Couleur.NOIR, jeu.estTerminee());
+        assertFalse(jeu.isEnCours());
     }
 }

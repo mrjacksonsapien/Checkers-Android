@@ -1,11 +1,15 @@
 package cstjean.mobile.tpdame;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 
 import cstjean.mobile.tpdame.pions.Dame;
 import cstjean.mobile.tpdame.pions.Pion;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -106,6 +110,23 @@ public class TestDamier {
     }
 
     /**
+     * Méthode pour tester une prise valide pour une dame.
+     */
+    @Test
+    public void testPriseValideDame() {
+        damier.ajouterPion(8, new Pion());
+        damier.ajouterPion(9, new Pion(Pion.Couleur.NOIR));
+        damier.deplacerPion(8, 3);
+
+        Cibles cibles = new Cibles();
+        List<Integer> deplacementsAvecPrises = new ArrayList<>();
+        damier.verifierPrises(damier.deplacementsPossibleSansLimite(3),
+                damier.getPion(3), deplacementsAvecPrises, cibles);
+
+        assertTrue(deplacementsAvecPrises.contains(14));
+    }
+
+    /**
      * Méthode pour tester la promotion d'un pion blanc en dame.
      */
     @Test
@@ -171,8 +192,15 @@ public class TestDamier {
         assertNull(damier.getPion(27));
         assertEquals(pionBlanc, damier.getPion(18));
 
-        damier.retournerEnArriere();
+        Pion pionBlanc2 = new Pion();
+        damier.ajouterPion(7, pionBlanc2);
+        damier.deplacerPion(7, 2);
+        assertNull(damier.getPion(7));
 
+        damier.retournerEnArriere();
+        assertNotNull(damier.getPion(7));
+
+        damier.retournerEnArriere();
         assertEquals(pionNoir, damier.getPion(22));
         assertEquals(pionBlanc, damier.getPion(27));
     }
@@ -185,5 +213,24 @@ public class TestDamier {
         assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
             damier.verifiePositionPion(51);
         });
+    }
+
+    @Test
+    public void testGetCasesClone() {
+        damier.initialiser();
+
+        Pion[] clone = damier.getCasesClone();
+
+        assertNotNull(clone);
+    }
+
+    @Test
+    public void testHistoriqueList() {
+        damier.initialiser();
+
+        damier.deplacerPion(31, 26);
+        damier.deplacerPion(26, 21);
+
+        assertEquals(2, damier.getHistoriqueAsList().size());
     }
 }
