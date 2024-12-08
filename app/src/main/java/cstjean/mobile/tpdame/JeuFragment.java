@@ -23,7 +23,6 @@ import java.util.List;
  * @author Martin Soltan
  * @author Tommy Desjardins
  */
-// TODO: Afficher liste des déplacements sous forme de notation Manoury?
 public class JeuFragment extends Fragment {
     /**
      * La position du pion actuellement sélectionné.
