@@ -1,10 +1,6 @@
 package cstjean.mobile.tpdame;
 
-import static org.junit.Assert.assertEquals;
-
 import cstjean.mobile.tpdame.pions.Dame;
-import cstjean.mobile.tpdame.pions.Pion;
-import org.junit.Test;
 
 /**
  * Test la classe Dame.
