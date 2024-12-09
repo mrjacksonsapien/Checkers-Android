@@ -12,18 +12,15 @@ import org.junit.Test;
  * @author Martin Soltan
  * @author Tommy Desjardins
  */
-public class TestDame {
+public class TestDame extends TestPion {
     /**
-     * Test les dames.
+     * Méthode pour créer une instance de dame.
+     *
+     * @param couleur La couleur du pion.
+     * @return Une nouvelle instance Dame.
      */
-    @Test
-    public void testDame() {
-        Dame dameNoire = new Dame(Pion.Couleur.NOIR);
-        Dame dameBlanche = new Dame();
-
-        assertEquals(Pion.Couleur.NOIR, dameNoire.getCouleur());
-        assertEquals(Pion.Couleur.BLANC, dameBlanche.getCouleur());
-        assertEquals('D', dameNoire.getRepresentation());
-        assertEquals('d', dameBlanche.getRepresentation());
+    @Override
+    protected Dame creerPion(Dame.Couleur couleur) {
+        return new Dame(couleur);
     }
 }

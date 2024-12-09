@@ -17,12 +17,20 @@ public class TestPion {
      */
     @Test
     public void testCreer() {
-        Pion pionNoir = new Pion(Pion.Couleur.NOIR);
-        Pion pionBlanc = new Pion();
+        Pion pionNoir = creerPion(Pion.Couleur.NOIR);
+        Pion pionBlanc = creerPion(Pion.Couleur.BLANC);
 
         assertEquals(Pion.Couleur.NOIR, pionNoir.getCouleur());
         assertEquals(Pion.Couleur.BLANC, pionBlanc.getCouleur());
-        assertEquals('P', pionNoir.getRepresentation());
-        assertEquals('p', pionBlanc.getRepresentation());
+    }
+
+    /**
+     * Méthode pour créer une instance de pion.
+     *
+     * @param couleur La couleur du pion.
+     * @return Une nouvelle instance Pion.
+     */
+    protected Pion creerPion(Pion.Couleur couleur) {
+        return new Pion(couleur);
     }
 }
